@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.1.3'
+VERSION = '0.1.4'
 DESCRIPTION = 'Python client for Aira Home, initially developed for Homeassistant'
 
 # Setting up
@@ -20,7 +20,7 @@ setup(
     long_description=long_description,
     url="https://github.com/Invy55/pyairahome",
     packages=find_packages(),
-    install_requires=['pycognito>=2024.5.1', 'grpcio>=1.72.0'],
+    install_requires=['pycognito>=2024.5.1', 'grpcio>=1.72.0', 'protobuf>=6.31.1'],
     keywords=['python', 'aira', 'airahome', 'aira home', 'api', 'wrapper'],
     classifiers=[
         "Development Status :: 4 - Beta",
