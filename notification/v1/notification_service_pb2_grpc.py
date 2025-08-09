@@ -5,7 +5,7 @@ import warnings
 
 from . import notification_service_pb2 as notification_dot_v1_dot_notification__service__pb2
 
-GRPC_GENERATED_VERSION = '1.74.0'
+GRPC_GENERATED_VERSION = '1.72.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 

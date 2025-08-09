@@ -1,2 +1,2 @@
 pycognito>=2024.5.1
-grpcio>=1.74.0
+grpcio>=1.72.0
