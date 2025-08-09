@@ -24,7 +24,7 @@ class TokenManager:
     def refresh_tokens(self):
         """ Refresh the tokens if they are expired. """
         try:
-            self.u.refresh()
+            self.u.check_token()
             return True
         except Exception as e:
             raise TokenError("Token refresh failed") from e
@@ -32,10 +32,15 @@ class TokenManager:
     def get_id_token(self):
         """ Get the ID token after validating it. """
         try:
-            self.verify_tokens()
+            self.refresh_tokens()
         except TokenError:
-            try:
-                self.refresh_tokens()
-            except TokenError:
-                return None
+            return None
         return self.u.id_token
+
+    def dict(self):
+        """ Get a dictionary representation of the tokens. """
+        return {
+            "id_token": self.get_id_token(),
+            "access_token": self.u.access_token,
+            "refresh_token": self.u.refresh_token
+        }

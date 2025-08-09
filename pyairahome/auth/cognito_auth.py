@@ -26,6 +26,7 @@ class CognitoAuth:
                 access_token=user.access_token,
                 refresh_token=user.refresh_token
             )
+            self._tokens.verify_tokens()
             return self._tokens
         except Exception as e:
             raise AuthenticationError("Login failed while attempting to login with username and password") from e
@@ -40,6 +41,7 @@ class CognitoAuth:
                 access_token=access_token,
                 refresh_token=refresh_token
             )
+            self._tokens.verify_tokens()
             return self._tokens
         except Exception as e:
             raise AuthenticationError("Login failed while attempting to login with tokens") from e
