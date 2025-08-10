@@ -50,6 +50,6 @@ class CognitoAuth:
         """ Get the TokenManager instance if available. """
         if self._tokens is None:
             raise NotLoggedInException("Please login before doing anything else")
-        
+        self._tokens.refresh_tokens() # verify and refresh the tokens before using them
         return self._tokens
 
