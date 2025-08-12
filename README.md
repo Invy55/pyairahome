@@ -1,5 +1,5 @@
 # pyairahome
-Python client for Aira Home, initially developed for Homeassistant
+Python client for Aira Home developed for [AiraHome-Dashboard](https://github.com/Invy55/AiraHome-Dashboard)
 
 ## Getting started
 
