@@ -8,7 +8,7 @@ from .device.heat_pump.command.v1 import command_pb2
 from google.protobuf import timestamp_pb2
 from grpc import secure_channel, ssl_channel_credentials
 from datetime import datetime
-from .utils import Utils, UnknownCommandException
+from .utils import Utils, UnknownCommandException, CommandUtils
 
 class AiraHome:
     def __init__(self,
@@ -25,8 +25,13 @@ class AiraHome:
         self.user_agent = user_agent
         self.app_package = app_package
         self.app_version = app_version
-
-        self._channel = secure_channel(aira_backend, ssl_channel_credentials())
+        # Prevent channel closure
+        channel_options = [
+            ('grpc.keepalive_time_ms', 10000),  # Send keepalive ping every 10 seconds
+            ('grpc.keepalive_timeout_ms', 5000),  # Wait 5 seconds for keepalive response
+            ('grpc.keepalive_permit_without_calls', 1),  # Allow keepalive pings without active RPCs
+        ]
+        self._channel = secure_channel(aira_backend, ssl_channel_credentials(), options=channel_options)
         self._devices_stub = devices_pb2_grpc.DevicesServiceStub(self._channel)
         self._services_stub = service_pb2_grpc.HeatPumpCloudServiceStub(self._channel)
 
@@ -56,6 +61,19 @@ class AiraHome:
             ('app-version', self.app_version)
         )
         return metadata
+
+    def get_command_list(self):
+        """ Get the list of available commands. """
+        commands = []
+        supported_commands = command_pb2.Command.DESCRIPTOR.fields_by_name.keys()
+        for command in CommandUtils.find_in_modules(Settings.COMMAND_PACKAGE):
+            if CommandUtils.camel_case_to_snake_case(command) in supported_commands:
+                commands.append(command)
+        return commands
+
+    def get_command_fields(self, command: str, raw: bool = False):
+        """ Get the fields of a specific command. """
+        return CommandUtils.get_message_field(command, Settings.COMMAND_PACKAGE, raw=raw)
 
     def get_tokens(self):
         """ Get the TokenManager instance if available. """
@@ -92,7 +110,8 @@ class AiraHome:
 
         response = self._devices_stub.GetStates(
             devices_pb2.GetStatesRequest(heat_pump_ids=heat_pump_ids),
-            metadata=self._get_metadatas()
+            metadata=self._get_metadatas(),
+            timeout=5
         )
         if raw:
             return response
@@ -113,11 +132,13 @@ class AiraHome:
         elif isinstance(timestamp, datetime):
             _time = timestamp_pb2.Timestamp(seconds=int(timestamp.timestamp()), nanos=0)
 
-        if isinstance(command_in, str) and command_in in Settings.ALLOWED_COMMANDS:
-            command_class = type(getattr(command_pb2.Command(), command_in)) # Get the command class dynamically
-            command = command_pb2.Command(**{command_in: command_class(**kwargs)}, time=_time) # Create the command instance dynamically
+        if isinstance(command_in, str) and command_in in self.get_command_list():
+            command_class = type(getattr(command_pb2.Command(), CommandUtils.camel_case_to_snake_case(command_in))) # Get the command class dynamically
+            # TODO understand how aira messages (not built-in python types) interact with this
+            fields = {field["name"]: field["type"](kwargs[field["name"]]) for field in self.get_command_fields(command_in, raw=True) if field["name"] in kwargs} # Prepare the fields for the command
+            command = command_pb2.Command(**{CommandUtils.camel_case_to_snake_case(command_in): command_class(**fields)}, time=_time) # Create the command instance dynamically
         else:
-            raise UnknownCommandException(f"Unknown command: {command_in}. Allowed commands are: {Settings.ALLOWED_COMMANDS}")
+            raise UnknownCommandException(f"Unknown command: {command_in}. Allowed commands are: {self.get_command_list()}")
 
         response = self._services_stub.SendCommand(
             service_pb2.SendCommandRequest(heat_pump_id=heat_pump_id,
