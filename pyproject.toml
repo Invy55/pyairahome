@@ -75,5 +75,4 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 
 [tool.setuptools_scm]
-# Get version from git tags
 write_to = "pyairahome/_version.py"
