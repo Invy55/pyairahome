@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=80.9", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyairahome"
+dynamic = ["version"]
+description = "PyAiraHome is a comprehensive Python library that provides both cloud-based and Bluetooth Low Energy (BLE) connectivity to Aira Home heat pump systems."
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    {name = "Invy55 (Marco)", email = "marco@invy55.win"}
+]
+maintainers = [
+    {name = "Invy55 (Marco)", email = "marco@invy55.win"}
+]
+keywords = ["python", "aira", "airahome", "aira home", "api", "wrapper", "heat pump", "ble", "grpc"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Operating System :: Unix",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Home Automation",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "pycognito>=2024.5.1",
+    "grpcio>=1.72.0",
+    "protobuf>=6.31.1",
+    "bleak>=1.0.1",
+    "cryptography>=45.0.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/Invy55/pyairahome"
+Repository = "https://github.com/Invy55/pyairahome"
+"Bug Tracker" = "https://github.com/Invy55/pyairahome/issues"
+Documentation = "https://github.com/Invy55/pyairahome#readme"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pyairahome*"]
+exclude = ["tests*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.setuptools_scm]
+# Get version from git tags
+write_to = "pyairahome/_version.py"

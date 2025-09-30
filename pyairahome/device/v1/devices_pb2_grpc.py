@@ -44,25 +44,10 @@ class DevicesServiceStub(object):
                 request_serializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsRequest.SerializeToString,
                 response_deserializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsResponse.FromString,
                 _registered_method=True)
-        self.CreateDeviceDetails = channel.unary_unary(
-                '/device.v1.DevicesService/CreateDeviceDetails',
-                request_serializer=device_dot_v1_dot_devices__pb2.CreateDeviceDetailsRequest.SerializeToString,
-                response_deserializer=device_dot_v1_dot_devices__pb2.CreateDeviceDetailsResponse.FromString,
-                _registered_method=True)
-        self.StreamDevices = channel.unary_stream(
-                '/device.v1.DevicesService/StreamDevices',
-                request_serializer=device_dot_v1_dot_devices__pb2.StreamDevicesRequest.SerializeToString,
-                response_deserializer=device_dot_v1_dot_devices__pb2.StreamDevicesResponse.FromString,
-                _registered_method=True)
         self.GetStates = channel.unary_unary(
                 '/device.v1.DevicesService/GetStates',
                 request_serializer=device_dot_v1_dot_devices__pb2.GetStatesRequest.SerializeToString,
                 response_deserializer=device_dot_v1_dot_devices__pb2.GetStatesResponse.FromString,
-                _registered_method=True)
-        self.StreamStates = channel.unary_stream(
-                '/device.v1.DevicesService/StreamStates',
-                request_serializer=device_dot_v1_dot_devices__pb2.StreamStatesRequest.SerializeToString,
-                response_deserializer=device_dot_v1_dot_devices__pb2.StreamStatesResponse.FromString,
                 _registered_method=True)
 
 
@@ -81,25 +66,7 @@ class DevicesServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def CreateDeviceDetails(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def StreamDevices(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def GetStates(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def StreamStates(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -118,25 +85,10 @@ def add_DevicesServiceServicer_to_server(servicer, server):
                     request_deserializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsRequest.FromString,
                     response_serializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsResponse.SerializeToString,
             ),
-            'CreateDeviceDetails': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateDeviceDetails,
-                    request_deserializer=device_dot_v1_dot_devices__pb2.CreateDeviceDetailsRequest.FromString,
-                    response_serializer=device_dot_v1_dot_devices__pb2.CreateDeviceDetailsResponse.SerializeToString,
-            ),
-            'StreamDevices': grpc.unary_stream_rpc_method_handler(
-                    servicer.StreamDevices,
-                    request_deserializer=device_dot_v1_dot_devices__pb2.StreamDevicesRequest.FromString,
-                    response_serializer=device_dot_v1_dot_devices__pb2.StreamDevicesResponse.SerializeToString,
-            ),
             'GetStates': grpc.unary_unary_rpc_method_handler(
                     servicer.GetStates,
                     request_deserializer=device_dot_v1_dot_devices__pb2.GetStatesRequest.FromString,
                     response_serializer=device_dot_v1_dot_devices__pb2.GetStatesResponse.SerializeToString,
-            ),
-            'StreamStates': grpc.unary_stream_rpc_method_handler(
-                    servicer.StreamStates,
-                    request_deserializer=device_dot_v1_dot_devices__pb2.StreamStatesRequest.FromString,
-                    response_serializer=device_dot_v1_dot_devices__pb2.StreamStatesResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -204,60 +156,6 @@ class DevicesService(object):
             _registered_method=True)
 
     @staticmethod
-    def CreateDeviceDetails(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.v1.DevicesService/CreateDeviceDetails',
-            device_dot_v1_dot_devices__pb2.CreateDeviceDetailsRequest.SerializeToString,
-            device_dot_v1_dot_devices__pb2.CreateDeviceDetailsResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def StreamDevices(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(
-            request,
-            target,
-            '/device.v1.DevicesService/StreamDevices',
-            device_dot_v1_dot_devices__pb2.StreamDevicesRequest.SerializeToString,
-            device_dot_v1_dot_devices__pb2.StreamDevicesResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
     def GetStates(request,
             target,
             options=(),
@@ -274,33 +172,6 @@ class DevicesService(object):
             '/device.v1.DevicesService/GetStates',
             device_dot_v1_dot_devices__pb2.GetStatesRequest.SerializeToString,
             device_dot_v1_dot_devices__pb2.GetStatesResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def StreamStates(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(
-            request,
-            target,
-            '/device.v1.DevicesService/StreamStates',
-            device_dot_v1_dot_devices__pb2.StreamStatesRequest.SerializeToString,
-            device_dot_v1_dot_devices__pb2.StreamStatesResponse.FromString,
             options,
             channel_credentials,
             insecure,

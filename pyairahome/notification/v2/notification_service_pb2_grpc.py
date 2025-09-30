@@ -39,11 +39,6 @@ class NotificationServiceStub(object):
                 request_serializer=notification_dot_v2_dot_notification__service__pb2.GetNotificationsRequest.SerializeToString,
                 response_deserializer=notification_dot_v2_dot_notification__service__pb2.GetNotificationsResponse.FromString,
                 _registered_method=True)
-        self.ReadNotification = channel.unary_unary(
-                '/notification.v2.NotificationService/ReadNotification',
-                request_serializer=notification_dot_v2_dot_notification__service__pb2.ReadNotificationRequest.SerializeToString,
-                response_deserializer=notification_dot_v2_dot_notification__service__pb2.ReadNotificationResponse.FromString,
-                _registered_method=True)
         self.AddFcmTokenToUser = channel.unary_unary(
                 '/notification.v2.NotificationService/AddFcmTokenToUser',
                 request_serializer=notification_dot_v2_dot_notification__service__pb2.AddFcmTokenToUserRequest.SerializeToString,
@@ -60,12 +55,6 @@ class NotificationServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetNotifications(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ReadNotification(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -90,11 +79,6 @@ def add_NotificationServiceServicer_to_server(servicer, server):
                     servicer.GetNotifications,
                     request_deserializer=notification_dot_v2_dot_notification__service__pb2.GetNotificationsRequest.FromString,
                     response_serializer=notification_dot_v2_dot_notification__service__pb2.GetNotificationsResponse.SerializeToString,
-            ),
-            'ReadNotification': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReadNotification,
-                    request_deserializer=notification_dot_v2_dot_notification__service__pb2.ReadNotificationRequest.FromString,
-                    response_serializer=notification_dot_v2_dot_notification__service__pb2.ReadNotificationResponse.SerializeToString,
             ),
             'AddFcmTokenToUser': grpc.unary_unary_rpc_method_handler(
                     servicer.AddFcmTokenToUser,
@@ -134,33 +118,6 @@ class NotificationService(object):
             '/notification.v2.NotificationService/GetNotifications',
             notification_dot_v2_dot_notification__service__pb2.GetNotificationsRequest.SerializeToString,
             notification_dot_v2_dot_notification__service__pb2.GetNotificationsResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def ReadNotification(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/notification.v2.NotificationService/ReadNotification',
-            notification_dot_v2_dot_notification__service__pb2.ReadNotificationRequest.SerializeToString,
-            notification_dot_v2_dot_notification__service__pb2.ReadNotificationResponse.FromString,
             options,
             channel_credentials,
             insecure,

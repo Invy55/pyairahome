@@ -1,5 +1,8 @@
+"""Command utilities for the Aira Home library."""
+# utils/commands.py
 import importlib
 import pkgutil
+
 
 class CommandUtils:
     @staticmethod
