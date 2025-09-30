@@ -1,4 +1,0 @@
-pycognito>=2024.5.1
-grpcio>=1.72.0
-protobuf>=6.31.1
-bleak>=1.0.1
