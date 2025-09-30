@@ -34,128 +34,72 @@ class UserAccountServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.AddHeatPumpPermissions = channel.unary_unary(
-                '/user_account.v2.UserAccountService/AddHeatPumpPermissions',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.AddHeatPumpPermissionsRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.AddHeatPumpPermissionsResponse.FromString,
-                _registered_method=True)
-        self.ConfirmEmailChange = channel.unary_unary(
-                '/user_account.v2.UserAccountService/ConfirmEmailChange',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeResponse.FromString,
+        self.GetUserAccountByCognitoId = channel.unary_unary(
+                '/user_account.v2.UserAccountService/GetUserAccountByCognitoId',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdResponse.FromString,
                 _registered_method=True)
         self.ConfirmPhoneNumber = channel.unary_unary(
                 '/user_account.v2.UserAccountService/ConfirmPhoneNumber',
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.ConfirmPhoneNumberRequest.SerializeToString,
                 response_deserializer=user__account_dot_v2_dot_user__account__pb2.ConfirmPhoneNumberResponse.FromString,
                 _registered_method=True)
-        self.GetUserAccountByContactId = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetUserAccountByContactId',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByContactIdRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByContactIdResponse.FromString,
-                _registered_method=True)
-        self.GetUserAccountByCognitoId = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetUserAccountByCognitoId',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdResponse.FromString,
-                _registered_method=True)
-        self.GetUserAccountByUserId = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetUserAccountByUserId',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByUserIdRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByUserIdResponse.FromString,
-                _registered_method=True)
-        self.CreateUserAccount = channel.unary_unary(
-                '/user_account.v2.UserAccountService/CreateUserAccount',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.CreateUserAccountRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.CreateUserAccountResponse.FromString,
-                _registered_method=True)
         self.UpdateUserAccount = channel.unary_unary(
                 '/user_account.v2.UserAccountService/UpdateUserAccount',
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.UpdateUserAccountRequest.SerializeToString,
                 response_deserializer=user__account_dot_v2_dot_user__account__pb2.UpdateUserAccountResponse.FromString,
                 _registered_method=True)
-        self.AdminUpdateUser = channel.unary_unary(
-                '/user_account.v2.UserAccountService/AdminUpdateUser',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateUserRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateUserResponse.FromString,
-                _registered_method=True)
-        self.AdminCreateInstallerAccount = channel.unary_unary(
-                '/user_account.v2.UserAccountService/AdminCreateInstallerAccount',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.AdminCreateInstallerAccountRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminCreateInstallerAccountResponse.FromString,
-                _registered_method=True)
-        self.AdminFindInstallerAccount = channel.unary_unary(
-                '/user_account.v2.UserAccountService/AdminFindInstallerAccount',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.AdminFindInstallerAccountRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminFindInstallerAccountResponse.FromString,
-                _registered_method=True)
-        self.AdminUpdateInstallerAccount = channel.unary_unary(
-                '/user_account.v2.UserAccountService/AdminUpdateInstallerAccount',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateInstallerAccountRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateInstallerAccountResponse.FromString,
-                _registered_method=True)
-        self.GetAllUserAgreements = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetAllUserAgreements',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetAllUserAgreementsRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetAllUserAgreementsResponse.FromString,
-                _registered_method=True)
-        self.CreateLegalDocumentUserAgreement = channel.unary_unary(
-                '/user_account.v2.UserAccountService/CreateLegalDocumentUserAgreement',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementResponse.FromString,
-                _registered_method=True)
-        self.UserHasAcceptedLatestLegalDocuments = channel.unary_unary(
-                '/user_account.v2.UserAccountService/UserHasAcceptedLatestLegalDocuments',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsResponse.FromString,
-                _registered_method=True)
-        self.GetHeatPumpZoneNames = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
-                _registered_method=True)
-        self.GetUserAccountsByHeatPumpId = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetUserAccountsByHeatPumpId',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountsByHeatPumpIdRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountsByHeatPumpIdResponse.FromString,
-                _registered_method=True)
-        self.GetHouseholdsByUserId = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetHouseholdsByUserId',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdResponse.FromString,
-                _registered_method=True)
-        self.DeleteResident = channel.unary_unary(
-                '/user_account.v2.UserAccountService/DeleteResident',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentResponse.FromString,
+        self.ConfirmEmailChange = channel.unary_unary(
+                '/user_account.v2.UserAccountService/ConfirmEmailChange',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeResponse.FromString,
                 _registered_method=True)
         self.GetFeaturesAsNotifications = channel.unary_unary(
                 '/user_account.v2.UserAccountService/GetFeaturesAsNotifications',
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsRequest.SerializeToString,
                 response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsResponse.FromString,
                 _registered_method=True)
-        self.GetProximityVerificationStatus = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetProximityVerificationStatus',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusResponse.FromString,
+        self.DeleteResident = channel.unary_unary(
+                '/user_account.v2.UserAccountService/DeleteResident',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentResponse.FromString,
                 _registered_method=True)
         self.VerifyProximity = channel.unary_unary(
                 '/user_account.v2.UserAccountService/VerifyProximity',
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityRequest.SerializeToString,
                 response_deserializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityResponse.FromString,
                 _registered_method=True)
+        self.GetHeatPumpZoneNames = channel.unary_unary(
+                '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
+                _registered_method=True)
+        self.UserHasAcceptedLatestLegalDocuments = channel.unary_unary(
+                '/user_account.v2.UserAccountService/UserHasAcceptedLatestLegalDocuments',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsResponse.FromString,
+                _registered_method=True)
+        self.CreateLegalDocumentUserAgreement = channel.unary_unary(
+                '/user_account.v2.UserAccountService/CreateLegalDocumentUserAgreement',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementResponse.FromString,
+                _registered_method=True)
+        self.GetHouseholdsByUserId = channel.unary_unary(
+                '/user_account.v2.UserAccountService/GetHouseholdsByUserId',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdResponse.FromString,
+                _registered_method=True)
+        self.GetProximityVerificationStatus = channel.unary_unary(
+                '/user_account.v2.UserAccountService/GetProximityVerificationStatus',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusResponse.FromString,
+                _registered_method=True)
 
 
 class UserAccountServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def AddHeatPumpPermissions(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ConfirmEmailChange(self, request, context):
+    def GetUserAccountByCognitoId(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -167,97 +111,13 @@ class UserAccountServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetUserAccountByContactId(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetUserAccountByCognitoId(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetUserAccountByUserId(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def CreateUserAccount(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def UpdateUserAccount(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def AdminUpdateUser(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def AdminCreateInstallerAccount(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def AdminFindInstallerAccount(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def AdminUpdateInstallerAccount(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetAllUserAgreements(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def CreateLegalDocumentUserAgreement(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UserHasAcceptedLatestLegalDocuments(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetHeatPumpZoneNames(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetUserAccountsByHeatPumpId(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetHouseholdsByUserId(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteResident(self, request, context):
+    def ConfirmEmailChange(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -269,7 +129,7 @@ class UserAccountServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetProximityVerificationStatus(self, request, context):
+    def DeleteResident(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -281,118 +141,98 @@ class UserAccountServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetHeatPumpZoneNames(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UserHasAcceptedLatestLegalDocuments(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateLegalDocumentUserAgreement(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetHouseholdsByUserId(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetProximityVerificationStatus(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserAccountServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'AddHeatPumpPermissions': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddHeatPumpPermissions,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.AddHeatPumpPermissionsRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.AddHeatPumpPermissionsResponse.SerializeToString,
-            ),
-            'ConfirmEmailChange': grpc.unary_unary_rpc_method_handler(
-                    servicer.ConfirmEmailChange,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeResponse.SerializeToString,
+            'GetUserAccountByCognitoId': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUserAccountByCognitoId,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdResponse.SerializeToString,
             ),
             'ConfirmPhoneNumber': grpc.unary_unary_rpc_method_handler(
                     servicer.ConfirmPhoneNumber,
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.ConfirmPhoneNumberRequest.FromString,
                     response_serializer=user__account_dot_v2_dot_user__account__pb2.ConfirmPhoneNumberResponse.SerializeToString,
             ),
-            'GetUserAccountByContactId': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUserAccountByContactId,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByContactIdRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByContactIdResponse.SerializeToString,
-            ),
-            'GetUserAccountByCognitoId': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUserAccountByCognitoId,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdResponse.SerializeToString,
-            ),
-            'GetUserAccountByUserId': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUserAccountByUserId,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByUserIdRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountByUserIdResponse.SerializeToString,
-            ),
-            'CreateUserAccount': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateUserAccount,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.CreateUserAccountRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.CreateUserAccountResponse.SerializeToString,
-            ),
             'UpdateUserAccount': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateUserAccount,
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.UpdateUserAccountRequest.FromString,
                     response_serializer=user__account_dot_v2_dot_user__account__pb2.UpdateUserAccountResponse.SerializeToString,
             ),
-            'AdminUpdateUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.AdminUpdateUser,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateUserRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateUserResponse.SerializeToString,
-            ),
-            'AdminCreateInstallerAccount': grpc.unary_unary_rpc_method_handler(
-                    servicer.AdminCreateInstallerAccount,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminCreateInstallerAccountRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.AdminCreateInstallerAccountResponse.SerializeToString,
-            ),
-            'AdminFindInstallerAccount': grpc.unary_unary_rpc_method_handler(
-                    servicer.AdminFindInstallerAccount,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminFindInstallerAccountRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.AdminFindInstallerAccountResponse.SerializeToString,
-            ),
-            'AdminUpdateInstallerAccount': grpc.unary_unary_rpc_method_handler(
-                    servicer.AdminUpdateInstallerAccount,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateInstallerAccountRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.AdminUpdateInstallerAccountResponse.SerializeToString,
-            ),
-            'GetAllUserAgreements': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetAllUserAgreements,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetAllUserAgreementsRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetAllUserAgreementsResponse.SerializeToString,
-            ),
-            'CreateLegalDocumentUserAgreement': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateLegalDocumentUserAgreement,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementResponse.SerializeToString,
-            ),
-            'UserHasAcceptedLatestLegalDocuments': grpc.unary_unary_rpc_method_handler(
-                    servicer.UserHasAcceptedLatestLegalDocuments,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsResponse.SerializeToString,
-            ),
-            'GetHeatPumpZoneNames': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetHeatPumpZoneNames,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.SerializeToString,
-            ),
-            'GetUserAccountsByHeatPumpId': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUserAccountsByHeatPumpId,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountsByHeatPumpIdRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetUserAccountsByHeatPumpIdResponse.SerializeToString,
-            ),
-            'GetHouseholdsByUserId': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetHouseholdsByUserId,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdResponse.SerializeToString,
-            ),
-            'DeleteResident': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteResident,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentResponse.SerializeToString,
+            'ConfirmEmailChange': grpc.unary_unary_rpc_method_handler(
+                    servicer.ConfirmEmailChange,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeResponse.SerializeToString,
             ),
             'GetFeaturesAsNotifications': grpc.unary_unary_rpc_method_handler(
                     servicer.GetFeaturesAsNotifications,
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsRequest.FromString,
                     response_serializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsResponse.SerializeToString,
             ),
-            'GetProximityVerificationStatus': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetProximityVerificationStatus,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusResponse.SerializeToString,
+            'DeleteResident': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteResident,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentResponse.SerializeToString,
             ),
             'VerifyProximity': grpc.unary_unary_rpc_method_handler(
                     servicer.VerifyProximity,
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityRequest.FromString,
                     response_serializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityResponse.SerializeToString,
+            ),
+            'GetHeatPumpZoneNames': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetHeatPumpZoneNames,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.SerializeToString,
+            ),
+            'UserHasAcceptedLatestLegalDocuments': grpc.unary_unary_rpc_method_handler(
+                    servicer.UserHasAcceptedLatestLegalDocuments,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsResponse.SerializeToString,
+            ),
+            'CreateLegalDocumentUserAgreement': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateLegalDocumentUserAgreement,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementResponse.SerializeToString,
+            ),
+            'GetHouseholdsByUserId': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetHouseholdsByUserId,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdResponse.SerializeToString,
+            ),
+            'GetProximityVerificationStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetProximityVerificationStatus,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -406,7 +246,7 @@ class UserAccountService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def AddHeatPumpPermissions(request,
+    def GetUserAccountByCognitoId(request,
             target,
             options=(),
             channel_credentials=None,
@@ -419,36 +259,9 @@ class UserAccountService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/user_account.v2.UserAccountService/AddHeatPumpPermissions',
-            user__account_dot_v2_dot_user__account__pb2.AddHeatPumpPermissionsRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.AddHeatPumpPermissionsResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def ConfirmEmailChange(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/ConfirmEmailChange',
-            user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeResponse.FromString,
+            '/user_account.v2.UserAccountService/GetUserAccountByCognitoId',
+            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -487,114 +300,6 @@ class UserAccountService(object):
             _registered_method=True)
 
     @staticmethod
-    def GetUserAccountByContactId(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetUserAccountByContactId',
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByContactIdRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByContactIdResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetUserAccountByCognitoId(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetUserAccountByCognitoId',
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByCognitoIdResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetUserAccountByUserId(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetUserAccountByUserId',
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByUserIdRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountByUserIdResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def CreateUserAccount(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/CreateUserAccount',
-            user__account_dot_v2_dot_user__account__pb2.CreateUserAccountRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.CreateUserAccountResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
     def UpdateUserAccount(request,
             target,
             options=(),
@@ -622,7 +327,7 @@ class UserAccountService(object):
             _registered_method=True)
 
     @staticmethod
-    def AdminUpdateUser(request,
+    def ConfirmEmailChange(request,
             target,
             options=(),
             channel_credentials=None,
@@ -635,279 +340,9 @@ class UserAccountService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/user_account.v2.UserAccountService/AdminUpdateUser',
-            user__account_dot_v2_dot_user__account__pb2.AdminUpdateUserRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.AdminUpdateUserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def AdminCreateInstallerAccount(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/AdminCreateInstallerAccount',
-            user__account_dot_v2_dot_user__account__pb2.AdminCreateInstallerAccountRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.AdminCreateInstallerAccountResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def AdminFindInstallerAccount(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/AdminFindInstallerAccount',
-            user__account_dot_v2_dot_user__account__pb2.AdminFindInstallerAccountRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.AdminFindInstallerAccountResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def AdminUpdateInstallerAccount(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/AdminUpdateInstallerAccount',
-            user__account_dot_v2_dot_user__account__pb2.AdminUpdateInstallerAccountRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.AdminUpdateInstallerAccountResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetAllUserAgreements(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetAllUserAgreements',
-            user__account_dot_v2_dot_user__account__pb2.GetAllUserAgreementsRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetAllUserAgreementsResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def CreateLegalDocumentUserAgreement(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/CreateLegalDocumentUserAgreement',
-            user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def UserHasAcceptedLatestLegalDocuments(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/UserHasAcceptedLatestLegalDocuments',
-            user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetHeatPumpZoneNames(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
-            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetUserAccountsByHeatPumpId(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetUserAccountsByHeatPumpId',
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountsByHeatPumpIdRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetUserAccountsByHeatPumpIdResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetHouseholdsByUserId(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetHouseholdsByUserId',
-            user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def DeleteResident(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/DeleteResident',
-            user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.DeleteResidentResponse.FromString,
+            '/user_account.v2.UserAccountService/ConfirmEmailChange',
+            user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.ConfirmEmailChangeResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -946,7 +381,7 @@ class UserAccountService(object):
             _registered_method=True)
 
     @staticmethod
-    def GetProximityVerificationStatus(request,
+    def DeleteResident(request,
             target,
             options=(),
             channel_credentials=None,
@@ -959,9 +394,9 @@ class UserAccountService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/user_account.v2.UserAccountService/GetProximityVerificationStatus',
-            user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusResponse.FromString,
+            '/user_account.v2.UserAccountService/DeleteResident',
+            user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.DeleteResidentResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -989,6 +424,141 @@ class UserAccountService(object):
             '/user_account.v2.UserAccountService/VerifyProximity',
             user__account_dot_v2_dot_user__account__pb2.VerifyProximityRequest.SerializeToString,
             user__account_dot_v2_dot_user__account__pb2.VerifyProximityResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetHeatPumpZoneNames(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
+            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UserHasAcceptedLatestLegalDocuments(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_account.v2.UserAccountService/UserHasAcceptedLatestLegalDocuments',
+            user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.UserHasAcceptedLatestLegalDocumentsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateLegalDocumentUserAgreement(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_account.v2.UserAccountService/CreateLegalDocumentUserAgreement',
+            user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.CreateLegalDocumentUserAgreementResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetHouseholdsByUserId(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_account.v2.UserAccountService/GetHouseholdsByUserId',
+            user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.GetHouseholdsByUserIdResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetProximityVerificationStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_account.v2.UserAccountService/GetProximityVerificationStatus',
+            user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.GetProximityVerificationStatusResponse.FromString,
             options,
             channel_credentials,
             insecure,

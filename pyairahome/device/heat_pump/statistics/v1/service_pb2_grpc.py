@@ -34,44 +34,38 @@ class HeatPumpStatisticsServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetCop = channel.unary_unary(
-                '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetCop',
-                request_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopResponse.FromString,
-                _registered_method=True)
-        self.GetSavings = channel.unary_unary(
-                '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetSavings',
-                request_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsResponse.FromString,
-                _registered_method=True)
         self.GetHeatPumpInsights = channel.unary_unary(
                 '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetHeatPumpInsights',
                 request_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetHeatPumpInsightsRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetHeatPumpInsightsResponse.FromString,
+                _registered_method=True)
+        self.GetCop = channel.unary_unary(
+                '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetCop',
+                request_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopResponse.FromString,
                 _registered_method=True)
         self.GetOptimisationSavings = channel.unary_unary(
                 '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetOptimisationSavings',
                 request_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetOptimisationSavingsRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetOptimisationSavingsResponse.FromString,
                 _registered_method=True)
+        self.GetSavings = channel.unary_unary(
+                '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetSavings',
+                request_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsResponse.FromString,
+                _registered_method=True)
 
 
 class HeatPumpStatisticsServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetCop(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetSavings(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def GetHeatPumpInsights(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetCop(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -83,28 +77,34 @@ class HeatPumpStatisticsServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetSavings(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_HeatPumpStatisticsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetCop': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetCop,
-                    request_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopResponse.SerializeToString,
-            ),
-            'GetSavings': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetSavings,
-                    request_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsResponse.SerializeToString,
-            ),
             'GetHeatPumpInsights': grpc.unary_unary_rpc_method_handler(
                     servicer.GetHeatPumpInsights,
                     request_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetHeatPumpInsightsRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetHeatPumpInsightsResponse.SerializeToString,
             ),
+            'GetCop': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetCop,
+                    request_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopResponse.SerializeToString,
+            ),
             'GetOptimisationSavings': grpc.unary_unary_rpc_method_handler(
                     servicer.GetOptimisationSavings,
                     request_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetOptimisationSavingsRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetOptimisationSavingsResponse.SerializeToString,
+            ),
+            'GetSavings': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSavings,
+                    request_deserializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -116,60 +116,6 @@ def add_HeatPumpStatisticsServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class HeatPumpStatisticsService(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def GetCop(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetCop',
-            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopRequest.SerializeToString,
-            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetSavings(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetSavings',
-            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsRequest.SerializeToString,
-            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
 
     @staticmethod
     def GetHeatPumpInsights(request,
@@ -199,6 +145,33 @@ class HeatPumpStatisticsService(object):
             _registered_method=True)
 
     @staticmethod
+    def GetCop(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetCop',
+            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopRequest.SerializeToString,
+            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetCopResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def GetOptimisationSavings(request,
             target,
             options=(),
@@ -215,6 +188,33 @@ class HeatPumpStatisticsService(object):
             '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetOptimisationSavings',
             device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetOptimisationSavingsRequest.SerializeToString,
             device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetOptimisationSavingsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetSavings(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/device.heat_pump.statistics.v1.HeatPumpStatisticsService/GetSavings',
+            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsRequest.SerializeToString,
+            device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2.GetSavingsResponse.FromString,
             options,
             channel_credentials,
             insecure,

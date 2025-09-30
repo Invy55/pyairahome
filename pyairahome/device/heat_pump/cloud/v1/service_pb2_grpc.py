@@ -34,20 +34,15 @@ class HeatPumpCloudServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SendCommand = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/SendCommand',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandResponse.FromString,
+        self.DeleteDhwSchedule = channel.unary_unary(
+                '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteDhwSchedule',
+                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleResponse.FromString,
                 _registered_method=True)
-        self.StreamCommandProgress = channel.unary_stream(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/StreamCommandProgress',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.FromString,
-                _registered_method=True)
-        self.ScheduleAwayMode = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/ScheduleAwayMode',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeResponse.FromString,
+        self.GetDhwSchedule = channel.unary_unary(
+                '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetDhwSchedule',
+                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleResponse.FromString,
                 _registered_method=True)
         self.GetScheduledAwayMode = channel.unary_unary(
                 '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetScheduledAwayMode',
@@ -59,64 +54,53 @@ class HeatPumpCloudServiceStub(object):
                 request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledAwayModeRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledAwayModeResponse.FromString,
                 _registered_method=True)
-        self.ScheduleNightMode = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/ScheduleNightMode',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleNightModeRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleNightModeResponse.FromString,
-                _registered_method=True)
-        self.DeleteScheduledNightMode = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteScheduledNightMode',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledNightModeRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledNightModeResponse.FromString,
+        self.ScheduleAwayMode = channel.unary_unary(
+                '/device.heat_pump.cloud.v1.HeatPumpCloudService/ScheduleAwayMode',
+                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeResponse.FromString,
                 _registered_method=True)
         self.SetDhwSchedule = channel.unary_unary(
                 '/device.heat_pump.cloud.v1.HeatPumpCloudService/SetDhwSchedule',
                 request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetDhwScheduleRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetDhwScheduleResponse.FromString,
                 _registered_method=True)
-        self.GetDhwSchedule = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetDhwSchedule',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleResponse.FromString,
-                _registered_method=True)
-        self.DeleteDhwSchedule = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteDhwSchedule',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleResponse.FromString,
+        self.GetLegionellaSchedule = channel.unary_unary(
+                '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetLegionellaSchedule',
+                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleResponse.FromString,
                 _registered_method=True)
         self.SetLegionellaSchedule = channel.unary_unary(
                 '/device.heat_pump.cloud.v1.HeatPumpCloudService/SetLegionellaSchedule',
                 request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleResponse.FromString,
                 _registered_method=True)
-        self.GetLegionellaSchedule = channel.unary_unary(
-                '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetLegionellaSchedule',
-                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleRequest.SerializeToString,
-                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleResponse.FromString,
-                _registered_method=True)
         self.DeleteLegionellaSchedule = channel.unary_unary(
                 '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteLegionellaSchedule',
                 request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteLegionellaScheduleRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteLegionellaScheduleResponse.FromString,
+                _registered_method=True)
+        self.StreamCommandProgress = channel.unary_stream(
+                '/device.heat_pump.cloud.v1.HeatPumpCloudService/StreamCommandProgress',
+                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.FromString,
+                _registered_method=True)
+        self.SendCommand = channel.unary_unary(
+                '/device.heat_pump.cloud.v1.HeatPumpCloudService/SendCommand',
+                request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandRequest.SerializeToString,
+                response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandResponse.FromString,
                 _registered_method=True)
 
 
 class HeatPumpCloudServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SendCommand(self, request, context):
+    def DeleteDhwSchedule(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def StreamCommandProgress(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ScheduleAwayMode(self, request, context):
+    def GetDhwSchedule(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -134,13 +118,7 @@ class HeatPumpCloudServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def ScheduleNightMode(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteScheduledNightMode(self, request, context):
+    def ScheduleAwayMode(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -152,13 +130,7 @@ class HeatPumpCloudServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetDhwSchedule(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteDhwSchedule(self, request, context):
+    def GetLegionellaSchedule(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -170,13 +142,19 @@ class HeatPumpCloudServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetLegionellaSchedule(self, request, context):
+    def DeleteLegionellaSchedule(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def DeleteLegionellaSchedule(self, request, context):
+    def StreamCommandProgress(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SendCommand(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -185,20 +163,15 @@ class HeatPumpCloudServiceServicer(object):
 
 def add_HeatPumpCloudServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SendCommand': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendCommand,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandResponse.SerializeToString,
+            'DeleteDhwSchedule': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteDhwSchedule,
+                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleResponse.SerializeToString,
             ),
-            'StreamCommandProgress': grpc.unary_stream_rpc_method_handler(
-                    servicer.StreamCommandProgress,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.SerializeToString,
-            ),
-            'ScheduleAwayMode': grpc.unary_unary_rpc_method_handler(
-                    servicer.ScheduleAwayMode,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeResponse.SerializeToString,
+            'GetDhwSchedule': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDhwSchedule,
+                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleResponse.SerializeToString,
             ),
             'GetScheduledAwayMode': grpc.unary_unary_rpc_method_handler(
                     servicer.GetScheduledAwayMode,
@@ -210,45 +183,40 @@ def add_HeatPumpCloudServiceServicer_to_server(servicer, server):
                     request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledAwayModeRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledAwayModeResponse.SerializeToString,
             ),
-            'ScheduleNightMode': grpc.unary_unary_rpc_method_handler(
-                    servicer.ScheduleNightMode,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleNightModeRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleNightModeResponse.SerializeToString,
-            ),
-            'DeleteScheduledNightMode': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteScheduledNightMode,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledNightModeRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledNightModeResponse.SerializeToString,
+            'ScheduleAwayMode': grpc.unary_unary_rpc_method_handler(
+                    servicer.ScheduleAwayMode,
+                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeResponse.SerializeToString,
             ),
             'SetDhwSchedule': grpc.unary_unary_rpc_method_handler(
                     servicer.SetDhwSchedule,
                     request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetDhwScheduleRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetDhwScheduleResponse.SerializeToString,
             ),
-            'GetDhwSchedule': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetDhwSchedule,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleResponse.SerializeToString,
-            ),
-            'DeleteDhwSchedule': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteDhwSchedule,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleResponse.SerializeToString,
+            'GetLegionellaSchedule': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetLegionellaSchedule,
+                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleResponse.SerializeToString,
             ),
             'SetLegionellaSchedule': grpc.unary_unary_rpc_method_handler(
                     servicer.SetLegionellaSchedule,
                     request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleResponse.SerializeToString,
             ),
-            'GetLegionellaSchedule': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetLegionellaSchedule,
-                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleRequest.FromString,
-                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleResponse.SerializeToString,
-            ),
             'DeleteLegionellaSchedule': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteLegionellaSchedule,
                     request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteLegionellaScheduleRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteLegionellaScheduleResponse.SerializeToString,
+            ),
+            'StreamCommandProgress': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamCommandProgress,
+                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.SerializeToString,
+            ),
+            'SendCommand': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendCommand,
+                    request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandRequest.FromString,
+                    response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -262,7 +230,7 @@ class HeatPumpCloudService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SendCommand(request,
+    def DeleteDhwSchedule(request,
             target,
             options=(),
             channel_credentials=None,
@@ -275,9 +243,9 @@ class HeatPumpCloudService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/SendCommand',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandResponse.FromString,
+            '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteDhwSchedule',
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleRequest.SerializeToString,
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -289,34 +257,7 @@ class HeatPumpCloudService(object):
             _registered_method=True)
 
     @staticmethod
-    def StreamCommandProgress(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(
-            request,
-            target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/StreamCommandProgress',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def ScheduleAwayMode(request,
+    def GetDhwSchedule(request,
             target,
             options=(),
             channel_credentials=None,
@@ -329,9 +270,9 @@ class HeatPumpCloudService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/ScheduleAwayMode',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeResponse.FromString,
+            '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetDhwSchedule',
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleRequest.SerializeToString,
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -397,7 +338,7 @@ class HeatPumpCloudService(object):
             _registered_method=True)
 
     @staticmethod
-    def ScheduleNightMode(request,
+    def ScheduleAwayMode(request,
             target,
             options=(),
             channel_credentials=None,
@@ -410,36 +351,9 @@ class HeatPumpCloudService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/ScheduleNightMode',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleNightModeRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleNightModeResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def DeleteScheduledNightMode(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteScheduledNightMode',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledNightModeRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteScheduledNightModeResponse.FromString,
+            '/device.heat_pump.cloud.v1.HeatPumpCloudService/ScheduleAwayMode',
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeRequest.SerializeToString,
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.ScheduleAwayModeResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -478,7 +392,7 @@ class HeatPumpCloudService(object):
             _registered_method=True)
 
     @staticmethod
-    def GetDhwSchedule(request,
+    def GetLegionellaSchedule(request,
             target,
             options=(),
             channel_credentials=None,
@@ -491,36 +405,9 @@ class HeatPumpCloudService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetDhwSchedule',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetDhwScheduleResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def DeleteDhwSchedule(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteDhwSchedule',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteDhwScheduleResponse.FromString,
+            '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetLegionellaSchedule',
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleRequest.SerializeToString,
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -559,33 +446,6 @@ class HeatPumpCloudService(object):
             _registered_method=True)
 
     @staticmethod
-    def GetLegionellaSchedule(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.heat_pump.cloud.v1.HeatPumpCloudService/GetLegionellaSchedule',
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleRequest.SerializeToString,
-            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.GetLegionellaScheduleResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
     def DeleteLegionellaSchedule(request,
             target,
             options=(),
@@ -602,6 +462,60 @@ class HeatPumpCloudService(object):
             '/device.heat_pump.cloud.v1.HeatPumpCloudService/DeleteLegionellaSchedule',
             device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteLegionellaScheduleRequest.SerializeToString,
             device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.DeleteLegionellaScheduleResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamCommandProgress(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/device.heat_pump.cloud.v1.HeatPumpCloudService/StreamCommandProgress',
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.SerializeToString,
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SendCommand(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/device.heat_pump.cloud.v1.HeatPumpCloudService/SendCommand',
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandRequest.SerializeToString,
+            device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SendCommandResponse.FromString,
             options,
             channel_credentials,
             insecure,

@@ -1,7 +1,8 @@
-""" Simple class to manage tokens and their expiration. """
+"""Simple class to manage tokens and their expiration."""
 # auth/token_manager.py
-from pycognito import Cognito
 from ..utils import TokenError
+from pycognito import Cognito
+
 
 class TokenManager:
     def __init__(self,
