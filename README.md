@@ -177,6 +177,7 @@ else:
 ## 📋 Todo(s) <a name = "todo"></a>
 
 - [ ] Implement BLE commands functionality
+- [ ] Replace short comments with more exhaustive ones
 - [ ] Create an actual documentation with more examples
 
 Suggestions and contributions are welcome! Feel free to open an issue or pull request with your ideas.
