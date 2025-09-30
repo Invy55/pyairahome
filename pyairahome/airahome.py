@@ -79,7 +79,7 @@ class AiraHome:
         """ Get the fields of a specific command. """
         return CommandUtils.get_message_field(command, Settings.COMMAND_PACKAGE, raw=raw)
     
-    def init_ble(self):
+    def init_ble(self) -> bool:
         """ Initialize BLE by fetching the certificate and UUID from the cloud. """
         if not self.certificate or not self.uuid:
             devices = self.cloud.get_devices(raw=False)
@@ -90,7 +90,10 @@ class AiraHome:
             self.uuid = device["id"]["value"]
 
             device_details = self.cloud.get_device_details(self.uuid, raw=False)
-            self.certificate = device_details["certificate"]["certificate_pem"]
+            print(device_details)
+            self.certificate = device_details["heat_pump"]["certificate"]["certificate_pem"]
 
             # try connecting
-            self.ble.connect()
+            return self.ble.connect()
+        
+        return False

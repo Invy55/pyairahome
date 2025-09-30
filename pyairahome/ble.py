@@ -264,9 +264,9 @@ class Ble:
 
     def connect(self) -> bool:
         """ Connect to the device using the cloud defined uuid. """
-        if not self._ah_i.ble.uuid:
+        if not self._ah_i.uuid:
             raise BLEConnectionError("UUID not set. Please set it before running the automatic connection method.")
-        return self.connect_uuid(self._ah_i.ble.uuid)
+        return self.connect_uuid(self._ah_i.uuid)
 
     ###
     # Heatpump methods
