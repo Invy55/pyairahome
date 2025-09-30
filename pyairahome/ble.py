@@ -332,7 +332,7 @@ class Ble:
             
             Example of the expected response content regardless of the `raw` parameter:
             ```
-{'heat_pump_states': [{'allowed_pump_mode_state': 'PUMP_MODE_STATE_IDLE',
+{'state': [{'allowed_pump_mode_state': 'PUMP_MODE_STATE_IDLE',
                        'aws_iot_received_time': datetime.datetime(2025, 9, 23, 7, 17, 57, 122747),
                        'configured_pump_modes': 'PUMP_MODE_STATE_HEATING_COOLING',
                        'cool_curve_deltas': {},
