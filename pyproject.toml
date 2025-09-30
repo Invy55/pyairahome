@@ -7,7 +7,7 @@ name = "pyairahome"
 version = "0.2.0"
 description = "PyAiraHome is a comprehensive Python library that provides both cloud-based and Bluetooth Low Energy (BLE) connectivity to Aira Home heat pump systems."
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "Apache-2.0"
 authors = [
     {name = "Invy55 (Marco)", email = "marco@invy55.win"}
 ]
