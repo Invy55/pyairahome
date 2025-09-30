@@ -67,7 +67,7 @@ class AiraHome:
     ###
 
     def get_command_list(self):
-        """ Get the list of available commands. """
+        """Get the list of available commands."""
         commands = []
         supported_commands = command_pb2.Command.DESCRIPTOR.fields_by_name.keys()
         for command in CommandUtils.find_in_modules(Settings.COMMAND_PACKAGE):
@@ -76,11 +76,11 @@ class AiraHome:
         return commands
 
     def get_command_fields(self, command: str, raw: bool = False):
-        """ Get the fields of a specific command. """
+        """Get the fields of a specific command."""
         return CommandUtils.get_message_field(command, Settings.COMMAND_PACKAGE, raw=raw)
     
     def init_ble(self) -> bool:
-        """ Initialize BLE by fetching the certificate and UUID from the cloud. """
+        """Initialize BLE by fetching the certificate and UUID from the cloud."""
         if not self.certificate or not self.uuid:
             devices = self.cloud.get_devices(raw=False)
             if len(devices["devices"])-1 < self.default_uuid_selection:

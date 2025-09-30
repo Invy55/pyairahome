@@ -42,14 +42,14 @@ class Cloud:
     ###
 
     def _get_id_token(self):
-        """ Get the ID token from the TokenManager. """
+        """Get the ID token from the TokenManager."""
         tokens = self._auth.get_tokens()
         if tokens:
             return tokens.get_id_token()
         return None
 
     def _get_metadatas(self) -> tuple[tuple[str, str], ...]:
-        """ Create Metadatas instance with the current settings. """
+        """Create Metadatas instance with the current settings."""
         id_token = self._get_id_token()
         metadata = (
             ('authorization', f'Bearer {id_token}'),
@@ -78,7 +78,7 @@ class Cloud:
         return Utils.convert_to_dict(response)
 
     def get_tokens(self):
-        """ Get the TokenManager instance if available. """
+        """Get the TokenManager instance if available."""
         return self._auth.get_tokens()
 
     ###

@@ -3,33 +3,33 @@
 
 
 class NotLoggedInException(Exception):
-    """ Exception raised when a user is not logged in. """
+    """Exception raised when a user is not logged in."""
     pass
 
 class AuthenticationError(Exception):
-    """ Exception raised for authentication errors. """
+    """Exception raised for authentication errors."""
     pass
 
 class UnknownTypeException(Exception):
-    """ Exception raised for unknown types. """
+    """Exception raised for unknown types."""
     pass
 
 class UnknownCommandException(Exception):
-    """ Exception raised for unknown commands. """
+    """Exception raised for unknown commands."""
     pass
 
 class TokenError(Exception):
-    """ Exception raised for token errors. """
+    """Exception raised for token errors."""
     pass
 
 class BLEDiscoveryError(Exception):
-    """ Exception raised for BLE discovery errors. """
+    """Exception raised for BLE discovery errors."""
     pass
 
 class BLEConnectionError(Exception):
-    """ Exception raised for BLE connection errors. """
+    """Exception raised for BLE connection errors."""
     pass
 
 class BLEInitializationError(Exception):
-    """ Exception raised for BLE initialization errors. """
+    """Exception raised for BLE initialization errors."""
     pass

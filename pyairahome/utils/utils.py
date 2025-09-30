@@ -15,7 +15,7 @@ from uuid import UUID
 class Utils:
     @staticmethod
     def convert_to_dict(response: Message) -> dict:
-        """ Convert a protobuf response to a dictionary. Flattens heatpump id to v2 uuid format. Converts dates to datetime objects. """
+        """Convert a protobuf response to a dictionary. Flattens heatpump id to v2 uuid format. Converts dates to datetime objects."""
         # assume heatpump_id to be v2. if the user uses v1 they should use raw and bypass this function
         # iterate every field and print type and content
         def replace_fields(response):
@@ -70,18 +70,18 @@ class Utils:
     
     @staticmethod
     def convert_uuid_to_v2(device_id) -> str:
-        """ Convert a UUID to v2 format """
+        """Convert a UUID to v2 format"""
         uuid = Utils.convert_to_uuid_list(device_id)[0]
         return str(UUID(uuid.value.hex()))
     
     @staticmethod
     def convert_uuid_from_v2(device_id: str) -> uuid1_pb2.Uuid:
-        """ Convert a v2 UUID to protobuf format """
+        """Convert a v2 UUID to protobuf format"""
         return uuid1_pb2.Uuid(value=UUID(device_id).bytes)
     
     @staticmethod
     def convert_str_to_v2(device_id: str) -> str:
-        """ Convert a base64 UUID string to v2 format """
+        """Convert a base64 UUID string to v2 format"""
         return uuid2_pb2.Uuid(value=device_id)
     
     @staticmethod
