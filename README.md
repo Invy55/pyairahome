@@ -47,7 +47,7 @@ $ pip install pyairahome
 
 ### Quick Start
 
-Here's a basic example showing both cloud and BLE functionality:
+Here's a basic example showing cloud functionality:
 
 ```python
 from pyairahome import AiraHome
