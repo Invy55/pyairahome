@@ -248,6 +248,8 @@ class Ble:
                 raise BLEDiscoveryError(f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method.")
         
         self._client = BleakClient(address, disconnected_callback=self._on_disconnect)
+        if not self._client:
+            raise BLEConnectionError(f"Could not create BLE client for device with UUID {uuid} at address {address}.")
         try:
             self._run_async(self._client.connect)
             if self._client.is_connected:

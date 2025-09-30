@@ -90,7 +90,7 @@ class AiraHome:
             self.uuid = device["id"]["value"]
 
             device_details = self.cloud.get_device_details(self.uuid, raw=False)
-            print(device_details)
+
             self.certificate = device_details["heat_pump"]["certificate"]["certificate_pem"]
 
             # try connecting
