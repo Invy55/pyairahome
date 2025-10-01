@@ -20,7 +20,7 @@ class Utils:
         # iterate every field and print type and content
         def replace_fields(response):
             # Convert the message to a dictionary for iteration
-            response_python = MessageToDict(response, preserving_proto_field_name=True)
+            response_python = MessageToDict(response, preserving_proto_field_name=True, always_print_fields_with_no_presence=True)
 
             def process_field(converted, original):
                 if isinstance(converted, dict): # process dict
