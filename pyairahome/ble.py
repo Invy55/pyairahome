@@ -25,7 +25,10 @@ class Ble:
         self.event_loop = asyncio.get_event_loop()
 
         # store discovered devices to avoid rescanning
-        self._discovery_cache = {}
+        self._discovery_cache = {} # uuid -> BleDevice
+        # create a BleakScanner instance to always use for discovery
+        self._scanner = BleakScanner(self._on_device_adv)
+
         # store parts of received messages to reassemble them afterwards
         self._parts = {}
         self._lengths = {}
@@ -39,6 +42,20 @@ class Ble:
     def _run_async(self, coro, *args, **kwargs):
         """Helper method to run async methods from sync context."""
         return self.event_loop.run_until_complete(coro(*args, **kwargs))
+
+    def _on_device_adv(self, device, adv_data):
+        """Callback for handling device advertisement events."""
+        # Check for manufacturer data with company ID 0xFFFF (read below about this)
+        if adv_data.manufacturer_data:
+            for company_id, data_bytes in adv_data.manufacturer_data.items():
+                if company_id == 0xFFFF:
+                    try:
+                        uuid = str(UUID(data_bytes.hex()))
+                    except:
+                        uuid = None
+                    if uuid:
+                        self._discovery_cache[uuid] = device
+                        return
 
     def _on_disconnect(self, client: BleakClient):
         """Callback for handling disconnection events."""
@@ -177,7 +194,7 @@ class Ble:
             return False
         return True
 
-    def discover(self, timeout: int = 5) -> dict:
+    def discover(self, timeout: int = 5, raw: bool = False) -> dict:
         """
         Returns the list of devices that could be an aira heatpump. NOTICE: Aira is not member of the SIG, therefor it uses company id 0xFFFF which is reserved for development and testing. This means that some discovered devices might not be an actual heatpump.
 
@@ -186,42 +203,37 @@ class Ble:
         `timeout` : int, optional
             Timeout for the bluetooth discovery scan in seconds. Defaults to 5 seconds.
 
+        `raw` : bool, optional
+            If True, returns the raw discovery cache with BleakDevice objects. Defaults to False.
         ### Returns
 
         list 
-            A list contaning dictionaries with 
+            A list contaning discovered devices as dictionaries with their name and address or the raw BleakDevice objects if `raw=True`.
 
             Example:
             ```
-
+[{'123e4567-e89b-12d3-a456-426614174000': ('AH-123', '12:34:56:78:9A:BC')}]
             ```
         
         ### Examples
 
-        >>> AiraHome().ble.discover(timeout=5)
+        >>> AiraHome().ble.discover(timeout=5, raw=False)
         """
 
         found_devices = {} # uuid -> (name, address)
         # Discover devices and advertisement data
-        devices_and_adv = self._run_async(BleakScanner.discover, return_adv=True, timeout=timeout)
+        # Start scanning
+        self._run_async(self._scanner.start)
 
-        self._run_async(asyncio.sleep, timeout) # sleep
+        self._run_async(asyncio.sleep, timeout) # sleep to allow devices to be discovered
         
-        for address, (device, adv_data) in devices_and_adv.items():
-            name = device.name
-
-            # Check for manufacturer data
-            if adv_data.manufacturer_data:
-                for company_id, data_bytes in adv_data.manufacturer_data.items():
-                    if company_id == 0xFFFF:
-                        try:
-                            uuid = str(UUID(data_bytes.hex()))
-                        except:
-                            uuid = None
-                        if uuid:
-                            found_devices[uuid] = (name, address)
-                            self._discovery_cache[uuid] = (name, address)
-
+        # Stop scanning and process results
+        self._run_async(self._scanner.stop)
+        if raw:
+            return self._discovery_cache
+        
+        for uuid, device in self._discovery_cache.items():
+            found_devices[uuid] = (device.name, device.address)
         return found_devices
 
     def connect_uuid(self, uuid: str ) -> bool:
@@ -240,16 +252,16 @@ class Ble:
         ### Examples
         >>> AiraHome().ble.connect_uuid("123e4567-e89b-12d3-a456-426614174000")
         """
-        address = self._discovery_cache.get(uuid, (None, None))[1]
-        if not address:
-            devices = self.discover(timeout=5)
-            address = devices.get(uuid, (None, None))[1]
-            if not address:
+        device = self._discovery_cache.get(uuid, None)
+        if not device:
+            devices = self.discover(timeout=5, raw=True)
+            device = devices.get(uuid, (None, None))[1]
+            if not device:
                 raise BLEDiscoveryError(f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method.")
         
-        self._client = BleakClient(address, disconnected_callback=self._on_disconnect)
+        self._client = BleakClient(device, disconnected_callback=self._on_disconnect)
         if not self._client:
-            raise BLEConnectionError(f"Could not create BLE client for device with UUID {uuid} at address {address}.")
+            raise BLEConnectionError(f"Could not create BLE client for device with UUID {uuid} at address {device.address}.")
         try:
             self._run_async(self._client.connect)
             if self._client.is_connected:
@@ -259,10 +271,10 @@ class Ble:
                 return True
             else:
                 self._client = None
-                raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {address}.")
+                raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {device.address}.")
         except Exception as e:
             self._client = None
-            raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {address}. Exception: {e}")
+            raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {device.address}. Exception: {e}")
 
     def connect(self) -> bool:
         """Connect to the device using the cloud defined uuid."""
