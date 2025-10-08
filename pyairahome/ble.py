@@ -255,7 +255,7 @@ class Ble:
         device = self._discovery_cache.get(uuid, None)
         if not device:
             devices = self.discover(timeout=5, raw=True)
-            device = devices.get(uuid, (None, None))[1]
+            device = devices.get(uuid, None)
             if not device:
                 raise BLEDiscoveryError(f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method.")
         
