@@ -238,7 +238,7 @@ class Ble:
             found_devices[uuid] = (device.name, device.address)
         return found_devices
 
-    def connect_uuid(self, uuid: str ) -> bool:
+    def connect_uuid(self, uuid: str, timeout: int = 10) -> bool:
         """
         Connect to a device using its UUID.
 
@@ -246,6 +246,9 @@ class Ble:
 
         `uuid` : str
             The UUID of the device to connect to.
+        
+        `timeout` : int, optional
+            Timeout for the bluetooth discovery in seconds. Defaults to 10 seconds.
 
         ### Returns
         bool
@@ -254,12 +257,10 @@ class Ble:
         ### Examples
         >>> AiraHome().ble.connect_uuid("123e4567-e89b-12d3-a456-426614174000")
         """
-        device = self._discovery_cache.get(uuid, None)
+        devices = self.discover(timeout=10, raw=True)
+        device = devices.get(uuid, None)
         if not device:
-            devices = self.discover(timeout=5, raw=True)
-            device = devices.get(uuid, None)
-            if not device:
-                raise BLEDiscoveryError(f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method.")
+            raise BLEDiscoveryError(f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method.")
         
         self._client = BleakClient(device, disconnected_callback=self._on_disconnect)
         if not self._client:
@@ -278,11 +279,11 @@ class Ble:
             self._client = None
             raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {device.address}. Exception: {e}")
 
-    def connect(self) -> bool:
+    def connect(self, timeout: int = 10) -> bool:
         """Connect to the device using the cloud defined uuid."""
         if not self._ah_i.uuid:
             raise BLEConnectionError("UUID not set. Please set it before running the automatic connection method.")
-        return self.connect_uuid(self._ah_i.uuid)
+        return self.connect_uuid(self._ah_i.uuid, timeout=timeout)
 
     ###
     # Heatpump methods
