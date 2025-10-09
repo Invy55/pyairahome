@@ -222,6 +222,8 @@ class Ble:
 
         found_devices = {} # uuid -> (name, address)
         # Discover devices and advertisement data
+        self._discovery_cache = {} # reset cache
+
         # Start scanning
         self._run_async(self._scanner.start)
 
