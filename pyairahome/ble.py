@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives import hashes
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from google.protobuf.message import Message
 from bleak import BleakScanner, BleakClient
-from pyairahome.enums import GetDataType
+from .enums import GetDataType
 from uuid import UUID
 from enum import Enum
 import asyncio
