@@ -1,4 +1,3 @@
-
 """Cloud API interaction class for Aira Home."""
 # cloud.py
 from .device.heat_pump.statistics.v1 import service_pb2 as stats_service_pb2, service_pb2_grpc as stats_service_pb2_grpc
