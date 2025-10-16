@@ -46,7 +46,15 @@ class AiraHome:
         self.uuid = None
 
         # Utils
-        self.command_list = self.get_command_list()
+        self._command_list = None
+
+    @property
+    def command_list(self):
+        """Get the list of available commands."""
+        if not self._command_list:
+            self._command_list = self.get_command_list()
+        
+        return self._command_list
 
     @property
     def cloud(self):

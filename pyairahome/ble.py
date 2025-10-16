@@ -9,7 +9,9 @@ from cryptography.hazmat.primitives import hashes
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from google.protobuf.message import Message
 from bleak import BleakScanner, BleakClient
+from bleak.backends.device import BLEDevice
 from .enums import GetDataType
+import concurrent.futures
 from uuid import UUID
 from enum import Enum
 import asyncio
@@ -22,7 +24,6 @@ class Ble:
     def __init__(self, airahome_instance):
         """Initialize Cloud with reference to parent AiraHome instance."""
         self._ah_i = airahome_instance
-        self.event_loop = asyncio.get_event_loop()
 
         # store discovered devices to avoid rescanning
         self._discovery_cache = {} # uuid -> BleDevice
@@ -40,8 +41,27 @@ class Ble:
     ###
 
     def _run_async(self, coro, *args, **kwargs):
-        """Helper method to run async methods from sync context."""
-        return self.event_loop.run_until_complete(coro(*args, **kwargs))
+        """Helper method to run async methods from both sync and async contexts."""
+        try:
+            # Check if we're already in an async context
+            loop = asyncio.get_running_loop()
+            # If we get here, we're in an async context
+            # Use run_coroutine_threadsafe to schedule in the current loop
+            future = asyncio.run_coroutine_threadsafe(coro(*args, **kwargs), loop)
+            return future.result()
+                
+        except RuntimeError:
+            # No event loop is running - we're in sync context
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_closed():
+                    raise RuntimeError("Event loop is closed")
+            except RuntimeError:
+                # No event loop exists, create one
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+            
+            return loop.run_until_complete(coro(*args, **kwargs))
 
     def _on_device_adv(self, device, adv_data):
         """Callback for handling device advertisement events."""
@@ -261,10 +281,16 @@ class Ble:
         device = devices.get(uuid, None)
         if not device:
             raise BLEDiscoveryError(f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method.")
-        
+        try:
+            return self.connect_bledevice(device)
+        except Exception as e:
+            raise BLEConnectionError(f"Could not connect to device with UUID {uuid}. Exception: {e}")
+
+    def connect_bledevice(self, device: BLEDevice) -> bool:
+        """Connect to a device using a BleakDevice object."""
         self._client = BleakClient(device, disconnected_callback=self._on_disconnect)
         if not self._client:
-            raise BLEConnectionError(f"Could not create BLE client for device with UUID {uuid} at address {device.address}.")
+            raise BLEConnectionError(f"Could not create BLE client for device at address {device.address}.")
         try:
             self._run_async(self._client.connect)
             if self._client.is_connected:
@@ -274,16 +300,28 @@ class Ble:
                 return True
             else:
                 self._client = None
-                raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {device.address}.")
+                raise BLEConnectionError(f"Could not connect to device at address {device.address}.")
         except Exception as e:
             self._client = None
-            raise BLEConnectionError(f"Could not connect to device with UUID {uuid} at address {device.address}. Exception: {e}")
+            raise BLEConnectionError(f"Could not connect to device at address {device.address}. Exception: {e}")
 
     def connect(self, timeout: int = 10) -> bool:
         """Connect to the device using the cloud defined uuid."""
         if not self._ah_i.uuid:
             raise BLEConnectionError("UUID not set. Please set it before running the automatic connection method.")
         return self.connect_uuid(self._ah_i.uuid, timeout=timeout)
+
+    def disconnect(self) -> bool:
+        if self.is_connected():
+            try:
+                self._run_async(self._client.disconnect)
+                self._client = None
+                return True
+            except Exception as e: # if disconnect fails consider the device disconnected
+                self._client = None
+                return False
+        self._client = None
+        return True
 
     ###
     # Heatpump methods
