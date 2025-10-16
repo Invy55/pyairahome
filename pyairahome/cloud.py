@@ -22,6 +22,9 @@ class Cloud:
     def __init__(self, airahome_instance):
         """Initialize Cloud with reference to parent AiraHome instance."""
         self._ah_i = airahome_instance
+        self.logger = self._ah_i.logger
+
+        self.logger.debug("Initializing Cloud instance")
 
         # Initialize cognitoauth instance
         self._auth = CognitoAuth(self._ah_i.user_pool_id, self._ah_i.client_id)
@@ -61,21 +64,30 @@ class Cloud:
 
     def call_service(self, stub, method_name: str, request, timeout: int = -1, raw: bool = False) -> Message | dict:
         """Call a gRPC service method with the given request."""
-        # Get the method from the stub dynamically
-        method = getattr(stub, method_name)
-        if timeout < 0:
-            timeout = self._ah_i.grpc_timeout
-        # Call the method with the request, timeout, and generated metadata
-        response = method(
-            request,
-            timeout=timeout,
-            metadata=self._get_metadatas()
-        )
-
-        if raw:
-            return response
+        self.logger.debug(f"Calling gRPC service method: {method_name}")
         
-        return Utils.convert_to_dict(response)
+        try:
+            # Get the method from the stub dynamically
+            method = getattr(stub, method_name)
+            if timeout < 0:
+                timeout = self._ah_i.grpc_timeout
+            
+            # Call the method with the request, timeout, and generated metadata
+            response = method(
+                request,
+                timeout=timeout,
+                metadata=self._get_metadatas()
+            )
+            
+            self.logger.debug(f"gRPC call {method_name} completed successfully")
+
+            if raw:
+                return response
+            
+            return Utils.convert_to_dict(response)
+        except Exception as e:
+            self.logger.error(f"gRPC call {method_name} failed: {e}", exc_info=True)
+            raise
 
     def get_tokens(self):
         """Get the TokenManager instance if available."""
@@ -87,11 +99,25 @@ class Cloud:
     
     def login_with_credentials(self, username: str, password: str):
         """Login using username and password."""
-        return self._auth.login_credentials(username, password)
+        self.logger.info(f"Attempting login with credentials for user: {username}")
+        try:
+            result = self._auth.login_credentials(username, password)
+            self.logger.info("Login with credentials successful")
+            return result
+        except Exception as e:
+            self.logger.error(f"Login with credentials failed for user {username}: {e}", exc_info=True)
+            raise
 
     def login_with_tokens(self, id_token: str, access_token: str, refresh_token: str):
         """Login using existing tokens."""
-        return self._auth.login_tokens(id_token, access_token, refresh_token)
+        self.logger.info("Attempting login with existing tokens")
+        try:
+            result = self._auth.login_tokens(id_token, access_token, refresh_token)
+            self.logger.info("Login with tokens successful")
+            return result
+        except Exception as e:
+            self.logger.error(f"Login with tokens failed: {e}", exc_info=True)
+            raise
 
     ###
     # Heatpump methods
