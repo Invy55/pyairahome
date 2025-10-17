@@ -41,6 +41,7 @@ class Ble:
                 # no loop is running (called from sync context) — create a new event loop
                 self.loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(self.loop)
+        self.lock = asyncio.Lock()
 
         # store discovered devices to avoid rescanning
         self._discovery_cache = {} # uuid -> BleDevice
@@ -178,7 +179,9 @@ class Ble:
             if parts_dict:
                 total_received = sum([len(part) for part in parts_dict.values()])
                 expected = self._lengths.get(msg_id_hex, 0)
-            self.logger.warning(f"Timeout waiting for BLE response of message_id={message_id.value.hex()}. Received {total_received} of expected {expected} bytes in {len(parts_dict)} parts.")
+                self.logger.warning(f"Timeout waiting for BLE response of message_id={message_id.value.hex()}. Received {total_received} of expected {expected} bytes in {len(parts_dict)} parts.")
+            else:
+                self.logger.warning(f"Timeout waiting for BLE response of message_id={message_id.value.hex()}. No parts received.")
             # cleanup leftover parts
             if msg_id_hex in self._parts:
                 del self._parts[msg_id_hex]
@@ -215,6 +218,22 @@ class Ble:
             return True
         except Exception as e:
             return False
+
+    def cleanup(self):
+        """Cleanup resources used by the Ble instance."""
+        if self.is_connected():
+            self.disconnect()
+
+        if self._scanner:
+            try:
+                self._run_async(self._scanner.stop)
+            except Exception as e:
+                self.logger.error(f"Error during scanner stop: {e}", exc_info=True)
+
+        self._discovery_cache = {}
+        self._parts = {}
+        self._lengths = {}
+        self._client = None
 
     ###
     # Connection methods
@@ -328,7 +347,7 @@ class Ble:
                 self.logger.error(error_msg)
                 raise BLEDiscoveryError(error_msg)
             
-            result = self.connect_device(device)
+            result = self.connect_device(device, timeout=timeout)
             if result:
                 self.logger.info(f"Successfully connected to device {uuid}")
             else:
@@ -339,7 +358,7 @@ class Ble:
             self.logger.error(error_msg, exc_info=True)
             raise BLEConnectionError(error_msg)
 
-    def connect_device(self, device: BLEDevice) -> bool:
+    def connect_device(self, device: BLEDevice, timeout: int = 10) -> bool:
         """Connect to a device using a BleakDevice object."""
         self.logger.debug(f"Creating BLE client for device at address: {device.address}")
         
@@ -351,7 +370,7 @@ class Ble:
         
         try:
             self.logger.debug("Attempting BLE connection...")
-            self._run_async(self._client.connect)
+            self._run_async(self._client.connect, timeout=timeout)
             if self._client.is_connected:
                 # Subscribe to notifications on both characteristics
                 self._run_async(self._client.start_notify, char_specifier=self._ah_i.insecure_characteristic, callback=self._on_notify)
@@ -394,22 +413,6 @@ class Ble:
         self._client = None
         return True
 
-    def cleanup(self):
-        """Cleanup resources used by the Ble instance."""
-        if self.is_connected():
-            self.disconnect()
-
-        if self._scanner:
-            try:
-                self._run_async(self._scanner.stop)
-            except Exception as e:
-                self.logger.error(f"Error during scanner stop: {e}", exc_info=True)
-
-        self._discovery_cache = {}
-        self._parts = {}
-        self._lengths = {}
-        self._client = None
-
     ###
     # Heatpump methods
     ###
@@ -438,7 +441,9 @@ class Ble:
         >>> from pyairahome.enums import GetDataType
         >>> AiraHome().ble.get_data(data_type=Granularity.DATA_TYPE_STATE, raw=False)
         """
-        self.logger.debug(f"Requesting BLE data of type: {data_type}")
+        self.logger.debug(f"Requesting BLE data of type: {data_type}. Attempting to acquire lock.")
+        self._run_async(self.lock.acquire)
+        self.logger.debug(f"Lock acquired for BLE data request of type: {data_type}.")
         
         try:
             message_id = Uuid1(value=os.urandom(16))
@@ -461,6 +466,9 @@ class Ble:
         except Exception as e:
             self.logger.error(f"BLE data request failed for type {data_type}: {e}", exc_info=True)
             raise
+        finally:
+            self.lock.release()
+            self.logger.debug(f"Lock released for BLE data request of type: {data_type}.")
 
     def get_states(self, raw: bool = False) -> dict | Message:
         """
