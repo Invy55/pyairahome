@@ -393,7 +393,7 @@ class Ble:
         rssi = None
         try:
             # This is NOT a public API and may break in future versions of Bleak, we use it here just to have a way to get RSSI. Different platforms may have different implementations, a consistent output is not guaranteed.
-            # Tested on Linux (Works), HAOS (Works), Windows (Broken), Mac OS (Untested).
+            # Tested on Linux (Works), HAOS (Works), Windows (Broken), Mac OS (Works).
             # https://github.com/hbldh/bleak/discussions/879#discussioncomment-3130707
             if hasattr(self._client, '_backend'): 
                 if hasattr(self._client._backend, 'get_rssi'): # macos
