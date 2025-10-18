@@ -219,22 +219,6 @@ class Ble:
         except Exception as e:
             return False
 
-    def cleanup(self):
-        """Cleanup resources used by the Ble instance."""
-        if self.is_connected():
-            self.disconnect()
-
-        if self._scanner:
-            try:
-                self._run_async(self._scanner.stop)
-            except Exception as e:
-                self.logger.error(f"Error during scanner stop: {e}", exc_info=True)
-
-        self._discovery_cache = {}
-        self._parts = {}
-        self._lengths = {}
-        self._client = None
-
     ###
     # Connection methods
     ###
@@ -389,6 +373,48 @@ class Ble:
             raise BLEConnectionError("UUID not set. Please set it before running the automatic connection method.")
         return self.connect_uuid(self._ah_i.uuid, timeout=timeout)
 
+    def get_rssi(self) -> int | None:
+        """
+        Get the current RSSI (signal strength) of the BLE connection.
+
+        ### Returns
+
+        int | None
+            RSSI value in dBm (negative number, closer to 0 is better), or None if not connected.
+            Typical values: -50 (excellent) to -100 (very poor)
+
+        ### Examples
+
+        >>> rssi = AiraHome().ble.get_rssi()
+        """
+        if not self.is_connected():
+            return None
+        
+        rssi = None
+        try:
+            # This is NOT a public API and may break in future versions of Bleak, we use it here just to have a way to get RSSI. Different platforms may have different implementations, a consistent output is not guaranteed.
+            # Tested on Linux (Works), HAOS (Works), Windows (Broken), Mac OS (Untested).
+            # https://github.com/hbldh/bleak/discussions/879#discussioncomment-3130707
+            if hasattr(self._client, '_backend'): 
+                if hasattr(self._client._backend, 'get_rssi'): # macos
+                    rssi = self._run_async(self._client._backend.get_rssi)
+                elif hasattr(self._client._backend, '_device_info'): # linux
+                    rssi = self._client._backend._device_info.get('RSSI', None)
+                elif hasattr(self._client._backend, '_device'): # ha os
+                    rssi = getattr(self._client._backend._device, 'rssi', None)
+        except Exception:
+            pass
+
+        if isinstance(rssi, int):
+            return rssi
+        
+        if isinstance(rssi, str):
+            try:
+                return int(rssi)
+            except:
+                return None
+        return None
+
     def disconnect(self) -> bool:
         """
         Disconnect from the currently connected device. If no device is connected, this method will simply return True.
@@ -412,6 +438,22 @@ class Ble:
             self.logger.debug("No device connected, nothing to disconnect.")
         self._client = None
         return True
+
+    def cleanup(self):
+        """Cleanup resources used by the Ble instance."""
+        if self.is_connected():
+            self.disconnect()
+
+        if self._scanner:
+            try:
+                self._run_async(self._scanner.stop)
+            except Exception as e:
+                self.logger.error(f"Error during scanner stop: {e}", exc_info=True)
+
+        self._discovery_cache = {}
+        self._parts = {}
+        self._lengths = {}
+        self._client = None
 
     ###
     # Heatpump methods
