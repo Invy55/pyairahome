@@ -45,8 +45,8 @@ class Ble:
 
         # store discovered devices to avoid rescanning
         self._discovery_cache = {} # uuid -> BleDevice
-        # create a BleakScanner instance to always use for discovery
-        self._scanner = BleakScanner(self._on_device_adv)
+        # create an empty scanner variable
+        self._scanner = None
 
         # store parts of received messages to reassemble them afterwards
         self._parts = {}
@@ -57,6 +57,12 @@ class Ble:
     ###
     # Helper methods
     ###
+
+    def _get_scanner(self) -> BleakScanner:
+        """Get or create the BleakScanner instance."""
+        if not self._scanner:
+            self._scanner = BleakScanner(detection_callback=self._on_device_adv)
+        return self._scanner
 
     def _run_async(self, coro, *args, **kwargs):
         """Helper method to run async methods."""
@@ -279,12 +285,12 @@ class Ble:
 
         try:
             # Start scanning
-            self._run_async(self._scanner.start)
+            self._run_async(self._get_scanner().start)
 
             self._run_async(asyncio.sleep, timeout) # sleep to allow devices to be discovered
             
             # Stop scanning and process results
-            self._run_async(self._scanner.stop)
+            self._run_async(self._get_scanner().stop)
             
             self.logger.info(f"BLE discovery completed. Found {len(self._discovery_cache)} possible candidates.")
             
