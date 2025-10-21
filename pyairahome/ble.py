@@ -3,8 +3,8 @@
 from cryptography.hazmat.primitives.asymmetric import padding
 from .device.heat_pump.ble.v1.get_data_pb2 import GetData, DataResponse
 from .device.heat_pump.ble.v1.chunked_message_pb2 import ChunkedMessage
-from cryptography.x509 import load_pem_x509_certificate
 from .utils import Utils, BLEDiscoveryError, BLEConnectionError
+from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.primitives import hashes
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from google.protobuf.message import Message
