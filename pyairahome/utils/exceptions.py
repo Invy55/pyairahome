@@ -14,10 +14,6 @@ class UnknownTypeException(Exception):
     """Exception raised for unknown types."""
     pass
 
-class UnknownCommandException(Exception):
-    """Exception raised for unknown commands."""
-    pass
-
 class TokenError(Exception):
     """Exception raised for token errors."""
     pass

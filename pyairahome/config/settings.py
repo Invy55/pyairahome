@@ -15,4 +15,4 @@ class Settings:
     SECURE_CHARACTERISTIC = "00000002-0000-a112-a000-a112a0000000"
     DEFAULT_UUID_SELECTION = 0  # 0 = first
     BLE_NOTIFY_TIMEOUT = 8  # seconds
-    MAX_BLE_CHUNK_SIZE = 256 # bytes
+    MAX_BLE_CHUNK_SIZE = 245 # bytes

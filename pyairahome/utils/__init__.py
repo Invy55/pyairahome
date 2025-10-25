@@ -1,5 +1,4 @@
-from .exceptions import NotLoggedInException, AuthenticationError, UnknownTypeException, UnknownCommandException, TokenError, BLEDiscoveryError, BLEConnectionError, BLEInitializationError
-from .commands import CommandUtils
+from .exceptions import NotLoggedInException, AuthenticationError, UnknownTypeException, TokenError, BLEDiscoveryError, BLEConnectionError, BLEInitializationError
 from .utils import Utils
 
-__all__ = ['Utils', 'NotLoggedInException', 'AuthenticationError', 'UnknownTypeException', 'UnknownCommandException', 'TokenError', 'BLEDiscoveryError', 'BLEConnectionError', 'BLEInitializationError', 'CommandUtils']
+__all__ = ['Utils', 'NotLoggedInException', 'AuthenticationError', 'UnknownTypeException', 'TokenError', 'BLEDiscoveryError', 'BLEConnectionError', 'BLEInitializationError']

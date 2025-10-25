@@ -4,13 +4,15 @@ from .device.heat_pump.statistics.v1 import service_pb2 as stats_service_pb2, se
 from .device.heat_pump.cloud.v1 import service_pb2 as cloud_service_pb2, service_pb2_grpc as cloud_service_pb2_grpc
 from .device.heat_pump.command.v1.command_source_pb2 import CommandSource
 from .device.heat_pump.command.v1 import command_pb2
-from .utils import Utils, UnknownCommandException, CommandUtils
 from .device.v1 import devices_pb2, devices_pb2_grpc
 from grpc import secure_channel, ssl_channel_credentials
 from google.protobuf.message import Message
 from .util.v1.uuid_pb2 import Uuid as Uuid1
+from .commands import CommandBase
 from datetime import datetime
 from .auth import CognitoAuth
+from typing import Generator
+from .utils import Utils
 from enum import Enum
 import os
 
@@ -331,9 +333,10 @@ class Cloud:
         )
 
     # Heatpump wo methods
-    def send_command(self, device_id: str, command_in, timestamp: float | int | None = None, raw: bool = False, **kwargs): # uuid_format: v1
+    def send_command(self, device_id: str, command_in: CommandBase, timestamp: float | int | None = None, raw: bool = False) -> dict | Message: # uuid_format: v1
         """
-        Send a command to a specific device by its ID. The command must be one of the supported commands. Additional parameters for the command can be passed as keyword arguments.
+        (Use aira.cloud.run_command for convenience)
+        Send a command to a specific device by its ID. The command must be one of the supported commands found under pyairahome.commands. Command parameters can be set using the command class instance.
         Use `raw=True` to get the raw gRPC response.
 
         ### Parameters
@@ -341,17 +344,14 @@ class Cloud:
         `device_id` : str
             Heat pump id in UUID format. E.g., '123e4567-e89b-12d3-a456-426614174000'.
         
-        `command_in` : any
-            The command to send. Must be one of the supported commands. Use method `get_command_list()` to get available commands.
+        `command_in` : pyairahome.commands.*
+            The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
             The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
         
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
-
-        `**kwargs` : dict
-            Additional parameters for the command. The keys must match the field names of the command.
 
         ### Returns
 
@@ -365,29 +365,26 @@ class Cloud:
             ```
         
         ### Examples
-        >>> AiraHome().cloud.send_command("123e4567-e89b-12d3-a456-426614174000", "acknowledge_errors", raw=False)
+        >>> from google.protobuf.duration_pb2 import Duration
+        >>> from pyairahome.commands import ActivateHotWaterBoosting
+        >>> command_in = ActivateHotWaterBoosting(hot_water_boost_duration=Duration(seconds=3600)) # 1 hour boost
+        >>> AiraHome().cloud.send_command("123e4567-e89b-12d3-a456-426614174000", command_in, raw=False)
         """
 
         heat_pump_id = Utils.convert_uuid_from_v2(device_id)
         
         _time = Utils.convert_to_timestamp(timestamp)
 
-        if isinstance(command_in, str) and command_in in self._ah_i.command_list:
-            # Get the command class dynamically
-            command_class = type(getattr(command_pb2.Command(), CommandUtils.camel_case_to_snake_case(command_in)))
-
-            # TODO understand how aira messages (not built-in python types) interact with this
-            # Prepare the fields for the command
-            fields = {field["name"]: field["type"](kwargs[field["name"]]) for field in self._ah_i.get_command_fields(command_in, raw=True) if field["name"] in kwargs}
-            
-            # Create the command instance
-            command = command_pb2.Command(command_id=Uuid1(value=os.urandom(16)),
-                                          **{CommandUtils.camel_case_to_snake_case(command_in): command_class(**fields)},
-                                          time=_time,
-                                          command_source=CommandSource.COMMAND_SOURCE_APP_CONTROL) # Create the command instance dynamically
-            # source is app since we are using the app endpoints
-        else:
-            raise UnknownCommandException(f"Unknown command: {command_in}. Allowed commands are: {self._ah_i.command_list}")
+        # Create the command instance dynamically
+        command = command_pb2.Command()
+        command.command_id.value = os.urandom(16)
+        command.time.CopyFrom(_time)
+        command.command_source = CommandSource.COMMAND_SOURCE_APP_CONTROL
+        # Set the specific command field directly
+        field_message = command_in.to_message()
+        field_name = command_in.get_field()
+        # Merge the field message into the appropriate oneof field
+        getattr(command, field_name).MergeFrom(field_message)
 
         request = cloud_service_pb2.SendCommandRequest(heat_pump_id=heat_pump_id,
                                                        command=command)
@@ -400,8 +397,9 @@ class Cloud:
         )
     
     # Heatpump stream methods
-    def stream_command_progress(self, command_id: str, raw: bool = False) : # uuid_format: v1
+    def stream_command_progress(self, command_id: str, raw: bool = False) -> Generator[dict | Message, None, None]: # uuid_format: v1
         """
+        (Use aira.cloud.run_command for convenience)
         Stream the progress of a command. Returns a generator object that yields updates as they are received until success or failure.
         Use `raw=True` to get the raw gRPC response.
 
@@ -445,6 +443,47 @@ class Cloud:
             return response
 
         return map(Utils.convert_to_dict, response)
+
+    def run_command(self, device_id: str, command_in: CommandBase, timestamp: float | int | None = None, raw: bool = False) -> Generator[dict | Message, None, None]: # uuid_format: v1
+        """
+        Run a command and stream its progress until completion. This is a convenience method that combines send_command and stream_command_progress. The command must be one of the supported commands found under pyairahome.commands. Command parameters can be set using the command class instance.
+        Use `raw=True` to get the raw gRPC response.
+        ### Parameters
+        
+        `command_in` : pyairahome.commands.*
+            The command to send. Must be one of the supported commands found under pyairahome.commands.
+
+        `timestamp` : float | int | None, optional
+            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
+        
+        `raw` : bool, optional
+            If True, returns the raw gRPC response. Defaults to False.
+
+        ### Yields
+
+        dict | SendCommandResponse (Message)
+            When `raw=False`: A dictionary containing the result of the command.
+            When `raw=True`: The raw gRPC SendCommandResponse protobuf message.
+            
+            Example of the expected response content regardless of the `raw` parameter:
+            ```
+{'command_progress': {'aws_iot_received_time': datetime.datetime(2025, 9, 26, 15, 38, 49, 214993),
+                      'command_id': {'value': '46ef4514-fe04-deb0-ffd8-7d07156975f2'},
+                      'succeeded': {},
+                      'time': datetime.datetime(2025, 9, 26, 15, 38, 47, 269748)}}
+            ```
+        
+        ### Examples
+        >>> from google.protobuf.duration_pb2 import Duration
+        >>> from pyairahome.commands import ActivateHotWaterBoosting
+        >>> command_in = ActivateHotWaterBoosting(hot_water_boost_duration=Duration(seconds=3600)) # 1 hour boost
+        >>> AiraHome().cloud.run_command(command_in, raw=False)
+        """
+
+        send_response = self.send_command(device_id, command_in, timestamp, raw=True)
+        command_id = send_response.command_id.value
+
+        return self.stream_command_progress(command_id=Utils.convert_uuid_to_v2(command_id), raw=raw)
 
     def stream_states(self, device_ids, raw: bool = False): # uuid_format: v1
         raise NotImplementedError("stream_states has been removed since it was not working. Please use get_states instead.")

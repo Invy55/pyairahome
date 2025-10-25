@@ -1,7 +1,7 @@
 """Main class for the Aira Home library, providing high-level access to auth and heatpump data/controls."""
 # airahome.py
 from .device.heat_pump.command.v1 import command_pb2
-from .utils import CommandUtils, BLEInitializationError
+from .utils import BLEInitializationError
 from .config import Settings
 from .cloud import Cloud
 from .ble import Ble
@@ -54,19 +54,8 @@ class AiraHome:
         # Store data needed for simple ble usage
         self.certificate = None
         self.uuid = None
-
-        # Utils
-        self._command_list = None
         
         self.logger.info("AiraHome instance initialized")
-
-    @property
-    def command_list(self):
-        """Get the list of available commands."""
-        if not self._command_list:
-            self._command_list = self.get_command_list()
-        
-        return self._command_list
 
     @property
     def cloud(self):
@@ -85,19 +74,6 @@ class AiraHome:
     ###
     # Internal/Helpers methods
     ###
-
-    def get_command_list(self):
-        """Get the list of available commands."""
-        commands = []
-        supported_commands = command_pb2.Command.DESCRIPTOR.fields_by_name.keys()
-        for command in CommandUtils.find_in_modules(Settings.COMMAND_PACKAGE):
-            if CommandUtils.camel_case_to_snake_case(command) in supported_commands:
-                commands.append(command)
-        return commands
-
-    def get_command_fields(self, command: str, raw: bool = False):
-        """Get the fields of a specific command."""
-        return CommandUtils.get_message_field(command, Settings.COMMAND_PACKAGE, raw=raw)
     
     def init_ble(self) -> bool:
         """Initialize BLE by fetching the certificate and UUID from the cloud."""
@@ -117,8 +93,13 @@ class AiraHome:
                 self.logger.debug(f"Selected device UUID: {self.uuid}")
 
                 device_details = self.cloud.get_device_details(self.uuid, raw=False)
-                self.certificate = device_details["heat_pump"]["certificate"]["certificate_pem"]
-                self.logger.debug("Certificate retrieved from cloud")
+                cert_status = self.ble.add_certificate(device_details["heat_pump"]["certificate"]
+                ["certificate_pem"])
+                if not cert_status:
+                    error_msg = "Failed to add certificate for BLE initialization."
+                    self.logger.error(error_msg)
+                    raise BLEInitializationError(error_msg)
+                self.logger.debug("Certificate successfully retrieved from cloud")
 
                 # try connecting
                 connection_result = self.ble.connect()
