@@ -480,10 +480,19 @@ class Cloud:
         >>> AiraHome().cloud.run_command(command_in, raw=False)
         """
 
-        send_response = self.send_command(device_id, command_in, timestamp, raw=True)
-        command_id = send_response.command_id.value
+        send_response = self.send_command(device_id, command_in, timestamp, raw=False)
+        command_id = send_response['command_id']['value']
 
-        return self.stream_command_progress(command_id=Utils.convert_uuid_to_v2(command_id), raw=raw)
+        def progress_dict_generator():
+            last_received = None
+            for progress_msg in self.stream_command_progress(command_id=command_id, raw=raw):
+                process_dict = Utils.convert_to_dict(progress_msg) if raw else progress_msg
 
-    def stream_states(self, device_ids, raw: bool = False): # uuid_format: v1
-        raise NotImplementedError("stream_states has been removed since it was not working. Please use get_states instead.")
+                if last_received is not None:
+                    # Compare with last received message
+                    if process_dict != last_received:
+                        yield process_dict
+
+                last_received = process_dict
+
+        return progress_dict_generator()
