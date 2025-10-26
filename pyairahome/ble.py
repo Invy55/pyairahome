@@ -178,7 +178,7 @@ class Ble:
             raise BLEConnectionError("Not connected to any BLE device.")
         
         data = message.SerializeToString() # bytes
-        self.logger.warning(f"Original message: {data.hex()}")
+        self.logger.debug(f"Original message: {data.hex()}")
         payload_size = self._ah_i.max_ble_chunk_size
 
         # chunk the message if it exceeds the payload size or if it must be encrypted, since encrypting will increase the size to 256 bytes
