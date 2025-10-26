@@ -96,11 +96,8 @@ states = aira.cloud.get_states(device_id)
 print(states)
 
 # Send commands to device
-command_result = aira.cloud.send_command(device_id, "Ping")
-command_id = command_result['command_id']['value']
-
-# Monitor command progress
-for update in aira.cloud.stream_command_progress(command_id):
+from pyairahome.commands import Ping
+for update in aira.cloud.run_command(device_id, Ping())
     print(f"Command status: {update}")
 ```
 
@@ -176,7 +173,7 @@ else:
 
 ## 📋 Todo(s) <a name = "todo"></a>
 
-- [ ] Implement BLE commands functionality
+- [x] Implement BLE commands functionality
 - [ ] Replace short comments with more exhaustive ones
 - [ ] Create an actual documentation with more examples
 
