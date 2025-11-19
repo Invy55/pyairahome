@@ -751,7 +751,7 @@ class Ble:
 
         return self.get_data(data_type=GetDataType.DATA_TYPE_WIFI_NETWORKS, raw=raw)
 
-    def get_configuration(self, raw: bool = False) -> Generator[dict | Message]:
+    def get_configuration(self, raw: bool = False) -> dict | Message:
         """
         Returns the configuration of the connected device.
         Use `raw=True` to get the raw gRPC response.
