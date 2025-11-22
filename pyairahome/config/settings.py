@@ -9,8 +9,7 @@ class Settings:
     USER_AGENT = "AiraApp 1.4.10"
     APP_PACKAGE = "com.airahome.aira"
     APP_VERSION = "1.4.10"
-    GRPC_TIMEOUT = 8  # seconds
-    COMMAND_PACKAGE = "pyairahome.device.heat_pump.command.v1"
+    GRPC_TIMEOUT = 8  # seconds    
     INSECURE_CHARACTERISTIC = "00000008-0000-a112-a000-a112a0000000"
     SECURE_CHARACTERISTIC = "00000002-0000-a112-a000-a112a0000000"
     DEFAULT_UUID_SELECTION = 0  # 0 = first
