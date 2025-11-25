@@ -19,6 +19,7 @@ class AiraHome:
                  app_package: str = Settings.APP_PACKAGE,
                  app_version: str = Settings.APP_VERSION,
                  grpc_timeout: int = Settings.GRPC_TIMEOUT,
+                 max_ble_connection_retries: int = Settings.MAX_BLE_CONNECTION_RETRIES,
                  insecure_characteristic: str = Settings.INSECURE_CHARACTERISTIC,
                  secure_characteristic: str = Settings.SECURE_CHARACTERISTIC,
                  default_uuid_selection: int = Settings.DEFAULT_UUID_SELECTION,
@@ -33,6 +34,7 @@ class AiraHome:
         self.app_version = app_version
         self.grpc_timeout = grpc_timeout
         # Store configuration for ble access
+        self.max_ble_connection_retries = max_ble_connection_retries
         self.insecure_characteristic = insecure_characteristic
         self.secure_characteristic = secure_characteristic
         self.default_uuid_selection = default_uuid_selection

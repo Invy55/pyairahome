@@ -1,5 +1,6 @@
 """BLE interaction class for Aira Home."""
 # ble.py
+from xmlrpc import client
 from .device.heat_pump.command.v1.command_progress_pb2 import CommandProgress
 from .device.heat_pump.command.v1.command_source_pb2 import CommandSource
 from .device.heat_pump.ble.v1.get_data_pb2 import GetData, DataResponse
@@ -13,6 +14,7 @@ from .util.v1.uuid_pb2 import Uuid as Uuid1
 from google.protobuf.message import Message
 from bleak import BleakScanner, BleakClient
 from bleak.backends.device import BLEDevice
+from bleak_retry_connector import establish_connection
 from .commands import CommandBase
 from .enums import GetDataType
 from typing import Generator, cast
@@ -112,7 +114,7 @@ class Ble:
     def _on_disconnect(self, client: BleakClient):
         """Callback for handling disconnection events."""
         self.logger.info("BLE device disconnected")
-        self._client = None
+        #self._client = None # TODO UNDERSTAND IF THIS SHOULD BE LEFT HERE OR NOT. BASED ON THE MAX RETRIES AND HOW IT WORKS
 
     def _on_notify(self, _sender: BleakGATTCharacteristic, data: bytearray):
         """Callback for handling notifications from the BLE device."""
@@ -448,7 +450,26 @@ class Ble:
         """Connect to a device using a BleakDevice object."""
         self.logger.debug(f"Creating BLE client for device at address: {device.address}")
 
-        self._run_async(self._initialize_class, '_client', BleakClient, device, disconnected_callback=self._on_disconnect)
+        # client = await establish_connection(
+        #         BleakClientWithServiceCache,
+        #         self._ble_device,
+        #         self.name,
+        #         self._disconnected,
+        #         use_services_cache=True,
+        #         ble_device_callback=lambda: self._ble_device,
+        #     )
+        # TODO REMOVE 
+        #self._run_async(self._initialize_class, '_client', BleakClient, device, disconnected_callback=self._on_disconnect)
+
+        self._client = self._run_async(establish_connection,
+            BleakClient,
+            device,
+            device.name or device.address,
+            self._on_disconnect,
+            self._ah_i.max_ble_connection_retries,
+            use_services_cache=False
+        )
+
         if not self._client:
             error_msg = f"Could not create BLE client for device at address {device.address}."
             self.logger.error(error_msg)
@@ -456,7 +477,8 @@ class Ble:
         
         try:
             self.logger.debug("Attempting BLE connection...")
-            self._run_async(self._client.connect, timeout=timeout)
+            #TODO CLEAN AND FIX FURTHER
+            #self._run_async(self._client.connect, timeout=timeout)
             if self._client.is_connected:
                 # Subscribe to notifications on both characteristics
                 self._run_async(self._setup_notifys)
