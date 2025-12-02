@@ -10,13 +10,13 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.x509 import load_pem_x509_certificate
 from bleak_retry_connector import establish_connection
 from .device.heat_pump.command.v1 import command_pb2
+from typing import AsyncGenerator, Generator, cast
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from google.protobuf.message import Message
 from bleak import BleakScanner, BleakClient
 from bleak.backends.device import BLEDevice
 from .commands import CommandBase
 from .enums import GetDataType
-from typing import AsyncGenerator, Generator, cast
 from uuid import UUID
 from enum import Enum
 import asyncio
