@@ -19,7 +19,7 @@ import os
 
 class Cloud:
     """A client to interact with the Aira Home API using the cloud."""
-    
+
     def __init__(self, airahome_instance):
         """Initialize Cloud with reference to parent AiraHome instance."""
         self._ah_i = airahome_instance
@@ -66,25 +66,25 @@ class Cloud:
     def call_service(self, stub, method_name: str, request, timeout: int = -1, raw: bool = False) -> Message | dict:
         """Call a gRPC service method with the given request."""
         self.logger.debug(f"Calling gRPC service method: {method_name}")
-        
+
         try:
             # Get the method from the stub dynamically
             method = getattr(stub, method_name)
             if timeout < 0:
                 timeout = self._ah_i.grpc_timeout
-            
+
             # Call the method with the request, timeout, and generated metadata
             response = method(
                 request,
                 timeout=timeout,
                 metadata=self._get_metadatas()
             )
-            
+
             self.logger.debug(f"gRPC call {method_name} completed successfully")
 
             if raw:
                 return response
-            
+
             return Utils.convert_to_dict(response)
         except Exception as e:
             self.logger.error(f"gRPC call {method_name} failed: {e}", exc_info=True)
@@ -97,7 +97,7 @@ class Cloud:
     ###
     # Auth methods
     ###
-    
+
     def login_with_credentials(self, username: str, password: str):
         """Login using username and password."""
         self.logger.info(f"Attempting login with credentials for user: {username}")
@@ -140,19 +140,22 @@ class Cloud:
         dict | GetDevicesResponse (Message)
             When `raw=False`: A dictionary containing the list of devices with their details.
             When `raw=True`: The raw gRPC GetDevicesResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
-{'devices': [{'id': {'value': '123e4567-e89b-12d3-a456-426614174000'},
+{'devices': [{'device_id': {'household_id': {'value': '456e4567-e89b-12d3-a456-426614174000'},
+                            'local_id': '',
+                            'type': 'DEVICE_TYPE_HEAT_PUMP'},
+              'id': {'value': '123e4567-e89b-12d3-a456-426614174000'},
               'online': {'online': True,
                          'time': datetime.datetime(2025, 9, 18, 19, 40, 22, 363000)}}]}
             ```
-        
+
         ### Examples
 
         >>> AiraHome().cloud.get_devices(raw=False)
         """
-        
+
         request = devices_pb2.GetDevicesRequest()
 
         return self.call_service(
@@ -180,7 +183,7 @@ class Cloud:
         dict | GetDeviceDetailsResponse (Message)
             When `raw=False`: A dictionary containing some details for the given device.
             When `raw=True`: The raw gRPC GetDevicesResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'heat_pump': {'certificate': {'certificate_pem': '-----BEGIN '
@@ -191,7 +194,7 @@ class Cloud:
                'id': {'value': '123e4567-e89b-12d3-a456-426614174000'},
                'tank_size': 'WATER_TANK_SIZE_300_LITERS'}}
             ```
-        
+
         ### Examples
 
         >>> AiraHome().cloud.get_device_details("123e4567-e89b-12d3-a456-426614174000", raw=False)
@@ -226,7 +229,7 @@ class Cloud:
         dict | GetStatesResponse (Message)
             When `raw=False`: A dictionary containing most states for the given device.
             When `raw=True`: The raw gRPC GetDevicesResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'heat_pump_states': [{'allowed_pump_mode_state': 'PUMP_MODE_STATE_IDLE',
@@ -239,12 +242,12 @@ class Cloud:
                        'current_pump_mode_state': {...}
                        ...]}
             ```
-        
+
         ### Examples
 
         >>> AiraHome().cloud.get_states("123e4567-e89b-12d3-a456-426614174000", raw=False)
         """
-        
+
         if isinstance(device_ids, list):
             heat_pump_ids = []
             for device_id in device_ids:
@@ -253,7 +256,7 @@ class Cloud:
             heat_pump_ids = [Utils.convert_uuid_from_v2(device_ids)]
 
         request = devices_pb2.GetStatesRequest(heat_pump_ids=heat_pump_ids)
-        
+
         return self.call_service(
             self._devices_stub,
             "GetStates",
@@ -289,11 +292,11 @@ class Cloud:
             If True, returns the raw gRPC response. Defaults to False.
 
         ### Returns
-    
+
         dict | GetHeatPumpInsightsResponse (Message)
             When `raw=False`: A dictionary containing insights for the given heat pump.
             When `raw=True`: The raw gRPC GetHeatPumpInsightsResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'insights': [{'delivered_heat_wh': 11127.97278440123,
@@ -306,7 +309,7 @@ class Cloud:
                'energy_consumption_wh': 200,
                'start_time': {'day': 23, 'month': 9, 'year': 2025}}]}
             ```
-        
+
         ### Examples
 
         >>> from pyairahome.enums import Granularity
@@ -317,7 +320,7 @@ class Cloud:
             start_time = Utils.datetime_to_localdatetime(start_time)
         if end_time is not None:
             end_time = Utils.datetime_to_localdatetime(end_time)
-        
+
         request = stats_service_pb2.GetHeatPumpInsightsRequest(
             heat_pump_id=Utils.convert_str_to_v2(heat_pump_id),
             start_time=start_time,
@@ -343,13 +346,13 @@ class Cloud:
 
         `device_id` : str
             Heat pump id in UUID format. E.g., '123e4567-e89b-12d3-a456-426614174000'.
-        
+
         `command_in` : pyairahome.commands.*
             The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
             The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
-        
+
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
 
@@ -358,12 +361,12 @@ class Cloud:
         dict | SendCommandResponse (Message)
             When `raw=False`: A dictionary containing the result of the command.
             When `raw=True`: The raw gRPC SendCommandResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'command_id': {'value': '46ef4514-fe04-deb0-ffd8-7d07156975f2'}}
             ```
-        
+
         ### Examples
         >>> from google.protobuf.duration_pb2 import Duration
         >>> from pyairahome.commands import ActivateHotWaterBoosting
@@ -372,7 +375,7 @@ class Cloud:
         """
 
         heat_pump_id = Utils.convert_uuid_from_v2(device_id)
-        
+
         _time = Utils.convert_to_timestamp(timestamp)
 
         # Create the command instance dynamically
@@ -395,7 +398,7 @@ class Cloud:
             request,
             raw=raw
         )
-    
+
     # Heatpump stream methods
     def stream_command_progress(self, command_id: str, raw: bool = False) -> Generator[dict | Message, None, None]: # uuid_format: v1
         """
@@ -407,16 +410,16 @@ class Cloud:
 
         `command_id` : str
             Command id in UUID format. E.g., '46ef4514-fe04-deb0-ffd8-7d07156975f2'.
-        
+
         `raw` : bool, optional
             If True, yields the raw gRPC response. Defaults to False.
-        
+
         ### Yields
 
         dict | StreamCommandProgressResponse (Message)
             When `raw=False`: A dictionary containing the progress update of the command.
             When `raw=True`: The raw gRPC StreamCommandProgressResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'command_progress': {'aws_iot_received_time': datetime.datetime(2025, 9, 26, 15, 38, 49, 214993),
@@ -449,13 +452,13 @@ class Cloud:
         Run a command and stream its progress until completion. This is a convenience method that combines send_command and stream_command_progress. The command must be one of the supported commands found under pyairahome.commands. Command parameters can be set using the command class instance.
         Use `raw=True` to get the raw gRPC response.
         ### Parameters
-        
+
         `command_in` : pyairahome.commands.*
             The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
             The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
-        
+
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
 
@@ -464,7 +467,7 @@ class Cloud:
         dict | SendCommandResponse (Message)
             When `raw=False`: A dictionary containing the result of the command.
             When `raw=True`: The raw gRPC SendCommandResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'command_progress': {'aws_iot_received_time': datetime.datetime(2025, 9, 26, 15, 38, 49, 214993),
@@ -472,7 +475,7 @@ class Cloud:
                       'succeeded': {},
                       'time': datetime.datetime(2025, 9, 26, 15, 38, 47, 269748)}}
             ```
-        
+
         ### Examples
         >>> from google.protobuf.duration_pb2 import Duration
         >>> from pyairahome.commands import ActivateHotWaterBoosting

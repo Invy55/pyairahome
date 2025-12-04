@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import duration_pb2 as google_dot_protobuf_dot_duration__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n>device/heat_pump/command/v1/set_room_temp_setpoint_delta.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\x1a\x1egoogle/protobuf/duration.proto\"q\n\x18SetRoomTempSetpointDelta\x12U\n\x19room_temp_setpoint_deltas\x18\x01 \x03(\x0b\x32\x32.device.heat_pump.command.v1.RoomTempSetpointDelta\"\xe5\x01\n\x15RoomTempSetpointDelta\x12\x45\n\x04kind\x18\x01 \x01(\x0e\x32\x37.device.heat_pump.command.v1.RoomTempSetpointDelta.Kind\x12+\n\x08\x64uration\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x13\n\x0b\x64\x65lta_zone1\x18\x03 \x01(\x02\x12\x13\n\x0b\x64\x65lta_zone2\x18\x04 \x01(\x02\".\n\x04Kind\x12\x14\n\x10KIND_UNSPECIFIED\x10\x00\x12\x10\n\x0cKIND_HEATING\x10\x01*\x82\x04\n\x1dSetRoomTempSetpointDeltaError\x12\x32\n.SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_UNSPECIFIED\x10\x00\x12>\n:SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_MISSING_SETPOINT_DELTAS\x10\x01\x12>\n:SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_TOO_LONG_TOTAL_DURATION\x10\x02\x12\x37\n3SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_INVALID_DURATION\x10\x03\x12@\n<SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_DELTA_MAGNITUDE_TOO_LARGE\x10\x04\x12I\nESET_ROOM_TEMP_SETPOINT_DELTA_ERROR_MISSING_SETPOINT_DELTA_TEMPERATURE\x10\x05\x12\x33\n/SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_MISSING_KIND\x10\x06\x12\x32\n.SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_UNSUPPORTED\x10\x07\x42\xc7\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x1dSetRoomTempSetpointDeltaProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n>device/heat_pump/command/v1/set_room_temp_setpoint_delta.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\x1a\x1egoogle/protobuf/duration.proto\"q\n\x18SetRoomTempSetpointDelta\x12U\n\x19room_temp_setpoint_deltas\x18\x01 \x03(\x0b\x32\x32.device.heat_pump.command.v1.RoomTempSetpointDelta\"\xe7\x01\n\x15RoomTempSetpointDelta\x12\x45\n\x04kind\x18\x01 \x01(\x0e\x32\x37.device.heat_pump.command.v1.RoomTempSetpointDelta.Kind\x12+\n\x08\x64uration\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x14\n\x0c\x64\x65lta_zone_1\x18\x03 \x01(\x02\x12\x14\n\x0c\x64\x65lta_zone_2\x18\x04 \x01(\x02\".\n\x04Kind\x12\x14\n\x10KIND_UNSPECIFIED\x10\x00\x12\x10\n\x0cKIND_HEATING\x10\x01*\x82\x04\n\x1dSetRoomTempSetpointDeltaError\x12\x32\n.SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_UNSPECIFIED\x10\x00\x12>\n:SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_MISSING_SETPOINT_DELTAS\x10\x01\x12>\n:SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_TOO_LONG_TOTAL_DURATION\x10\x02\x12\x37\n3SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_INVALID_DURATION\x10\x03\x12@\n<SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_DELTA_MAGNITUDE_TOO_LARGE\x10\x04\x12I\nESET_ROOM_TEMP_SETPOINT_DELTA_ERROR_MISSING_SETPOINT_DELTA_TEMPERATURE\x10\x05\x12\x33\n/SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_MISSING_KIND\x10\x06\x12\x32\n.SET_ROOM_TEMP_SETPOINT_DELTA_ERROR_UNSUPPORTED\x10\x07\x42\xc7\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x1dSetRoomTempSetpointDeltaProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,12 +33,12 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'device.heat_pump.command.v1
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B\035SetRoomTempSetpointDeltaProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
-  _globals['_SETROOMTEMPSETPOINTDELTAERROR']._serialized_start=475
-  _globals['_SETROOMTEMPSETPOINTDELTAERROR']._serialized_end=989
+  _globals['_SETROOMTEMPSETPOINTDELTAERROR']._serialized_start=477
+  _globals['_SETROOMTEMPSETPOINTDELTAERROR']._serialized_end=991
   _globals['_SETROOMTEMPSETPOINTDELTA']._serialized_start=127
   _globals['_SETROOMTEMPSETPOINTDELTA']._serialized_end=240
   _globals['_ROOMTEMPSETPOINTDELTA']._serialized_start=243
-  _globals['_ROOMTEMPSETPOINTDELTA']._serialized_end=472
-  _globals['_ROOMTEMPSETPOINTDELTA_KIND']._serialized_start=426
-  _globals['_ROOMTEMPSETPOINTDELTA_KIND']._serialized_end=472
+  _globals['_ROOMTEMPSETPOINTDELTA']._serialized_end=474
+  _globals['_ROOMTEMPSETPOINTDELTA_KIND']._serialized_start=428
+  _globals['_ROOMTEMPSETPOINTDELTA_KIND']._serialized_end=474
 # @@protoc_insertion_point(module_scope)

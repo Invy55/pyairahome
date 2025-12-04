@@ -40,13 +40,13 @@ class AiraHome:
         self.default_uuid_selection = default_uuid_selection
         self.ble_notify_timeout = ble_notify_timeout
         self.max_ble_chunk_size = max_ble_chunk_size
-        
+
         # Setup logger with NullHandler (no output by default)
         self.logger = logging.getLogger('pyairahome')
         if not self.logger.handlers:
             self.logger.addHandler(logging.NullHandler())
         self.logger.setLevel(logging.DEBUG)  # Allow all levels, let handlers decide
-        
+
         # Initialize cloud instance with reference to this class as parent
         self._cloud = None
         # Initialize ble instance with reference to this class as parent
@@ -56,7 +56,7 @@ class AiraHome:
         # Store data needed for simple ble usage
         self.certificate = None
         self.uuid = None
-        
+
         self.logger.info("AiraHome instance initialized")
 
     @property
@@ -76,11 +76,11 @@ class AiraHome:
     ###
     # Internal/Helpers methods
     ###
-    
+
     def init_ble(self) -> bool:
         """Initialize BLE by fetching the certificate and UUID from the cloud."""
         self.logger.info("Initializing BLE connection")
-        
+
         if not self.certificate or not self.uuid:
             self.logger.debug("Certificate or UUID not available, fetching from cloud")
             try:
@@ -89,7 +89,7 @@ class AiraHome:
                     error_msg = f"Default UUID selection index {self.default_uuid_selection} is out of range for available devices ({len(devices['devices'])}). Please adjust using default_uuid_selection parameter when initiating AiraHome class."
                     self.logger.error(error_msg)
                     raise BLEInitializationError(error_msg)
-                 
+
                 device = devices["devices"][self.default_uuid_selection]
                 self.uuid = device["id"]["value"]
                 self.logger.debug(f"Selected device UUID: {self.uuid}")

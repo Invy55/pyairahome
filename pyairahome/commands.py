@@ -89,7 +89,7 @@ class CommandBase:
 
     def to_message(self) -> Message:
         return self._message
-    
+
     def to_bytes(self) -> bytes:
         return self._message.SerializeToString()
 
@@ -110,7 +110,7 @@ class SetAwayMode(CommandBase):
         self.current_time = current_time
         self.end_time = end_time
         self.target_room_temperature = target_room_temperature
-    
+
     @property
     def _message(self):
         return _SetAwayMode(current_time=self.current_time, end_time=self.end_time, target_room_temperature=self.target_room_temperature)
@@ -121,7 +121,7 @@ class ClearAwayMode(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "clear_away_mode"
-    
+
     @property
     def _message(self):
         return _ClearAwayMode()
@@ -137,7 +137,7 @@ class ActivateHotWaterBoosting(CommandBase):
     def __init__(self, hot_water_boost_duration: Duration) -> None:
         self._field = "activate_hot_water_boosting"
         self.hot_water_boost_duration = hot_water_boost_duration
-    
+
     @property
     def _message(self):
         return _ActivateHotWaterBoosting(hot_water_boost_duration=self.hot_water_boost_duration)
@@ -148,7 +148,7 @@ class DeactivateHotWaterBoosting(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "deactivate_hot_water_boosting"
-    
+
     @property
     def _message(self):
         return _DeactivateHotWaterBoosting()
@@ -164,7 +164,7 @@ class SetTargetHotWaterTemperature(CommandBase):
     def __init__(self, temperature: float) -> None:
         self._field = "set_target_hot_water_temperature"
         self.temperature = temperature
-    
+
     @property
     def _message(self):
         return _SetTargetHotWaterTemperature(temperature=self.temperature)
@@ -186,7 +186,7 @@ class SetWifiCredentials(CommandBase):
         self.ssid = ssid
         self.password = password
         self.mac_address = mac_address
-    
+
     @property
     def _message(self):
         return _SetWifiCredentials(ssid=self.ssid, password=self.password, mac_address=self.mac_address)
@@ -205,7 +205,7 @@ class UpdateLinux(CommandBase):
         self._field = "update_linux"
         self.download_url = download_url
         self.sha256 = sha256
-    
+
     @property
     def _message(self):
         return _UpdateLinux(download_url=self.download_url, sha256=self.sha256)
@@ -216,7 +216,7 @@ class TurnSignatureElementLightsOn(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "turn_signature_element_lights_on"
-    
+
     @property
     def _message(self):
         return _TurnSignatureElementLightsOn()
@@ -227,7 +227,7 @@ class TurnSignatureElementLightsOff(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "turn_signature_element_lights_off"
-    
+
     @property
     def _message(self):
         return _TurnSignatureElementLightsOff()
@@ -238,7 +238,7 @@ class AcknowledgeErrors(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "acknowledge_errors"
-    
+
     @property
     def _message(self):
         return _AcknowledgeErrors()
@@ -249,7 +249,7 @@ class DisconnectWiFi(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "disconnect_wifi"
-    
+
     @property
     def _message(self):
         return _DisconnectWiFi()
@@ -268,7 +268,7 @@ class InstallApplicationPackage(CommandBase):
         self._field = "install_app_package"
         self.download_url = download_url
         self.sha256 = sha256
-    
+
     @property
     def _message(self):
         return _InstallApplicationPackage(download_url=self.download_url, sha256=self.sha256)
@@ -293,7 +293,7 @@ class InstallFirmware(CommandBase):
         self.sha256 = sha256
         self.firmware_type = firmware_type
         self.thermostat_serial_number = thermostat_serial_number
-    
+
     @property
     def _message(self):
         return _InstallFirmware(download_url=self.download_url, sha256=self.sha256, firmware_type=self.firmware_type, thermostat_serial_number=self.thermostat_serial_number)
@@ -309,7 +309,7 @@ class ConfigureHeatPump(CommandBase):
     def __init__(self, config: Config) -> None:
         self._field = "configure_heat_pump"
         self.config = config
-    
+
     @property
     def _message(self):
         return _ConfigureHeatPump(config=self.config)
@@ -325,7 +325,7 @@ class SetRoomSupplySetpointDelta(CommandBase):
     def __init__(self, room_supply_setpoint_deltas: RepeatedCompositeContainer) -> None:
         self._field = "set_room_supply_setpoint_delta"
         self.room_supply_setpoint_deltas = room_supply_setpoint_deltas
-    
+
     @property
     def _message(self):
         return _SetRoomSupplySetpointDelta(room_supply_setpoint_deltas=self.room_supply_setpoint_deltas)
@@ -336,7 +336,7 @@ class ClearRoomSupplySetpointDelta(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "clear_room_supply_setpoint_delta"
-    
+
     @property
     def _message(self):
         return _ClearRoomSupplySetpointDelta()
@@ -352,7 +352,7 @@ class SetDhwSetpointDelta(CommandBase):
     def __init__(self, dhw_setpoint_deltas: RepeatedCompositeContainer) -> None:
         self._field = "set_dhw_setpoint_delta"
         self.dhw_setpoint_deltas = dhw_setpoint_deltas
-    
+
     @property
     def _message(self):
         return _SetDhwSetpointDelta(dhw_setpoint_deltas=self.dhw_setpoint_deltas)
@@ -363,7 +363,7 @@ class ClearDhwSetpointDelta(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "clear_dhw_setpoint_delta"
-    
+
     @property
     def _message(self):
         return _ClearDhwSetpointDelta()
@@ -382,7 +382,7 @@ class RotateCertificate(CommandBase):
         self._field = "rotate_certificate"
         self.download_url = download_url
         self.sha256 = sha256
-    
+
     @property
     def _message(self):
         return _RotateCertificate(download_url=self.download_url, sha256=self.sha256)
@@ -398,7 +398,7 @@ class FactoryReset(CommandBase):
     def __init__(self, device: int) -> None:
         self._field = "factory_reset"
         self.device = device
-    
+
     @property
     def _message(self):
         return _FactoryReset(device=self.device)
@@ -414,7 +414,7 @@ class SetHeatCurveDeltas(CommandBase):
     def __init__(self, heat_curve_deltas: HeatCurveDeltas) -> None:
         self._field = "set_heat_curve_deltas"
         self.heat_curve_deltas = heat_curve_deltas
-    
+
     @property
     def _message(self):
         return _SetHeatCurveDeltas(heat_curve_deltas=self.heat_curve_deltas)
@@ -433,7 +433,7 @@ class ClearHeatCurveDeltas(CommandBase):
         self._field = "clear_heat_curve_deltas"
         self.clear_zone1 = clear_zone1
         self.clear_zone2 = clear_zone2
-    
+
     @property
     def _message(self):
         return _ClearHeatCurveDeltas(clear_zone1=self.clear_zone1, clear_zone2=self.clear_zone2)
@@ -452,7 +452,7 @@ class SetZoneSetpoints(CommandBase):
         self._field = "set_zone_setpoints"
         self.zone_setpoints = zone_setpoints
         self.kind = kind
-    
+
     @property
     def _message(self):
         return _SetZoneSetpoints(zone_setpoints=self.zone_setpoints, kind=self.kind)
@@ -463,7 +463,7 @@ class Ping(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "ping"
-    
+
     @property
     def _message(self):
         return _Ping()
@@ -479,7 +479,7 @@ class SetFlowAlarmThresholds(CommandBase):
     def __init__(self, alarm_thresholds: AlarmThresholds) -> None:
         self._field = "set_flow_alarm_thresholds"
         self.alarm_thresholds = alarm_thresholds
-    
+
     @property
     def _message(self):
         return _SetFlowAlarmThresholds(alarm_thresholds=self.alarm_thresholds)
@@ -501,7 +501,7 @@ class SetOutdoorUnitCurrentLimits(CommandBase):
         self.compressor_stop = compressor_stop
         self.compressor_slow_down = compressor_slow_down
         self.compressor_release = compressor_release
-    
+
     @property
     def _message(self):
         return _SetOutdoorUnitCurrentLimits(compressor_stop=self.compressor_stop, compressor_slow_down=self.compressor_slow_down, compressor_release=self.compressor_release)
@@ -520,7 +520,7 @@ class UpdateSystem(CommandBase):
         self._field = "update_system"
         self.download_url = download_url
         self.sha256 = sha256
-    
+
     @property
     def _message(self):
         return _UpdateSystem(download_url=self.download_url, sha256=self.sha256)
@@ -536,7 +536,7 @@ class SetCoolCurveDeltas(CommandBase):
     def __init__(self, cool_curve_deltas: CoolCurveDeltas) -> None:
         self._field = "set_cool_curve_deltas"
         self.cool_curve_deltas = cool_curve_deltas
-    
+
     @property
     def _message(self):
         return _SetCoolCurveDeltas(cool_curve_deltas=self.cool_curve_deltas)
@@ -555,7 +555,7 @@ class ClearCoolCurveDeltas(CommandBase):
         self._field = "clear_cool_curve_deltas"
         self.clear_zone1 = clear_zone1
         self.clear_zone2 = clear_zone2
-    
+
     @property
     def _message(self):
         return _ClearCoolCurveDeltas(clear_zone1=self.clear_zone1, clear_zone2=self.clear_zone2)
@@ -574,7 +574,7 @@ class SetHeatCurves(CommandBase):
         self._field = "set_heat_curves"
         self.zone1 = zone1
         self.zone2 = zone2
-    
+
     @property
     def _message(self):
         return _SetHeatCurves(zone1=self.zone1, zone2=self.zone2)
@@ -593,7 +593,7 @@ class SetCoolCurves(CommandBase):
         self._field = "set_cool_curves"
         self.zone1 = zone1
         self.zone2 = zone2
-    
+
     @property
     def _message(self):
         return _SetCoolCurves(zone1=self.zone1, zone2=self.zone2)
@@ -604,7 +604,7 @@ class EnableHeatingFunction(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "enable_heating_function"
-    
+
     @property
     def _message(self):
         return _EnableHeatingFunction()
@@ -615,7 +615,7 @@ class DisableHeatingFunction(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "disable_heating_function"
-    
+
     @property
     def _message(self):
         return _DisableHeatingFunction()
@@ -626,7 +626,7 @@ class EnableCoolingFunction(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "enable_cooling_function"
-    
+
     @property
     def _message(self):
         return _EnableCoolingFunction()
@@ -637,7 +637,7 @@ class DisableCoolingFunction(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "disable_cooling_function"
-    
+
     @property
     def _message(self):
         return _DisableCoolingFunction()
@@ -648,7 +648,7 @@ class ActivateNightModeForOneHour(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "activate_night_mode_for_one_hour"
-    
+
     @property
     def _message(self):
         return _ActivateNightModeForOneHour()
@@ -659,7 +659,7 @@ class RegenerateThreadConfig(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "regenerate_thread_config"
-    
+
     @property
     def _message(self):
         return _RegenerateThreadConfig()
@@ -675,7 +675,7 @@ class SetDiagnosticPollPeriod(CommandBase):
     def __init__(self, poll_period_minutes: int) -> None:
         self._field = "set_diagnostic_poll_period"
         self.poll_period_minutes = poll_period_minutes
-    
+
     @property
     def _message(self):
         return _SetDiagnosticPollPeriod(poll_period_minutes=self.poll_period_minutes)
@@ -686,7 +686,7 @@ class EnableHotWaterHeating(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "enable_hot_water_heating"
-    
+
     @property
     def _message(self):
         return _EnableHotWaterHeating()
@@ -702,7 +702,7 @@ class DisableHotWaterHeating(CommandBase):
     def __init__(self, time: Duration) -> None:
         self._field = "disable_hot_water_heating"
         self.time = time
-    
+
     @property
     def _message(self):
         return _DisableHotWaterHeating(time=self.time)
@@ -730,7 +730,7 @@ class ModbusRequest(CommandBase):
         self.address = address
         self.data = data
         self.return_type = return_type
-    
+
     @property
     def _message(self):
         return _ModbusRequest(unit=self.unit, function=self.function, address=self.address, data=self.data, return_type=self.return_type)
@@ -741,7 +741,7 @@ class RunLegionellaCycle(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "run_legionella_cycle"
-    
+
     @property
     def _message(self):
         return _RunLegionellaCycle()
@@ -752,7 +752,7 @@ class ResetLegionellaSchedule(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "reset_legionella_schedule"
-    
+
     @property
     def _message(self):
         return _ResetLegionellaSchedule()
@@ -768,7 +768,7 @@ class DecommissionWallThermostat(CommandBase):
     def __init__(self, serial_number: str) -> None:
         self._field = "decommission_wall_thermostat"
         self.serial_number = serial_number
-    
+
     @property
     def _message(self):
         return _DecommissionWallThermostat(serial_number=self.serial_number)
@@ -787,7 +787,7 @@ class SetHeatingCoolingThresholds(CommandBase):
         self._field = "set_heating_cooling_thresholds"
         self.ambient_temperature_to_enable_heating_mode = ambient_temperature_to_enable_heating_mode
         self.ambient_temperature_to_enable_cooling_mode = ambient_temperature_to_enable_cooling_mode
-    
+
     @property
     def _message(self):
         return _SetHeatingCoolingThresholds(ambient_temperature_to_enable_heating_mode=self.ambient_temperature_to_enable_heating_mode, ambient_temperature_to_enable_cooling_mode=self.ambient_temperature_to_enable_cooling_mode)
@@ -803,7 +803,7 @@ class SetPumpSpeedSettings(CommandBase):
     def __init__(self, settings: PumpSpeedSettings) -> None:
         self._field = "set_pump_speed_settings"
         self.settings = settings
-    
+
     @property
     def _message(self):
         return _SetPumpSpeedSettings(settings=self.settings)
@@ -819,7 +819,7 @@ class SetInlineHeaterSteps(CommandBase):
     def __init__(self, steps: InlineHeater) -> None:
         self._field = "set_inline_heater_steps"
         self.steps = steps
-    
+
     @property
     def _message(self):
         return _SetInlineHeaterSteps(steps=self.steps)
@@ -835,7 +835,7 @@ class SetSensorSources(CommandBase):
     def __init__(self, sensors: SensorSources) -> None:
         self._field = "set_sensor_sources"
         self.sensors = sensors
-    
+
     @property
     def _message(self):
         return _SetSensorSources(sensors=self.sensors)
@@ -854,7 +854,7 @@ class SetEnergyBalanceThresholds(CommandBase):
         self._field = "set_energy_balance_thresholds"
         self.heating = heating
         self.cooling = cooling
-    
+
     @property
     def _message(self):
         return _SetEnergyBalanceThresholds(heating=self.heating, cooling=self.cooling)
@@ -865,7 +865,7 @@ class DisableManualMode(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "disable_manual_mode"
-    
+
     @property
     def _message(self):
         return _DisableManualMode()
@@ -884,7 +884,7 @@ class RebootDevice(CommandBase):
         self._field = "reboot_device"
         self.cm = cm
         self.ccv = ccv
-    
+
     @property
     def _message(self):
         return _RebootDevice(cm=self.cm, ccv=self.ccv)
@@ -900,7 +900,7 @@ class SetRoomTempSetpointDelta(CommandBase):
     def __init__(self, room_temp_setpoint_deltas: RepeatedCompositeContainer) -> None:
         self._field = "set_room_temp_setpoint_delta"
         self.room_temp_setpoint_deltas = room_temp_setpoint_deltas
-    
+
     @property
     def _message(self):
         return _SetRoomTempSetpointDelta(room_temp_setpoint_deltas=self.room_temp_setpoint_deltas)
@@ -911,7 +911,7 @@ class ClearRoomTempSetpointDelta(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "clear_room_temp_setpoint_delta"
-    
+
     @property
     def _message(self):
         return _ClearRoomTempSetpointDelta()
@@ -927,7 +927,7 @@ class SetScheduledHeatCurveDeltas(CommandBase):
     def __init__(self, heat_curve_deltas: RepeatedCompositeContainer) -> None:
         self._field = "set_scheduled_heat_curve_deltas"
         self.heat_curve_deltas = heat_curve_deltas
-    
+
     @property
     def _message(self):
         return _SetScheduledHeatCurveDeltas(heat_curve_deltas=self.heat_curve_deltas)
@@ -938,7 +938,7 @@ class ClearScheduledHeatCurveDeltas(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "clear_scheduled_heat_curve_deltas"
-    
+
     @property
     def _message(self):
         return _ClearScheduledHeatCurveDeltas()
@@ -957,7 +957,7 @@ class SetTelemetryInterval(CommandBase):
         self._field = "set_telemetry_interval"
         self.sampling_interval = sampling_interval
         self.telemetry_type = telemetry_type
-    
+
     @property
     def _message(self):
         return _SetTelemetryInterval(sampling_interval=self.sampling_interval, telemetry_type=self.telemetry_type)
@@ -968,7 +968,7 @@ class AllowLte(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "allow_lte"
-    
+
     @property
     def _message(self):
         return _AllowLte()
@@ -979,7 +979,7 @@ class ForbidLte(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "forbid_lte"
-    
+
     @property
     def _message(self):
         return _ForbidLte()
@@ -995,7 +995,7 @@ class UpdateLteHysteresis(CommandBase):
     def __init__(self, delay: Duration) -> None:
         self._field = "update_lte_hysteresis"
         self.delay = delay
-    
+
     @property
     def _message(self):
         return _UpdateLteHysteresis(delay=self.delay)
@@ -1011,7 +1011,7 @@ class ConfigureTimeZone(CommandBase):
     def __init__(self, time_zone: TimeZone) -> None:
         self._field = "configure_time_zone"
         self.time_zone = time_zone
-    
+
     @property
     def _message(self):
         return _ConfigureTimeZone(time_zone=self.time_zone)
@@ -1027,7 +1027,7 @@ class SetInlineHeaterAmbientThreshold(CommandBase):
     def __init__(self, ambient_temperature_to_allow_inline_heater: float) -> None:
         self._field = "set_inline_heater_ambient_threshold"
         self.ambient_temperature_to_allow_inline_heater = ambient_temperature_to_allow_inline_heater
-    
+
     @property
     def _message(self):
         return _SetInlineHeaterAmbientThreshold(ambient_temperature_to_allow_inline_heater=self.ambient_temperature_to_allow_inline_heater)
@@ -1043,7 +1043,7 @@ class AddSchedule(CommandBase):
     def __init__(self, schedule: Schedule) -> None:
         self._field = "add_schedule"
         self.schedule = schedule
-    
+
     @property
     def _message(self):
         return _AddSchedule(schedule=self.schedule)
@@ -1059,7 +1059,7 @@ class RemoveSchedule(CommandBase):
     def __init__(self, schedule: Schedule) -> None:
         self._field = "remove_schedule"
         self.schedule = schedule
-    
+
     @property
     def _message(self):
         return _RemoveSchedule(schedule=self.schedule)
@@ -1075,7 +1075,7 @@ class PairFerroampCore(CommandBase):
     def __init__(self, serial_number: str) -> None:
         self._field = "pair_ferroamp_core"
         self.serial_number = serial_number
-    
+
     @property
     def _message(self):
         return _PairFerroampCore(serial_number=self.serial_number)
@@ -1100,7 +1100,7 @@ class ZoneHeatingRegulator(CommandBase):
         self.zone1_i = zone1_i
         self.zone2_p = zone2_p
         self.zone2_i = zone2_i
-    
+
     @property
     def _message(self):
         return _ZoneHeatingRegulator(zone1_p=self.zone1_p, zone1_i=self.zone1_i, zone2_p=self.zone2_p, zone2_i=self.zone2_i)
@@ -1119,7 +1119,7 @@ class UnpairFerroampCore(CommandBase):
         self._field = "unpair_ferroamp_core"
         self.serial_number = serial_number
         self.disconnect_wifi = disconnect_wifi
-    
+
     @property
     def _message(self):
         return _UnpairFerroampCore(serial_number=self.serial_number, disconnect_wifi=self.disconnect_wifi)
@@ -1130,7 +1130,7 @@ class SyncFerroampDevices(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "sync_ferroamp_devices"
-    
+
     @property
     def _message(self):
         return _SyncFerroampDevices()
@@ -1141,7 +1141,7 @@ class SyncFerroampCts(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "sync_ferroamp_cts"
-    
+
     @property
     def _message(self):
         return _SyncFerroampCts()
@@ -1157,7 +1157,7 @@ class EnableForceHeating(CommandBase):
     def __init__(self, duration: Duration) -> None:
         self._field = "enable_force_heating"
         self.duration = duration
-    
+
     @property
     def _message(self):
         return _EnableForceHeating(duration=self.duration)
@@ -1168,7 +1168,7 @@ class DisableForceHeating(CommandBase):
     """
     def __init__(self) -> None:
         self._field = "disable_force_heating"
-    
+
     @property
     def _message(self):
         return _DisableForceHeating()
@@ -1184,7 +1184,7 @@ class SetPowerPreference(CommandBase):
     def __init__(self, power_preference: int) -> None:
         self._field = "set_power_preference"
         self.power_preference = power_preference
-    
+
     @property
     def _message(self):
         return _SetPowerPreference(power_preference=self.power_preference)

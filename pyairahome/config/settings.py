@@ -6,9 +6,9 @@ class Settings:
     USER_POOL_IDS = ["eu-north-1_cnqyjWtbz", "eu-north-1_EyCYO6SAa", "eu-north-1_k0IgmZxLJ"]
     CLIENT_ID = "5eehn0b5d6fsg28rjc5p1u0vi6"
     AIRA_BACKEND = "engagementbff.prod.airahome.com:443"
-    USER_AGENT = "AiraApp 1.4.10"
+    USER_AGENT = "AiraApp 1.5.0"
     APP_PACKAGE = "com.airahome.aira"
-    APP_VERSION = "1.4.10"
+    APP_VERSION = "1.5.0"
     GRPC_TIMEOUT = 8  # seconds
     MAX_BLE_CONNECTION_RETRIES = 3
     INSECURE_CHARACTERISTIC = "00000008-0000-a112-a000-a112a0000000"

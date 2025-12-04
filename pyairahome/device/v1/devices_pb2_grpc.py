@@ -34,15 +34,20 @@ class DevicesServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.GetBatteryDetails = channel.unary_unary(
+                '/device.v1.DevicesService/GetBatteryDetails',
+                request_serializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsRequest.SerializeToString,
+                response_deserializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsResponse.FromString,
+                _registered_method=True)
+        self.GetHeatPumpDetails = channel.unary_unary(
+                '/device.v1.DevicesService/GetHeatPumpDetails',
+                request_serializer=device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsRequest.SerializeToString,
+                response_deserializer=device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsResponse.FromString,
+                _registered_method=True)
         self.GetDevices = channel.unary_unary(
                 '/device.v1.DevicesService/GetDevices',
                 request_serializer=device_dot_v1_dot_devices__pb2.GetDevicesRequest.SerializeToString,
                 response_deserializer=device_dot_v1_dot_devices__pb2.GetDevicesResponse.FromString,
-                _registered_method=True)
-        self.GetDeviceDetails = channel.unary_unary(
-                '/device.v1.DevicesService/GetDeviceDetails',
-                request_serializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsRequest.SerializeToString,
-                response_deserializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsResponse.FromString,
                 _registered_method=True)
         self.GetStates = channel.unary_unary(
                 '/device.v1.DevicesService/GetStates',
@@ -54,13 +59,19 @@ class DevicesServiceStub(object):
 class DevicesServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetDevices(self, request, context):
+    def GetBatteryDetails(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetDeviceDetails(self, request, context):
+    def GetHeatPumpDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetDevices(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -75,15 +86,20 @@ class DevicesServiceServicer(object):
 
 def add_DevicesServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'GetBatteryDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetBatteryDetails,
+                    request_deserializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsRequest.FromString,
+                    response_serializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsResponse.SerializeToString,
+            ),
+            'GetHeatPumpDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetHeatPumpDetails,
+                    request_deserializer=device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsRequest.FromString,
+                    response_serializer=device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsResponse.SerializeToString,
+            ),
             'GetDevices': grpc.unary_unary_rpc_method_handler(
                     servicer.GetDevices,
                     request_deserializer=device_dot_v1_dot_devices__pb2.GetDevicesRequest.FromString,
                     response_serializer=device_dot_v1_dot_devices__pb2.GetDevicesResponse.SerializeToString,
-            ),
-            'GetDeviceDetails': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetDeviceDetails,
-                    request_deserializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsRequest.FromString,
-                    response_serializer=device_dot_v1_dot_devices__pb2.GetDeviceDetailsResponse.SerializeToString,
             ),
             'GetStates': grpc.unary_unary_rpc_method_handler(
                     servicer.GetStates,
@@ -102,6 +118,60 @@ class DevicesService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
+    def GetBatteryDetails(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/device.v1.DevicesService/GetBatteryDetails',
+            device_dot_v1_dot_devices__pb2.GetBatteryDetailsRequest.SerializeToString,
+            device_dot_v1_dot_devices__pb2.GetBatteryDetailsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetHeatPumpDetails(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/device.v1.DevicesService/GetHeatPumpDetails',
+            device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsRequest.SerializeToString,
+            device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def GetDevices(request,
             target,
             options=(),
@@ -118,33 +188,6 @@ class DevicesService(object):
             '/device.v1.DevicesService/GetDevices',
             device_dot_v1_dot_devices__pb2.GetDevicesRequest.SerializeToString,
             device_dot_v1_dot_devices__pb2.GetDevicesResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetDeviceDetails(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/device.v1.DevicesService/GetDeviceDetails',
-            device_dot_v1_dot_devices__pb2.GetDeviceDetailsRequest.SerializeToString,
-            device_dot_v1_dot_devices__pb2.GetDeviceDetailsResponse.FromString,
             options,
             channel_credentials,
             insecure,

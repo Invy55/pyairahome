@@ -13,7 +13,7 @@ class TokenManager:
                  refresh_token):
         """Initialize the TokenManager with user pool ID, client ID, and tokens."""
         self.u = Cognito(user_pool_id, client_id, id_token=id_token, access_token=access_token, refresh_token=refresh_token)
-            
+
     def verify_tokens(self):
         """Verify if the tokens are valid."""
         try:
@@ -21,7 +21,7 @@ class TokenManager:
             return True
         except Exception as e:
             raise TokenError("Token verification failed") from e
-    
+
     def refresh_tokens(self):
         """Refresh the tokens if they are expired."""
         try:

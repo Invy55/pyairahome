@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n.device/heat_pump/command/v1/update_linux.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"3\n\x0bUpdateLinux\x12\x14\n\x0c\x64ownload_url\x18\x01 \x01(\t\x12\x0e\n\x06sha256\x18\x02 \x01(\x0c\x42\xba\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x10UpdateLinuxProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n.device/heat_pump/command/v1/update_linux.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"4\n\x0bUpdateLinux\x12\x14\n\x0c\x64ownload_url\x18\x01 \x01(\t\x12\x0f\n\x07sha_256\x18\x02 \x01(\x0c\x42\xba\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x10UpdateLinuxProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,5 +33,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B\020UpdateLinuxProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
   _globals['_UPDATELINUX']._serialized_start=79
-  _globals['_UPDATELINUX']._serialized_end=130
+  _globals['_UPDATELINUX']._serialized_end=131
 # @@protoc_insertion_point(module_scope)

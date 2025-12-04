@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from ...config.v1.ccv.v1 import heat_curve_pb2 as device_dot_heat__pump_dot_config_dot_v1_dot_ccv_dot_v1_dot_heat__curve__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n1device/heat_pump/command/v1/set_heat_curves.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\x1a\x32\x64\x65vice/heat_pump/config/v1/ccv/v1/heat_curve.proto\"\xa7\x01\n\rSetHeatCurves\x12J\n\x05zone1\x18\x01 \x01(\x0b\x32;.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearHeatCurve\x12J\n\x05zone2\x18\x02 \x01(\x0b\x32;.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearHeatCurveB\xbc\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x12SetHeatCurvesProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n1device/heat_pump/command/v1/set_heat_curves.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\x1a\x32\x64\x65vice/heat_pump/config/v1/ccv/v1/heat_curve.proto\"\xa9\x01\n\rSetHeatCurves\x12K\n\x06zone_1\x18\x01 \x01(\x0b\x32;.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearHeatCurve\x12K\n\x06zone_2\x18\x02 \x01(\x0b\x32;.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearHeatCurveB\xbc\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x12SetHeatCurvesProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,5 +34,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B\022SetHeatCurvesProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
   _globals['_SETHEATCURVES']._serialized_start=135
-  _globals['_SETHEATCURVES']._serialized_end=302
+  _globals['_SETHEATCURVES']._serialized_end=304
 # @@protoc_insertion_point(module_scope)

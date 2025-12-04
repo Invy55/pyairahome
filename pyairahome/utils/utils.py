@@ -44,12 +44,12 @@ class Utils:
                 elif isinstance(converted, list):
                     for i in range(len(converted)):
                         process_field(converted[i], original[i])
-        
+
             process_field(response_python, response)
             return response_python
-        
+
         return replace_fields(response)
-    
+
     @staticmethod
     def convert_to_uuid_list(device_ids):
         if isinstance(device_ids, list):
@@ -67,27 +67,30 @@ class Utils:
             raise UnknownTypeException(f"Unknown type [{type(device_ids)}] for {device_ids}")
 
         return heat_pump_ids
-    
+
     @staticmethod
     def convert_uuid_to_v2(device_id) -> str:
         """Convert a UUID to v2 format"""
         uuid = Utils.convert_to_uuid_list(device_id)[0]
+        print(uuid.value, type(uuid.value))
+        if uuid.value.replace(b"-", b"").isalnum(): # if already v2 (inconsistent typing putting a v2 value in a v1 field)
+            return uuid.value.decode().strip()
         return str(UUID(uuid.value.hex()))
-    
+
     @staticmethod
     def convert_uuid_from_v2(device_id: str) -> uuid1_pb2.Uuid:
         """Convert a v2 UUID to protobuf format"""
         return uuid1_pb2.Uuid(value=UUID(device_id).bytes)
-    
+
     @staticmethod
     def convert_str_to_v2(device_id: str) -> str:
         """Convert a base64 UUID string to v2 format"""
         return uuid2_pb2.Uuid(value=device_id)
-    
+
     @staticmethod
     def datetime_to_localdatetime(dt):
         return LocalDateTime(year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second, nanos=getattr(dt, "nanos", 0))
-    
+
     @staticmethod
     def convert_to_timestamp(timestamp: float | int | None) -> Timestamp:
         if timestamp is None:

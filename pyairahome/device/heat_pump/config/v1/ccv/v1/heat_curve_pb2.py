@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2device/heat_pump/config/v1/ccv/v1/heat_curve.proto\x12!device.heat_pump.config.v1.ccv.v1\"\xf8\x01\n\x18PiecewiseLinearCoolCurve\x12H\n\x02p1\x18\x01 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12H\n\x02p2\x18\x02 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12H\n\x02p3\x18\x03 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\"\x8c\x03\n\x18PiecewiseLinearHeatCurve\x12H\n\x02p1\x18\x01 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12H\n\x02p2\x18\x02 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12H\n\x02p3\x18\x03 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12H\n\x02p4\x18\x04 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12H\n\x02p5\x18\x05 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\"<\n\x19PiecewiseLinearCurvePoint\x12\x0f\n\x07\x61mbient\x18\x01 \x01(\x02\x12\x0e\n\x06supply\x18\x02 \x01(\x02\x42\xd8\x01\n!device.heat_pump.config.v1.ccv.v1B\x0eHeatCurveProtoP\x01\xa2\x02\x03\x43VC\xaa\x02 Device.HeatPump.Config.V1.Ccv.V1\xca\x02 Device\\HeatPump\\Config\\V1\\Ccv\\V1\xe2\x02,Device\\HeatPump\\Config\\V1\\Ccv\\V1\\GPBMetadata\xea\x02%Device::HeatPump::Config::V1::Ccv::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2device/heat_pump/config/v1/ccv/v1/heat_curve.proto\x12!device.heat_pump.config.v1.ccv.v1\"\xfb\x01\n\x18PiecewiseLinearCoolCurve\x12I\n\x03p_1\x18\x01 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12I\n\x03p_2\x18\x02 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12I\n\x03p_3\x18\x03 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\"\x91\x03\n\x18PiecewiseLinearHeatCurve\x12I\n\x03p_1\x18\x01 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12I\n\x03p_2\x18\x02 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12I\n\x03p_3\x18\x03 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12I\n\x03p_4\x18\x04 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\x12I\n\x03p_5\x18\x05 \x01(\x0b\x32<.device.heat_pump.config.v1.ccv.v1.PiecewiseLinearCurvePoint\"<\n\x19PiecewiseLinearCurvePoint\x12\x0f\n\x07\x61mbient\x18\x01 \x01(\x02\x12\x0e\n\x06supply\x18\x02 \x01(\x02\x42\xd8\x01\n!device.heat_pump.config.v1.ccv.v1B\x0eHeatCurveProtoP\x01\xa2\x02\x03\x43VC\xaa\x02 Device.HeatPump.Config.V1.Ccv.V1\xca\x02 Device\\HeatPump\\Config\\V1\\Ccv\\V1\xe2\x02,Device\\HeatPump\\Config\\V1\\Ccv\\V1\\GPBMetadata\xea\x02%Device::HeatPump::Config::V1::Ccv::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,9 +33,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n!device.heat_pump.config.v1.ccv.v1B\016HeatCurveProtoP\001\242\002\003CVC\252\002 Device.HeatPump.Config.V1.Ccv.V1\312\002 Device\\HeatPump\\Config\\V1\\Ccv\\V1\342\002,Device\\HeatPump\\Config\\V1\\Ccv\\V1\\GPBMetadata\352\002%Device::HeatPump::Config::V1::Ccv::V1'
   _globals['_PIECEWISELINEARCOOLCURVE']._serialized_start=90
-  _globals['_PIECEWISELINEARCOOLCURVE']._serialized_end=338
-  _globals['_PIECEWISELINEARHEATCURVE']._serialized_start=341
-  _globals['_PIECEWISELINEARHEATCURVE']._serialized_end=737
-  _globals['_PIECEWISELINEARCURVEPOINT']._serialized_start=739
-  _globals['_PIECEWISELINEARCURVEPOINT']._serialized_end=799
+  _globals['_PIECEWISELINEARCOOLCURVE']._serialized_end=341
+  _globals['_PIECEWISELINEARHEATCURVE']._serialized_start=344
+  _globals['_PIECEWISELINEARHEATCURVE']._serialized_end=745
+  _globals['_PIECEWISELINEARCURVEPOINT']._serialized_start=747
+  _globals['_PIECEWISELINEARCURVEPOINT']._serialized_end=807
 # @@protoc_insertion_point(module_scope)

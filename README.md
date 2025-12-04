@@ -116,7 +116,7 @@ print(f"Found {len(devices)} BLE devices")
 connected = aira.ble.connect_uuid("your-device-uuid-here")
 if connected:
     print("Successfully connected via BLE")
-    
+
     # Get device configuration
     config = aira.ble.get_configuration()
     print(f"Device configuration: {config}")
@@ -151,7 +151,7 @@ devices = aira.cloud.get_devices()
 if devices["devices"]:
     device_id = devices["devices"][0]["id"]["value"]
     print(f"Working with device: {device_id}")
-    
+
     # Try BLE connection for enhanced data
     try:
         connected = aira.init_ble()
@@ -162,11 +162,11 @@ if devices["devices"]:
     except Exception as e:
         print(f"BLE connection failed: {e}")
         print("Continuing with cloud-only mode...")
-    
+
     # Monitor device state
     states = aira.cloud.get_states(device_id)
     print(f"Device status: {states}")
-    
+
 else:
     print("No devices found")
 ```

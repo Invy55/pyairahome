@@ -71,7 +71,7 @@ class Ble:
             running_loop = asyncio.get_running_loop()
         except RuntimeError:
             running_loop = None
-        
+
         if running_loop is not None:
             if running_loop == self.loop:
                 self.logger.debug("Attempted to run BLE operation in existing event loop directly, but blocking not allowed")
@@ -153,7 +153,7 @@ class Ble:
     def _rsa_encrypt(self, input_bytes: bytes) -> bytes:
         if not self._ah_i.certificate:
             raise ValueError("No certificate loaded for encryption.")
-        
+
         public_key = self._ah_i.certificate.public_key()
 
         # Encrypt the input bytes using RSA with PKCS1 v1.5 padding
@@ -177,7 +177,7 @@ class Ble:
         """Send a protobuf message to the connected BLE device. Splits the message into chunks if it exceeds the MTU size. If `encrypt` is True, the message will be encrypted with the certificate key."""
         if not self.is_connected():
             raise BLEConnectionError("Not connected to any BLE device.")
-        
+
         data = message.SerializeToString() # bytes
         self.logger.debug(f"Original message: {data.hex()}")
         payload_size = self._ah_i.max_ble_chunk_size
@@ -202,7 +202,7 @@ class Ble:
         else:
             # send as single message
             await self._client.write_gatt_char(char_specifier=characteristic, data=data)
-    
+
         self.logger.debug(f"Sent BLE message on characteristic {characteristic} (length: {len(data)} bytes, chunks: {len(chunks)})")
 
     async def _wait_for_response(self, message_id: Uuid1 = None, command_id: Uuid1 = None, timeout: int = -1) -> bytes | AsyncGenerator:
@@ -248,7 +248,7 @@ class Ble:
                 if msg_id_hex in self._lengths:
                     del self._lengths[msg_id_hex]
                 raise TimeoutError(f"No response received for message ID {message_id.value.hex()} within {timeout} seconds.")
-            
+
             return reconstructed
         elif command_id:
             # Return a generator that yields CommandProgress messages as they arrive.
@@ -276,7 +276,7 @@ class Ble:
                             yielded_any = True
                             progress_dict = Utils.convert_to_dict(progress_msg) # convert to dict to spot success/error
                             yield progress_msg
-                            
+
                             if "error" in progress_dict or "succeeded" in progress_dict:
                                 return  # Stop the generator if error/succeeded
 
@@ -347,7 +347,7 @@ class Ble:
     async def _discover(self, timeout: int = 5, raw: bool = False) -> dict:
         """Async method. Refer to discover() for documentation."""
         self.logger.info(f"Starting BLE device discovery (timeout: {timeout}s)")
-        
+
         found_devices = {} # uuid -> (name, address)
         # Discover devices and advertisement data
         self._discovery_cache = {} # reset cache
@@ -360,19 +360,19 @@ class Ble:
             await self._scanner.start()
 
             await asyncio.sleep(timeout) # sleep to allow devices to be discovered
-            
+
             # Stop scanning and process results
             await self._scanner.stop()
-            
+
             self.logger.info(f"BLE discovery completed. Found {len(self._discovery_cache)} possible candidates.")
-            
+
             if raw:
                 return self._discovery_cache
-            
+
             for uuid, device in self._discovery_cache.items():
                 found_devices[uuid] = (device.name, device.address)
                 self.logger.debug(f"Discovered device: {uuid} - {device.name} ({device.address})")
-            
+
             return found_devices
         except Exception as e:
             self.logger.error(f"BLE discovery failed: {e}", exc_info=True)
@@ -389,7 +389,7 @@ class Ble:
 
         `raw` : bool, optional
             If True, returns the raw discovery cache with BleakDevice objects. Defaults to False.
-            
+
         ### Returns
 
         list 
@@ -399,7 +399,7 @@ class Ble:
             ```
 [{'123e4567-e89b-12d3-a456-426614174000': ('AH-123', '12:34:56:78:9A:BC')}]
             ```
-        
+
         ### Examples
 
         >>> AiraHome().ble.discover(timeout=5, raw=False)
@@ -417,7 +417,7 @@ class Ble:
                 error_msg = f"Device with UUID {uuid} not found during discovery. To check if the device is close enough, use discover method."
                 self.logger.error(error_msg)
                 raise BLEDiscoveryError(error_msg)
-            
+
             result = await self._connect_device(device, timeout=timeout)
             if result:
                 self.logger.info(f"Successfully connected to device {uuid}")
@@ -437,7 +437,7 @@ class Ble:
 
         `uuid` : str
             The UUID of the device to connect to.
-        
+
         `timeout` : int, optional
             Timeout for the bluetooth discovery in seconds. Defaults to 10 seconds.
 
@@ -469,7 +469,7 @@ class Ble:
             error_msg = f"Could not create BLE client for device at address {device.address}."
             self.logger.error(error_msg)
             raise BLEConnectionError(error_msg)
-        
+
         try:
             self.logger.debug("Attempting BLE connection...")
             #TODO CLEAN AND FIX FURTHER. Understand how to detect effective connections and process it
@@ -484,7 +484,7 @@ class Ble:
         except Exception as e:
             #self._client = None
             raise BLEConnectionError(f"Could not connect to device at address {device.address}. Exception: {e}")
-    
+
     def connect_device(self, device: BLEDevice, timeout: int = 10) -> bool:
         """Connect to a device using a BleakDevice object."""
         return self._run_async(self._connect_device, device, timeout=timeout)
@@ -494,7 +494,7 @@ class Ble:
         if not self._ah_i.uuid:
             raise BLEConnectionError("UUID not set. Please set it before running the automatic connection method.")
         return await self._connect_uuid(self._ah_i.uuid, timeout=timeout)
-    
+
     def connect(self, timeout: int = 10) -> bool:
         """Connect to the device using the cloud defined uuid."""
         return self._run_async(self._connect, timeout=timeout)
@@ -503,7 +503,7 @@ class Ble:
         """Async method. Refer to get_rssi() for documentation."""
         if not self.is_connected():
             return None
-        
+
         rssi = None
         try:
             # This is NOT a public API and may break in future versions of Bleak, we use it here just to have a way to get RSSI. Different platforms may have different implementations, a consistent output is not guaranteed.
@@ -521,7 +521,7 @@ class Ble:
 
         if isinstance(rssi, int):
             return rssi
-        
+
         if isinstance(rssi, str):
             try:
                 return int(rssi)
@@ -566,7 +566,7 @@ class Ble:
     def disconnect(self) -> bool:
         """
         Disconnect from the currently connected device. If no device is connected, this method will simply return True.
-        
+
         ### Returns
 
         bool
@@ -605,24 +605,24 @@ class Ble:
         self.logger.debug(f"Requesting BLE data of type: {data_type}. Attempting to acquire lock.")
         await self.lock.acquire()
         self.logger.debug(f"Lock acquired for BLE data request of type: {data_type}.")
-        
+
         try:
             message_id = Uuid1(value=os.urandom(16))
             request = GetData(message_id=message_id,
                               data_type=getattr(data_type, 'value', data_type))
-            
+
             await self._send_ble(self._ah_i.insecure_characteristic, request, False)
             response_bytes = await self._wait_for_response(message_id=message_id)
 
             # parse the response
             response = DataResponse()
             response.ParseFromString(response_bytes)
-            
+
             self.logger.debug("BLE data request completed successfully")
 
             if raw:
                 return response
-            
+
             return Utils.convert_to_dict(response)
         except Exception as e:
             self.logger.error(f"BLE data request failed for type {data_type}: {e}", exc_info=True)
@@ -645,11 +645,11 @@ class Ble:
             If True, returns the raw gRPC response. Defaults to False.
 
         ### Returns
-    
+
         dict | DataResponse (Message)
             When `raw=False`: A dictionary containing requested data.
             When `raw=True`: The raw gRPC DataResponse protobuf message.
-        
+
         ### Examples
 
         >>> from pyairahome.enums import GetDataType
@@ -676,7 +676,7 @@ class Ble:
         dict | State (Message)
             When `raw=False`: A dictionary containing most states for the given device.
             When `raw=True`: The raw gRPC GetDevicesResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'state': [{'allowed_pump_mode_state': 'PUMP_MODE_STATE_IDLE',
@@ -689,7 +689,7 @@ class Ble:
                        'current_pump_mode_state': {...}
                        ...]}
             ```
-        
+
         ### Examples
 
         >>> AiraHome().ble.get_states(raw=False)
@@ -715,7 +715,7 @@ class Ble:
         dict | SystemCheckState (Message)
             When `raw=False`: A dictionary containing the system check state for the given device.
             When `raw=True`: The raw gRPC SystemCheckState protobuf message.
-        
+
         Example of the expected response content regardless of the `raw` parameter:
             ```
 {'system_check_state': {'air_purging': {'state': 'AIR_PURGING_STATE_NOT_STARTED'},
@@ -740,11 +740,11 @@ class Ble:
         >>> AiraHome().ble.get_system_check_state(raw=False)
         """
         return self._run_async(self._get_system_check_state, raw=raw)
-    
+
     async def _get_flow_data(self, raw: bool = False) -> dict | Message:
         """Async method. Refer to get_flow_data() for documentation."""
         return await self._get_data(data_type=GetDataType.DATA_TYPE_FLOW_DATA, raw=raw)
-        
+
     def get_flow_data(self, raw: bool = False) -> dict | Message:
         """
         Returns the flow data of the connected device. This seems to be working only when a flow test is in progress.
@@ -775,7 +775,7 @@ class Ble:
     async def _get_wifi_networks(self, raw: bool = False) -> dict | Message:
         """Async method. Refer to get_wifi_networks() for documentation."""
         return await self._get_data(data_type=GetDataType.DATA_TYPE_WIFI_NETWORKS, raw=raw)
-    
+
     def get_wifi_networks(self, raw: bool = False) -> dict | Message:
         """
         Returns the wifi networks close to the connected device.
@@ -864,10 +864,10 @@ class Ble:
         self.logger.debug(f"Running command on BLE. Attempting to acquire lock.")
         await self.lock.acquire()
         self.logger.debug(f"Lock acquired for BLE command.")
-        
+
         try:
             cmd_id = Uuid1(value=command_id)
-            
+
             await self._send_ble(self._ah_i.secure_characteristic, command, True)
             # When called with command_id, _wait_for_response always returns a Generator
             response_generator = cast(AsyncGenerator[Message, None], await self._wait_for_response(command_id=cmd_id))
@@ -879,7 +879,7 @@ class Ble:
             async def progress_dict_generator():
                 async for progress_msg in response_generator:
                     yield Utils.convert_to_dict(progress_msg)
-                
+
             return progress_dict_generator()
         except Exception as e:
             self.logger.error(f"Request failed for BLE command: {e}", exc_info=True)
@@ -894,13 +894,13 @@ class Ble:
         Use `raw=True` to get the raw gRPC response.
 
         ### Parameters
-        
+
         `command_in` : pyairahome.commands.*
             The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
             The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
-        
+
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
 
@@ -909,7 +909,7 @@ class Ble:
         dict | SendCommandResponse (Message)
             When `raw=False`: A dictionary containing the result of the command.
             When `raw=True`: The raw gRPC SendCommandResponse protobuf message.
-            
+
             Example of the expected response content regardless of the `raw` parameter:
             ```
 {'command_progress': {'aws_iot_received_time': datetime.datetime(2025, 9, 26, 15, 38, 49, 214993),
@@ -917,7 +917,7 @@ class Ble:
                       'succeeded': {},
                       'time': datetime.datetime(2025, 9, 26, 15, 38, 47, 269748)}}
             ```
-        
+
         ### Examples
         >>> from google.protobuf.duration_pb2 import Duration
         >>> from pyairahome.commands import ActivateHotWaterBoosting
@@ -942,10 +942,10 @@ class Ble:
         self.logger.debug(f"Running command on BLE. Attempting to acquire lock.")
         self._run_async(self.lock.acquire)
         self.logger.debug(f"Lock acquired for BLE command.")
-        
+
         try:
             cmd_id = Uuid1(value=command_id)
-            
+
             self._run_async(self._send_ble, self._ah_i.secure_characteristic, command, True)
             # When called with command_id, _wait_for_response always returns a Generator
             response_generator = cast(Generator[Message, None, None], self._wait_for_response(command_id=cmd_id))
@@ -957,7 +957,7 @@ class Ble:
             def progress_dict_generator():
                 for progress_msg in response_generator:
                     yield Utils.convert_to_dict(progress_msg)
-                
+
             return progress_dict_generator()
         except Exception as e:
             self.logger.error(f"Request failed for BLE command: {e}", exc_info=True)
