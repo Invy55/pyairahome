@@ -79,7 +79,7 @@ class HeatPumpCloudServiceStub(object):
                 request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleResponse.FromString,
                 _registered_method=True)
-        self.StreamCommandProgress = channel.unary_unary(
+        self.StreamCommandProgress = channel.unary_stream(
                 '/device.heat_pump.cloud.v1.HeatPumpCloudService/StreamCommandProgress',
                 request_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.SerializeToString,
                 response_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.FromString,
@@ -208,7 +208,7 @@ def add_HeatPumpCloudServiceServicer_to_server(servicer, server):
                     request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.SetLegionellaScheduleResponse.SerializeToString,
             ),
-            'StreamCommandProgress': grpc.unary_unary_rpc_method_handler(
+            'StreamCommandProgress': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamCommandProgress,
                     request_deserializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressRequest.FromString,
                     response_serializer=device_dot_heat__pump_dot_cloud_dot_v1_dot_service__pb2.StreamCommandProgressResponse.SerializeToString,
@@ -483,7 +483,7 @@ class HeatPumpCloudService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
             '/device.heat_pump.cloud.v1.HeatPumpCloudService/StreamCommandProgress',

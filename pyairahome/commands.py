@@ -1,5 +1,5 @@
 """Commands for interacting with Aira Home devices."""
-from .device.heat_pump.command.v1.enable_disable_heating_cooling_pb2 import DisableHeatingFunction as _DisableHeatingFunction, EnableCoolingFunction as _EnableCoolingFunction, EnableHeatingFunction as _EnableHeatingFunction, DisableCoolingFunction as _DisableCoolingFunction
+from .device.heat_pump.command.v1.enable_disable_heating_cooling_pb2 import DisableCoolingFunction as _DisableCoolingFunction, EnableHeatingFunction as _EnableHeatingFunction, DisableHeatingFunction as _DisableHeatingFunction, EnableCoolingFunction as _EnableCoolingFunction
 from .device.heat_pump.command.v1.set_inline_heater_ambient_threshold_pb2 import SetInlineHeaterAmbientThreshold as _SetInlineHeaterAmbientThreshold
 from .device.heat_pump.command.v1.turn_signature_element_lights_off_pb2 import TurnSignatureElementLightsOff as _TurnSignatureElementLightsOff
 from .device.heat_pump.command.v1.clear_scheduled_heat_curve_delta_pb2 import ClearScheduledHeatCurveDeltas as _ClearScheduledHeatCurveDeltas
@@ -18,8 +18,8 @@ from .device.heat_pump.command.v1.decommission_wall_thermostat_pb2 import Decomm
 from .device.heat_pump.command.v1.set_room_temp_setpoint_delta_pb2 import SetRoomTempSetpointDelta as _SetRoomTempSetpointDelta
 from .device.heat_pump.command.v1.activate_hot_water_boosting_pb2 import ActivateHotWaterBoosting as _ActivateHotWaterBoosting
 from .device.heat_pump.command.v1.set_heat_curve_deltas_pb2 import SetHeatCurveDeltas as _SetHeatCurveDeltas, HeatCurveDeltas
-from .device.heat_pump.config.v1.ccv.v1.ccv_config_pb2 import AlarmThresholds, InlineHeater, PumpSpeedSettings, SensorSources
-from .device.heat_pump.command.v1.set_cool_curve_deltas_pb2 import SetCoolCurveDeltas as _SetCoolCurveDeltas, CoolCurveDeltas
+from .device.heat_pump.config.v1.ccv.v1.ccv_config_pb2 import PumpSpeedSettings, InlineHeater, AlarmThresholds, SensorSources
+from .device.heat_pump.command.v1.set_cool_curve_deltas_pb2 import CoolCurveDeltas, SetCoolCurveDeltas as _SetCoolCurveDeltas
 from .device.heat_pump.command.v1.set_diagnostic_poll_period_pb2 import SetDiagnosticPollPeriod as _SetDiagnosticPollPeriod
 from .device.heat_pump.command.v1.reset_legionella_schedule_pb2 import ResetLegionellaSchedule as _ResetLegionellaSchedule
 from .device.heat_pump.command.v1.install_app_package_pb2 import InstallApplicationPackage as _InstallApplicationPackage
@@ -199,16 +199,16 @@ class UpdateLinux(CommandBase):
 
     `download_url` : builtins.str
 
-    `sha256` : builtins.bytes
+    `sha_256` : builtins.bytes
     """
-    def __init__(self, download_url: str, sha256: bytes) -> None:
+    def __init__(self, download_url: str, sha_256: bytes) -> None:
         self._field = "update_linux"
         self.download_url = download_url
-        self.sha256 = sha256
+        self.sha_256 = sha_256
 
     @property
     def _message(self):
-        return _UpdateLinux(download_url=self.download_url, sha256=self.sha256)
+        return _UpdateLinux(download_url=self.download_url, sha_256=self.sha_256)
 
 class TurnSignatureElementLightsOn(CommandBase):
     """
@@ -262,16 +262,16 @@ class InstallApplicationPackage(CommandBase):
 
     `download_url` : builtins.str
 
-    `sha256` : builtins.bytes
+    `sha_256` : builtins.bytes
     """
-    def __init__(self, download_url: str, sha256: bytes) -> None:
+    def __init__(self, download_url: str, sha_256: bytes) -> None:
         self._field = "install_app_package"
         self.download_url = download_url
-        self.sha256 = sha256
+        self.sha_256 = sha_256
 
     @property
     def _message(self):
-        return _InstallApplicationPackage(download_url=self.download_url, sha256=self.sha256)
+        return _InstallApplicationPackage(download_url=self.download_url, sha_256=self.sha_256)
 
 class InstallFirmware(CommandBase):
     """
@@ -281,22 +281,22 @@ class InstallFirmware(CommandBase):
 
     `download_url` : builtins.str
 
-    `sha256` : builtins.bytes
+    `sha_256` : builtins.bytes
 
     `firmware_type` : builtins.int
 
     `thermostat_serial_number` : builtins.str
     """
-    def __init__(self, download_url: str, sha256: bytes, firmware_type: int, thermostat_serial_number: str) -> None:
+    def __init__(self, download_url: str, sha_256: bytes, firmware_type: int, thermostat_serial_number: str) -> None:
         self._field = "install_firmware"
         self.download_url = download_url
-        self.sha256 = sha256
+        self.sha_256 = sha_256
         self.firmware_type = firmware_type
         self.thermostat_serial_number = thermostat_serial_number
 
     @property
     def _message(self):
-        return _InstallFirmware(download_url=self.download_url, sha256=self.sha256, firmware_type=self.firmware_type, thermostat_serial_number=self.thermostat_serial_number)
+        return _InstallFirmware(download_url=self.download_url, sha_256=self.sha_256, firmware_type=self.firmware_type, thermostat_serial_number=self.thermostat_serial_number)
 
 class ConfigureHeatPump(CommandBase):
     """
@@ -376,16 +376,16 @@ class RotateCertificate(CommandBase):
 
     `download_url` : builtins.str
 
-    `sha256` : builtins.bytes
+    `sha_256` : builtins.bytes
     """
-    def __init__(self, download_url: str, sha256: bytes) -> None:
+    def __init__(self, download_url: str, sha_256: bytes) -> None:
         self._field = "rotate_certificate"
         self.download_url = download_url
-        self.sha256 = sha256
+        self.sha_256 = sha_256
 
     @property
     def _message(self):
-        return _RotateCertificate(download_url=self.download_url, sha256=self.sha256)
+        return _RotateCertificate(download_url=self.download_url, sha_256=self.sha_256)
 
 class FactoryReset(CommandBase):
     """
@@ -514,16 +514,16 @@ class UpdateSystem(CommandBase):
 
     `download_url` : builtins.str
 
-    `sha256` : builtins.bytes
+    `sha_256` : builtins.bytes
     """
-    def __init__(self, download_url: str, sha256: bytes) -> None:
+    def __init__(self, download_url: str, sha_256: bytes) -> None:
         self._field = "update_system"
         self.download_url = download_url
-        self.sha256 = sha256
+        self.sha_256 = sha_256
 
     @property
     def _message(self):
-        return _UpdateSystem(download_url=self.download_url, sha256=self.sha256)
+        return _UpdateSystem(download_url=self.download_url, sha_256=self.sha_256)
 
 class SetCoolCurveDeltas(CommandBase):
     """
@@ -566,18 +566,18 @@ class SetHeatCurves(CommandBase):
 
     ### Parameters:
 
-    `zone1` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearHeatCurve
+    `zone_1` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearHeatCurve
 
-    `zone2` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearHeatCurve
+    `zone_2` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearHeatCurve
     """
-    def __init__(self, zone1: PiecewiseLinearHeatCurve, zone2: PiecewiseLinearHeatCurve) -> None:
+    def __init__(self, zone_1: PiecewiseLinearHeatCurve, zone_2: PiecewiseLinearHeatCurve) -> None:
         self._field = "set_heat_curves"
-        self.zone1 = zone1
-        self.zone2 = zone2
+        self.zone_1 = zone_1
+        self.zone_2 = zone_2
 
     @property
     def _message(self):
-        return _SetHeatCurves(zone1=self.zone1, zone2=self.zone2)
+        return _SetHeatCurves(zone_1=self.zone_1, zone_2=self.zone_2)
 
 class SetCoolCurves(CommandBase):
     """
@@ -585,18 +585,18 @@ class SetCoolCurves(CommandBase):
 
     ### Parameters:
 
-    `zone1` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearCoolCurve
+    `zone_1` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearCoolCurve
 
-    `zone2` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearCoolCurve
+    `zone_2` : device.heat_pump.config.v1.ccv.v1.heat_curve_pb2.PiecewiseLinearCoolCurve
     """
-    def __init__(self, zone1: PiecewiseLinearCoolCurve, zone2: PiecewiseLinearCoolCurve) -> None:
+    def __init__(self, zone_1: PiecewiseLinearCoolCurve, zone_2: PiecewiseLinearCoolCurve) -> None:
         self._field = "set_cool_curves"
-        self.zone1 = zone1
-        self.zone2 = zone2
+        self.zone_1 = zone_1
+        self.zone_2 = zone_2
 
     @property
     def _message(self):
-        return _SetCoolCurves(zone1=self.zone1, zone2=self.zone2)
+        return _SetCoolCurves(zone_1=self.zone_1, zone_2=self.zone_2)
 
 class EnableHeatingFunction(CommandBase):
     """
@@ -1086,24 +1086,24 @@ class ZoneHeatingRegulator(CommandBase):
 
     ### Parameters:
 
-    `zone1_p` : builtins.float
+    `zone_1_p` : builtins.float
 
-    `zone1_i` : builtins.float
+    `zone_1_i` : builtins.float
 
-    `zone2_p` : builtins.float
+    `zone_2_p` : builtins.float
 
-    `zone2_i` : builtins.float
+    `zone_2_i` : builtins.float
     """
-    def __init__(self, zone1_p: float, zone1_i: float, zone2_p: float, zone2_i: float) -> None:
+    def __init__(self, zone_1_p: float, zone_1_i: float, zone_2_p: float, zone_2_i: float) -> None:
         self._field = "zone_heating_regulator"
-        self.zone1_p = zone1_p
-        self.zone1_i = zone1_i
-        self.zone2_p = zone2_p
-        self.zone2_i = zone2_i
+        self.zone_1_p = zone_1_p
+        self.zone_1_i = zone_1_i
+        self.zone_2_p = zone_2_p
+        self.zone_2_i = zone_2_i
 
     @property
     def _message(self):
-        return _ZoneHeatingRegulator(zone1_p=self.zone1_p, zone1_i=self.zone1_i, zone2_p=self.zone2_p, zone2_i=self.zone2_i)
+        return _ZoneHeatingRegulator(zone_1_p=self.zone_1_p, zone_1_i=self.zone_1_i, zone_2_p=self.zone_2_p, zone_2_i=self.zone_2_i)
 
 class UnpairFerroampCore(CommandBase):
     """

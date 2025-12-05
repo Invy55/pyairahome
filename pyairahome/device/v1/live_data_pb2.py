@@ -26,7 +26,7 @@ from ...util.v2 import uuid_pb2 as util_dot_v2_dot_uuid__pb2
 from ...client.v1 import cm_message_pb2 as client_dot_v1_dot_cm__message__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19\x64\x65vice/v1/live_data.proto\x12\tdevice.v1\x1a\x12util/v2/uuid.proto\x1a\x1a\x63lient/v1/cm_message.proto\"\xe1\x01\n\x16StreamLiveDataResponse\x12*\n\ngrid_state\x18\x01 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x12-\n\rbattery_state\x18\x02 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x12.\n\x0einverter_state\x18\x03 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x12\x32\n\x12photovoltaic_state\x18\x04 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x42\x08\n\x06group0\"<\n\x15StreamLiveDataRequest\x12#\n\x0chousehold_id\x18\x01 \x01(\x0b\x32\r.util.v2.Uuid2h\n\x0fLiveDataService\x12U\n\x0eStreamLiveData\x12 .device.v1.StreamLiveDataRequest\x1a!.device.v1.StreamLiveDataResponseB_\n\tdevice.v1B\rLiveDataProtoP\x01\xa2\x02\x03\x44XX\xaa\x02\tDevice.V1\xca\x02\tDevice\\V1\xe2\x02\x15\x44\x65vice\\V1\\GPBMetadata\xea\x02\nDevice::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19\x64\x65vice/v1/live_data.proto\x12\tdevice.v1\x1a\x12util/v2/uuid.proto\x1a\x1a\x63lient/v1/cm_message.proto\"\xe1\x01\n\x16StreamLiveDataResponse\x12*\n\ngrid_state\x18\x01 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x12-\n\rbattery_state\x18\x02 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x12.\n\x0einverter_state\x18\x03 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x12\x32\n\x12photovoltaic_state\x18\x04 \x01(\x0b\x32\x14.client.v1.CmMessageH\x00\x42\x08\n\x06group0\"<\n\x15StreamLiveDataRequest\x12#\n\x0chousehold_id\x18\x01 \x01(\x0b\x32\r.util.v2.Uuid2j\n\x0fLiveDataService\x12W\n\x0eStreamLiveData\x12 .device.v1.StreamLiveDataRequest\x1a!.device.v1.StreamLiveDataResponse0\x01\x42_\n\tdevice.v1B\rLiveDataProtoP\x01\xa2\x02\x03\x44XX\xaa\x02\tDevice.V1\xca\x02\tDevice\\V1\xe2\x02\x15\x44\x65vice\\V1\\GPBMetadata\xea\x02\nDevice::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,5 +39,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_STREAMLIVEDATAREQUEST']._serialized_start=316
   _globals['_STREAMLIVEDATAREQUEST']._serialized_end=376
   _globals['_LIVEDATASERVICE']._serialized_start=378
-  _globals['_LIVEDATASERVICE']._serialized_end=482
+  _globals['_LIVEDATASERVICE']._serialized_end=484
 # @@protoc_insertion_point(module_scope)

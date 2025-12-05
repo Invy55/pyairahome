@@ -34,7 +34,7 @@ class LiveDataServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.StreamLiveData = channel.unary_unary(
+        self.StreamLiveData = channel.unary_stream(
                 '/device.v1.LiveDataService/StreamLiveData',
                 request_serializer=device_dot_v1_dot_live__data__pb2.StreamLiveDataRequest.SerializeToString,
                 response_deserializer=device_dot_v1_dot_live__data__pb2.StreamLiveDataResponse.FromString,
@@ -53,7 +53,7 @@ class LiveDataServiceServicer(object):
 
 def add_LiveDataServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'StreamLiveData': grpc.unary_unary_rpc_method_handler(
+            'StreamLiveData': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamLiveData,
                     request_deserializer=device_dot_v1_dot_live__data__pb2.StreamLiveDataRequest.FromString,
                     response_serializer=device_dot_v1_dot_live__data__pb2.StreamLiveDataResponse.SerializeToString,
@@ -80,7 +80,7 @@ class LiveDataService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
             '/device.v1.LiveDataService/StreamLiveData',
