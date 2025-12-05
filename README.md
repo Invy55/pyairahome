@@ -85,9 +85,9 @@ aira.cloud.login_with_credentials("email@example.com", "password")
 devices = aira.cloud.get_devices()
 print(f"Found {len(devices['devices'])} devices")
 
-# Get detailed device information
-device_details = aira.cloud.get_device_details(device_id)
-print(f"Device name: {device_details['name']}")
+# Get detailed heatpump information
+device_details = aira.cloud.get_heatpump_details(household_id)
+print(f"DHW Tank Size: {device_details['heat_pump']['tank_size']}")
 ```
 
 #### Monitoring and Control

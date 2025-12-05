@@ -92,9 +92,10 @@ class AiraHome:
 
                 device = devices["devices"][self.default_uuid_selection]
                 self.uuid = device["id"]["value"]
+                household_id = device["device_id"]["household_id"]["value"]
                 self.logger.debug(f"Selected device UUID: {self.uuid}")
 
-                device_details = self.cloud.get_device_details(self.uuid, raw=False)
+                device_details = self.cloud.get_heatpump_details(household_id, raw=False)
                 cert_status = self.ble.add_certificate(device_details["heat_pump"]["certificate"]
                 ["certificate_pem"])
                 if not cert_status:
