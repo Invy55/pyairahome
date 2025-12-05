@@ -3,9 +3,11 @@
 from .device.heat_pump.statistics.v1 import service_pb2 as stats_service_pb2, service_pb2_grpc as stats_service_pb2_grpc
 from .device.heat_pump.cloud.v1 import service_pb2 as cloud_service_pb2, service_pb2_grpc as cloud_service_pb2_grpc
 from .device.heat_pump.command.v1.command_source_pb2 import CommandSource
+from .device.v1.device_identifier_pb2 import DeviceType
+from grpc import secure_channel, ssl_channel_credentials
 from .device.heat_pump.command.v1 import command_pb2
 from .device.v1 import devices_pb2, devices_pb2_grpc
-from grpc import secure_channel, ssl_channel_credentials
+from .device.v1 import device_identifier_pb2
 from google.protobuf.message import Message
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from .commands import CommandBase
@@ -125,7 +127,7 @@ class Cloud:
     ###
 
     # Heatpump ro methods
-    def get_devices(self, raw: bool = False) -> dict | Message:
+    def get_devices(self, raw: bool = False) -> dict | Message: #TODO implement heat_pump_id and household_id filters
         """
         Returns the list of devices associated with the authenticated user.
         Use `raw=True` to get the raw gRPC response.
@@ -165,24 +167,30 @@ class Cloud:
             raw=raw
         )
 
-    def get_device_details(self, device_id: str, raw: bool = False) -> dict | Message: # uuid_format: v1
+    def get_heatpump_details(self, household_id: str, _type: int = DeviceType.DEVICE_TYPE_HEAT_PUMP, local_id: str = "", raw: bool = False) -> dict | Message: # uuid_format: v2
         """
-        Returns the details (including the certificate used for ble) of a specific device by its ID.
+        Returns the details of a specific heat pump by its household ID, type, and local ID. Type defaults to HEAT_PUMP and local ID defaults to an empty string, since I haven't seen other types or local IDs in the wild yet.
         Use `raw=True` to get the raw gRPC response.
 
         ### Parameters
 
-        `device_id` : str
-            Heat pump id in UUID format. E.g., '123e4567-e89b-12d3-a456-426614174000'.
+        `household_id` : str
+            Household id in UUID format. E.g., '456e4567-e89b-12d3-a456-426614174000'.
+
+        `_type` : int, optional
+            The device type. Defaults to DEVICE_TYPE_HEAT_PUMP.
+
+        `local_id` : str, optional
+            The local ID of the device. Defaults to an empty string, it's unclear what this could be.
 
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
 
         ### Returns
 
-        dict | GetDeviceDetailsResponse (Message)
-            When `raw=False`: A dictionary containing some details for the given device.
-            When `raw=True`: The raw gRPC GetDevicesResponse protobuf message.
+        dict | GetHeatPumpDetailsResponse (Message)
+            When `raw=False`: A dictionary containing some details for the given heat pump.
+            When `raw=True`: The raw gRPC GetHeatPumpDetailsResponse protobuf message.
 
             Example of the expected response content regardless of the `raw` parameter:
             ```
@@ -194,22 +202,29 @@ class Cloud:
                'id': {'value': '123e4567-e89b-12d3-a456-426614174000'},
                'tank_size': 'WATER_TANK_SIZE_300_LITERS'}}
             ```
-
         ### Examples
 
-        >>> AiraHome().cloud.get_device_details("123e4567-e89b-12d3-a456-426614174000", raw=False)
+        >>> AiraHome().cloud.get_heatpump_details("456e4567-e89b-12d3-a456-426614174000", raw=False)
         """
 
-        _id = Utils.convert_uuid_from_v2(device_id)
+        device_identifier = device_identifier_pb2.DeviceIdentifier(
+            household_id=Utils.convert_str_to_v2(household_id),
+            type=_type,
+            local_id=local_id
+        )
 
-        request = devices_pb2.GetDeviceDetailsRequest(id=_id)
+        request = devices_pb2.GetHeatPumpDetailsRequest(id=device_identifier)
 
         return self.call_service(
             self._devices_stub,
-            "GetDeviceDetails",
+            "GetHeatPumpDetails",
             request,
             raw=raw
         )
+
+    def get_device_details(self, device_id: str, raw: bool = False) -> dict | Message: # uuid_format: v1
+        """Deprecated, use get_heatpump_details instead."""
+        raise DeprecationWarning("get_device_details is deprecated, use get_heatpump_details instead.")
 
     def get_states(self, device_ids: str | list[str], raw: bool = False) -> dict | Message: # uuid_format: v1
         """
@@ -280,7 +295,7 @@ class Cloud:
             Heat pump id in UUID format. E.g., '123e4567-e89b-12d3-a456-426614174000'.
 
         `granularity` : Enum | int
-            The granularity of the insights, can be unspecified, hourly, daily, monthly. Use pyairahome.enums.Granularity.* for values.
+            The granularity of the insights, can be unspecified, hourly, daily, monthly. Use pyairahome.enums.Granularity.GRANULARITY_* for values (Granularity.GRANULARITY_DAILY, Granularity.GRANULARITY_HOURLY, Granularity.GRANULARITY_MONTHLY).
 
         `start_time` : datetime, optional
             The start time for the insights. If None, defaults to the backend's default.

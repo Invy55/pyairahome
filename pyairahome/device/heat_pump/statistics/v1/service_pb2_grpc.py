@@ -5,7 +5,7 @@ import warnings
 
 from . import service_pb2 as device_dot_heat__pump_dot_statistics_dot_v1_dot_service__pb2
 
-GRPC_GENERATED_VERSION = '1.72.0'
+GRPC_GENERATED_VERSION = '1.74.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 

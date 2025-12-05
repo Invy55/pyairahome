@@ -72,9 +72,7 @@ class Utils:
     def convert_uuid_to_v2(device_id) -> str:
         """Convert a UUID to v2 format"""
         uuid = Utils.convert_to_uuid_list(device_id)[0]
-        print(uuid.value, type(uuid.value))
-        if uuid.value.replace(b"-", b"").isalnum(): # if already v2 (inconsistent typing putting a v2 value in a v1 field)
-            return uuid.value.decode().strip()
+
         return str(UUID(uuid.value.hex()))
 
     @staticmethod
