@@ -5,7 +5,7 @@ import warnings
 
 from . import user_account_pb2 as user__account_dot_v2_dot_user__account__pb2
 
-GRPC_GENERATED_VERSION = '1.72.0'
+GRPC_GENERATED_VERSION = '1.74.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -59,6 +59,11 @@ class UserAccountServiceStub(object):
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsRequest.SerializeToString,
                 response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsResponse.FromString,
                 _registered_method=True)
+        self.GetHeatPumpZoneNames = channel.unary_unary(
+                '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
+                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
+                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
+                _registered_method=True)
         self.DeleteResident = channel.unary_unary(
                 '/user_account.v2.UserAccountService/DeleteResident',
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.SerializeToString,
@@ -68,11 +73,6 @@ class UserAccountServiceStub(object):
                 '/user_account.v2.UserAccountService/VerifyProximity',
                 request_serializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityRequest.SerializeToString,
                 response_deserializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityResponse.FromString,
-                _registered_method=True)
-        self.GetHeatPumpZoneNames = channel.unary_unary(
-                '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
-                request_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
-                response_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
                 _registered_method=True)
         self.UserHasAcceptedLatestLegalDocuments = channel.unary_unary(
                 '/user_account.v2.UserAccountService/UserHasAcceptedLatestLegalDocuments',
@@ -129,6 +129,12 @@ class UserAccountServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetHeatPumpZoneNames(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def DeleteResident(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -136,12 +142,6 @@ class UserAccountServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def VerifyProximity(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetHeatPumpZoneNames(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -199,6 +199,11 @@ def add_UserAccountServiceServicer_to_server(servicer, server):
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsRequest.FromString,
                     response_serializer=user__account_dot_v2_dot_user__account__pb2.GetFeaturesAsNotificationsResponse.SerializeToString,
             ),
+            'GetHeatPumpZoneNames': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetHeatPumpZoneNames,
+                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.FromString,
+                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.SerializeToString,
+            ),
             'DeleteResident': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteResident,
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.DeleteResidentRequest.FromString,
@@ -208,11 +213,6 @@ def add_UserAccountServiceServicer_to_server(servicer, server):
                     servicer.VerifyProximity,
                     request_deserializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityRequest.FromString,
                     response_serializer=user__account_dot_v2_dot_user__account__pb2.VerifyProximityResponse.SerializeToString,
-            ),
-            'GetHeatPumpZoneNames': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetHeatPumpZoneNames,
-                    request_deserializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.FromString,
-                    response_serializer=user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.SerializeToString,
             ),
             'UserHasAcceptedLatestLegalDocuments': grpc.unary_unary_rpc_method_handler(
                     servicer.UserHasAcceptedLatestLegalDocuments,
@@ -381,6 +381,33 @@ class UserAccountService(object):
             _registered_method=True)
 
     @staticmethod
+    def GetHeatPumpZoneNames(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
+            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
+            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def DeleteResident(request,
             target,
             options=(),
@@ -424,33 +451,6 @@ class UserAccountService(object):
             '/user_account.v2.UserAccountService/VerifyProximity',
             user__account_dot_v2_dot_user__account__pb2.VerifyProximityRequest.SerializeToString,
             user__account_dot_v2_dot_user__account__pb2.VerifyProximityResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetHeatPumpZoneNames(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/user_account.v2.UserAccountService/GetHeatPumpZoneNames',
-            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesRequest.SerializeToString,
-            user__account_dot_v2_dot_user__account__pb2.GetHeatPumpZoneNamesResponse.FromString,
             options,
             channel_credentials,
             insecure,
