@@ -574,7 +574,7 @@ class Ble:
         """
         return self._run_async(self._disconnect)
 
-    async def cleanup(self):
+    async def _cleanup(self):
         """Async method. Refer to cleanup() for documentation."""
         if self.is_connected():
             await self._disconnect()
