@@ -167,7 +167,7 @@ class Cloud:
             raw=raw
         )
 
-    def get_heatpump_details(self, household_id: str, _type: int = DeviceType.DEVICE_TYPE_HEAT_PUMP, local_id: str = "", raw: bool = False) -> dict | Message: # uuid_format: v2
+    def get_heatpump_details(self, household_id: str, _type: Enum | int = DeviceType.DEVICE_TYPE_HEAT_PUMP, local_id: str = "", raw: bool = False) -> dict | Message: # uuid_format: v2
         """
         Returns the details of a specific heat pump by its household ID, type, and local ID. Type defaults to HEAT_PUMP and local ID defaults to an empty string, since I haven't seen other types or local IDs in the wild yet.
         Use `raw=True` to get the raw gRPC response.
@@ -209,7 +209,7 @@ class Cloud:
 
         device_identifier = device_identifier_pb2.DeviceIdentifier(
             household_id=Utils.convert_str_to_v2(household_id),
-            type=_type,
+            type=getattr(_type, 'value', _type),
             local_id=local_id
         )
 
