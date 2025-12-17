@@ -176,6 +176,7 @@ else:
 ## 📋 Todo(s) <a name = "todo"></a>
 
 - [x] Implement BLE commands functionality
+- [ ] Tests...
 - [ ] Implement Solar cloud (and ble?) functionality
 - [ ] Replace short comments with more exhaustive ones
 - [ ] Create an actual documentation with more examples
