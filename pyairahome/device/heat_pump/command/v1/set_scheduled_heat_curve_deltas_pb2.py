@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import duration_pb2 as google_dot_protobuf_dot_duration__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\nAdevice/heat_pump/command/v1/set_scheduled_heat_curve_deltas.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\x1a\x1egoogle/protobuf/duration.proto\"U\n\x17ScheduledHeatCurveDelta\x12\n\n\x02p1\x18\x01 \x01(\x02\x12\n\n\x02p2\x18\x02 \x01(\x02\x12\n\n\x02p3\x18\x03 \x01(\x02\x12\n\n\x02p4\x18\x04 \x01(\x02\x12\n\n\x02p5\x18\x05 \x01(\x02\"\xd3\x01\n\x18ScheduledHeatCurveDeltas\x12+\n\x08\x64uration\x18\x01 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x44\n\x06zone_1\x18\x02 \x01(\x0b\x32\x34.device.heat_pump.command.v1.ScheduledHeatCurveDelta\x12\x44\n\x06zone_2\x18\x03 \x01(\x0b\x32\x34.device.heat_pump.command.v1.ScheduledHeatCurveDelta\"o\n\x1bSetScheduledHeatCurveDeltas\x12P\n\x11heat_curve_deltas\x18\x01 \x03(\x0b\x32\x35.device.heat_pump.command.v1.ScheduledHeatCurveDeltas*\xe2\x02\n\x16SetHeatCurveDeltaError\x12*\n&SET_HEAT_CURVE_DELTA_ERROR_UNSPECIFIED\x10\x00\x12\x36\n2SET_HEAT_CURVE_DELTA_ERROR_MISSING_SETPOINT_DELTAS\x10\x01\x12\x36\n2SET_HEAT_CURVE_DELTA_ERROR_TOO_LONG_TOTAL_DURATION\x10\x02\x12/\n+SET_HEAT_CURVE_DELTA_ERROR_INVALID_DURATION\x10\x03\x12\x38\n4SET_HEAT_CURVE_DELTA_ERROR_DELTA_MAGNITUDE_TOO_LARGE\x10\x04\x12\x41\n=SET_HEAT_CURVE_DELTA_ERROR_MISSING_SETPOINT_DELTA_TEMPERATURE\x10\x05\x42\xca\x01\n\x1b\x64\x65vice.heat_pump.command.v1B SetScheduledHeatCurveDeltasProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\nAdevice/heat_pump/command/v1/set_scheduled_heat_curve_deltas.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\x1a\x1egoogle/protobuf/duration.proto\"Z\n\x17ScheduledHeatCurveDelta\x12\x0b\n\x03p_1\x18\x01 \x01(\x02\x12\x0b\n\x03p_2\x18\x02 \x01(\x02\x12\x0b\n\x03p_3\x18\x03 \x01(\x02\x12\x0b\n\x03p_4\x18\x04 \x01(\x02\x12\x0b\n\x03p_5\x18\x05 \x01(\x02\"\xd3\x01\n\x18ScheduledHeatCurveDeltas\x12+\n\x08\x64uration\x18\x01 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x44\n\x06zone_1\x18\x02 \x01(\x0b\x32\x34.device.heat_pump.command.v1.ScheduledHeatCurveDelta\x12\x44\n\x06zone_2\x18\x03 \x01(\x0b\x32\x34.device.heat_pump.command.v1.ScheduledHeatCurveDelta\"o\n\x1bSetScheduledHeatCurveDeltas\x12P\n\x11heat_curve_deltas\x18\x01 \x03(\x0b\x32\x35.device.heat_pump.command.v1.ScheduledHeatCurveDeltas*\xe2\x02\n\x16SetHeatCurveDeltaError\x12*\n&SET_HEAT_CURVE_DELTA_ERROR_UNSPECIFIED\x10\x00\x12\x36\n2SET_HEAT_CURVE_DELTA_ERROR_MISSING_SETPOINT_DELTAS\x10\x01\x12\x36\n2SET_HEAT_CURVE_DELTA_ERROR_TOO_LONG_TOTAL_DURATION\x10\x02\x12/\n+SET_HEAT_CURVE_DELTA_ERROR_INVALID_DURATION\x10\x03\x12\x38\n4SET_HEAT_CURVE_DELTA_ERROR_DELTA_MAGNITUDE_TOO_LARGE\x10\x04\x12\x41\n=SET_HEAT_CURVE_DELTA_ERROR_MISSING_SETPOINT_DELTA_TEMPERATURE\x10\x05\x42\xca\x01\n\x1b\x64\x65vice.heat_pump.command.v1B SetScheduledHeatCurveDeltasProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,12 +33,12 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'device.heat_pump.command.v1
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B SetScheduledHeatCurveDeltasProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
-  _globals['_SETHEATCURVEDELTAERROR']._serialized_start=545
-  _globals['_SETHEATCURVEDELTAERROR']._serialized_end=899
+  _globals['_SETHEATCURVEDELTAERROR']._serialized_start=550
+  _globals['_SETHEATCURVEDELTAERROR']._serialized_end=904
   _globals['_SCHEDULEDHEATCURVEDELTA']._serialized_start=130
-  _globals['_SCHEDULEDHEATCURVEDELTA']._serialized_end=215
-  _globals['_SCHEDULEDHEATCURVEDELTAS']._serialized_start=218
-  _globals['_SCHEDULEDHEATCURVEDELTAS']._serialized_end=429
-  _globals['_SETSCHEDULEDHEATCURVEDELTAS']._serialized_start=431
-  _globals['_SETSCHEDULEDHEATCURVEDELTAS']._serialized_end=542
+  _globals['_SCHEDULEDHEATCURVEDELTA']._serialized_end=220
+  _globals['_SCHEDULEDHEATCURVEDELTAS']._serialized_start=223
+  _globals['_SCHEDULEDHEATCURVEDELTAS']._serialized_end=434
+  _globals['_SETSCHEDULEDHEATCURVEDELTAS']._serialized_start=436
+  _globals['_SETSCHEDULEDHEATCURVEDELTAS']._serialized_end=547
 # @@protoc_insertion_point(module_scope)

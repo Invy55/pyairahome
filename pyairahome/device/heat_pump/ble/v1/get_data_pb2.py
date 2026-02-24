@@ -27,11 +27,12 @@ from ....power.ble.v1 import power_installation_state_pb2 as device_dot_power_do
 from ...state.v1 import state_pb2 as device_dot_heat__pump_dot_state_dot_v1_dot_state__pb2
 from ...config.v1.ccv.v1 import ccv_config_pb2 as device_dot_heat__pump_dot_config_dot_v1_dot_ccv_dot_v1_dot_ccv__config__pb2
 from . import wifi_networks_pb2 as device_dot_heat__pump_dot_ble_dot_v1_dot_wifi__networks__pb2
+from . import thread_network_graph_pb2 as device_dot_heat__pump_dot_ble_dot_v1_dot_thread__network__graph__pb2
 from . import system_check_state_pb2 as device_dot_heat__pump_dot_ble_dot_v1_dot_system__check__state__pb2
 from . import main_pump_flow_pb2 as device_dot_heat__pump_dot_ble_dot_v1_dot_main__pump__flow__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&device/heat_pump/ble/v1/get_data.proto\x12\x17\x64\x65vice.heat_pump.ble.v1\x1a\x12util/v1/uuid.proto\x1a\x32\x64\x65vice/power/ble/v1/power_installation_state.proto\x1a%device/heat_pump/state/v1/state.proto\x1a\x32\x64\x65vice/heat_pump/config/v1/ccv/v1/ccv_config.proto\x1a+device/heat_pump/ble/v1/wifi_networks.proto\x1a\x30\x64\x65vice/heat_pump/ble/v1/system_check_state.proto\x1a,device/heat_pump/ble/v1/main_pump_flow.proto\"\xdc\x03\n\x0c\x44\x61taResponse\x12\x39\n\x05\x65rror\x18\x05 \x01(\x0e\x32*.device.heat_pump.ble.v1.DataResponseError\x12\x31\n\x05state\x18\x01 \x01(\x0b\x32 .device.heat_pump.state.v1.StateH\x00\x12G\n\x12system_check_state\x18\x02 \x01(\x0b\x32).device.heat_pump.ble.v1.SystemCheckStateH\x00\x12:\n\tflow_data\x18\x03 \x01(\x0b\x32%.device.heat_pump.ble.v1.MainPumpFlowH\x00\x12>\n\rwifi_networks\x18\x04 \x01(\x0b\x32%.device.heat_pump.ble.v1.WifiNetworksH\x00\x12>\n\x06\x63onfig\x18\x06 \x01(\x0b\x32,.device.heat_pump.config.v1.ccv.v1.CcvConfigH\x00\x12O\n\x18power_installation_state\x18\x07 \x01(\x0b\x32+.device.power.ble.v1.PowerInstallationStateH\x00\x42\x08\n\x06group0\"b\n\x07GetData\x12!\n\nmessage_id\x18\x01 \x01(\x0b\x32\r.util.v1.Uuid\x12\x34\n\tdata_type\x18\x02 \x01(\x0e\x32!.device.heat_pump.ble.v1.DataType*\xaa\x01\n\x11\x44\x61taResponseError\x12#\n\x1f\x44\x41TA_RESPONSE_ERROR_UNSPECIFIED\x10\x00\x12%\n!DATA_RESPONSE_ERROR_NOT_SUPPORTED\x10\x01\x12%\n!DATA_RESPONSE_ERROR_NOT_AVAILABLE\x10\x02\x12\"\n\x1e\x44\x41TA_RESPONSE_ERROR_READ_ERROR\x10\x03*\xd7\x01\n\x08\x44\x61taType\x12\x19\n\x15\x44\x41TA_TYPE_UNSPECIFIED\x10\x00\x12\x13\n\x0f\x44\x41TA_TYPE_STATE\x10\x01\x12 \n\x1c\x44\x41TA_TYPE_SYSTEM_CHECK_STATE\x10\x02\x12\x17\n\x13\x44\x41TA_TYPE_FLOW_DATA\x10\x03\x12\x1b\n\x17\x44\x41TA_TYPE_WIFI_NETWORKS\x10\x04\x12\x1b\n\x17\x44\x41TA_TYPE_CONFIGURATION\x10\x05\x12&\n\"DATA_TYPE_POWER_INSTALLATION_STATE\x10\x06\x42\xa2\x01\n\x17\x64\x65vice.heat_pump.ble.v1B\x0cGetDataProtoP\x01\xa2\x02\x03\x44HB\xaa\x02\x16\x44\x65vice.HeatPump.Ble.V1\xca\x02\x16\x44\x65vice\\HeatPump\\Ble\\V1\xe2\x02\"Device\\HeatPump\\Ble\\V1\\GPBMetadata\xea\x02\x19\x44\x65vice::HeatPump::Ble::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&device/heat_pump/ble/v1/get_data.proto\x12\x17\x64\x65vice.heat_pump.ble.v1\x1a\x12util/v1/uuid.proto\x1a\x32\x64\x65vice/power/ble/v1/power_installation_state.proto\x1a%device/heat_pump/state/v1/state.proto\x1a\x32\x64\x65vice/heat_pump/config/v1/ccv/v1/ccv_config.proto\x1a+device/heat_pump/ble/v1/wifi_networks.proto\x1a\x32\x64\x65vice/heat_pump/ble/v1/thread_network_graph.proto\x1a\x30\x64\x65vice/heat_pump/ble/v1/system_check_state.proto\x1a,device/heat_pump/ble/v1/main_pump_flow.proto\"\xa9\x04\n\x0c\x44\x61taResponse\x12\x39\n\x05\x65rror\x18\x05 \x01(\x0e\x32*.device.heat_pump.ble.v1.DataResponseError\x12\x31\n\x05state\x18\x01 \x01(\x0b\x32 .device.heat_pump.state.v1.StateH\x00\x12G\n\x12system_check_state\x18\x02 \x01(\x0b\x32).device.heat_pump.ble.v1.SystemCheckStateH\x00\x12:\n\tflow_data\x18\x03 \x01(\x0b\x32%.device.heat_pump.ble.v1.MainPumpFlowH\x00\x12>\n\rwifi_networks\x18\x04 \x01(\x0b\x32%.device.heat_pump.ble.v1.WifiNetworksH\x00\x12>\n\x06\x63onfig\x18\x06 \x01(\x0b\x32,.device.heat_pump.config.v1.ccv.v1.CcvConfigH\x00\x12O\n\x18power_installation_state\x18\x07 \x01(\x0b\x32+.device.power.ble.v1.PowerInstallationStateH\x00\x12K\n\x14thread_network_graph\x18\x08 \x01(\x0b\x32+.device.heat_pump.ble.v1.ThreadNetworkGraphH\x00\x42\x08\n\x06group0\"b\n\x07GetData\x12!\n\nmessage_id\x18\x01 \x01(\x0b\x32\r.util.v1.Uuid\x12\x34\n\tdata_type\x18\x02 \x01(\x0e\x32!.device.heat_pump.ble.v1.DataType*\xaa\x01\n\x11\x44\x61taResponseError\x12#\n\x1f\x44\x41TA_RESPONSE_ERROR_UNSPECIFIED\x10\x00\x12%\n!DATA_RESPONSE_ERROR_NOT_SUPPORTED\x10\x01\x12%\n!DATA_RESPONSE_ERROR_NOT_AVAILABLE\x10\x02\x12\"\n\x1e\x44\x41TA_RESPONSE_ERROR_READ_ERROR\x10\x03*\xfb\x01\n\x08\x44\x61taType\x12\x19\n\x15\x44\x41TA_TYPE_UNSPECIFIED\x10\x00\x12\x13\n\x0f\x44\x41TA_TYPE_STATE\x10\x01\x12 \n\x1c\x44\x41TA_TYPE_SYSTEM_CHECK_STATE\x10\x02\x12\x17\n\x13\x44\x41TA_TYPE_FLOW_DATA\x10\x03\x12\x1b\n\x17\x44\x41TA_TYPE_WIFI_NETWORKS\x10\x04\x12\x1b\n\x17\x44\x41TA_TYPE_CONFIGURATION\x10\x05\x12&\n\"DATA_TYPE_POWER_INSTALLATION_STATE\x10\x06\x12\"\n\x1e\x44\x41TA_TYPE_THREAD_NETWORK_GRAPH\x10\x07\x42\xa2\x01\n\x17\x64\x65vice.heat_pump.ble.v1B\x0cGetDataProtoP\x01\xa2\x02\x03\x44HB\xaa\x02\x16\x44\x65vice.HeatPump.Ble.V1\xca\x02\x16\x44\x65vice\\HeatPump\\Ble\\V1\xe2\x02\"Device\\HeatPump\\Ble\\V1\\GPBMetadata\xea\x02\x19\x44\x65vice::HeatPump::Ble::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,12 +40,12 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'device.heat_pump.ble.v1.get
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\027device.heat_pump.ble.v1B\014GetDataProtoP\001\242\002\003DHB\252\002\026Device.HeatPump.Ble.V1\312\002\026Device\\HeatPump\\Ble\\V1\342\002\"Device\\HeatPump\\Ble\\V1\\GPBMetadata\352\002\031Device::HeatPump::Ble::V1'
-  _globals['_DATARESPONSEERROR']._serialized_start=951
-  _globals['_DATARESPONSEERROR']._serialized_end=1121
-  _globals['_DATATYPE']._serialized_start=1124
-  _globals['_DATATYPE']._serialized_end=1339
-  _globals['_DATARESPONSE']._serialized_start=372
-  _globals['_DATARESPONSE']._serialized_end=848
-  _globals['_GETDATA']._serialized_start=850
-  _globals['_GETDATA']._serialized_end=948
+  _globals['_DATARESPONSEERROR']._serialized_start=1080
+  _globals['_DATARESPONSEERROR']._serialized_end=1250
+  _globals['_DATATYPE']._serialized_start=1253
+  _globals['_DATATYPE']._serialized_end=1504
+  _globals['_DATARESPONSE']._serialized_start=424
+  _globals['_DATARESPONSE']._serialized_end=977
+  _globals['_GETDATA']._serialized_start=979
+  _globals['_GETDATA']._serialized_end=1077
 # @@protoc_insertion_point(module_scope)

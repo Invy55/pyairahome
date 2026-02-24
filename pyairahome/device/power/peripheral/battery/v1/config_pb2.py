@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n/device/power/peripheral/battery/v1/config.proto\x12\"device.power.peripheral.battery.v1\"\x94\x01\n\rBatteryConfig\x12\x1e\n\x16maximum_charging_power\x18\x01 \x01(\x02\x12!\n\x19maximum_discharging_power\x18\x02 \x01(\x02\x12\x1f\n\x17minimum_charge_capacity\x18\x03 \x01(\x02\x12\x1f\n\x17maximum_charge_capacity\x18\x04 \x01(\x02\x42\xdd\x01\n\"device.power.peripheral.battery.v1B\x0b\x43onfigProtoP\x01\xa2\x02\x03PPB\xaa\x02\"Device.Power.Peripheral.Battery.V1\xca\x02\"Device\\Power\\Peripheral\\Battery\\V1\xe2\x02.Device\\Power\\Peripheral\\Battery\\V1\\GPBMetadata\xea\x02&Device::Power::Peripheral::Battery::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n/device/power/peripheral/battery/v1/config.proto\x12\"device.power.peripheral.battery.v1\"q\n\rBatteryConfig\x12\x18\n\x10power_ref_charge\x18\x01 \x01(\x05\x12\x1b\n\x13power_ref_discharge\x18\x02 \x01(\x05\x12\x13\n\x0bsoc_ref_low\x18\x03 \x01(\x02\x12\x14\n\x0csoc_ref_high\x18\x04 \x01(\x02\x42\xdd\x01\n\"device.power.peripheral.battery.v1B\x0b\x43onfigProtoP\x01\xa2\x02\x03PPB\xaa\x02\"Device.Power.Peripheral.Battery.V1\xca\x02\"Device\\Power\\Peripheral\\Battery\\V1\xe2\x02.Device\\Power\\Peripheral\\Battery\\V1\\GPBMetadata\xea\x02&Device::Power::Peripheral::Battery::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +32,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'device.power.peripheral.bat
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\"device.power.peripheral.battery.v1B\013ConfigProtoP\001\242\002\003PPB\252\002\"Device.Power.Peripheral.Battery.V1\312\002\"Device\\Power\\Peripheral\\Battery\\V1\342\002.Device\\Power\\Peripheral\\Battery\\V1\\GPBMetadata\352\002&Device::Power::Peripheral::Battery::V1'
-  _globals['_BATTERYCONFIG']._serialized_start=88
-  _globals['_BATTERYCONFIG']._serialized_end=236
+  _globals['_BATTERYCONFIG']._serialized_start=87
+  _globals['_BATTERYCONFIG']._serialized_end=200
 # @@protoc_insertion_point(module_scope)

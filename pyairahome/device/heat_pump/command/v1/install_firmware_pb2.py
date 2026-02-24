@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2device/heat_pump/command/v1/install_firmware.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"\x9c\x01\n\x0fInstallFirmware\x12\x14\n\x0c\x64ownload_url\x18\x02 \x01(\t\x12\x0f\n\x07sha_256\x18\x03 \x01(\x0c\x12@\n\rfirmware_type\x18\x04 \x01(\x0e\x32).device.heat_pump.command.v1.FirmwareType\x12 \n\x18thermostat_serial_number\x18\x05 \x01(\t*\xc7\x01\n\x0c\x46irmwareType\x12\x1d\n\x19\x46IRMWARE_TYPE_UNSPECIFIED\x10\x00\x12\'\n#FIRMWARE_TYPE_CLIMATE_CONTROL_VILLA\x10\x01\x12*\n&FIRMWARE_TYPE_OUTDOOR_UNIT_APPLICATION\x10\x02\x12%\n!FIRMWARE_TYPE_OUTDOOR_UNIT_EEPROM\x10\x03\x12\x1c\n\x18\x46IRMWARE_TYPE_THERMOSTAT\x10\x04\x42\xbe\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x14InstallFirmwareProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2device/heat_pump/command/v1/install_firmware.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"\x9c\x01\n\x0fInstallFirmware\x12\x14\n\x0c\x64ownload_url\x18\x02 \x01(\t\x12\x0f\n\x07sha_256\x18\x03 \x01(\x0c\x12@\n\rfirmware_type\x18\x04 \x01(\x0e\x32).device.heat_pump.command.v1.FirmwareType\x12 \n\x18thermostat_serial_number\x18\x05 \x01(\t*\xb1\x02\n\x0c\x46irmwareType\x12\x1d\n\x19\x46IRMWARE_TYPE_UNSPECIFIED\x10\x00\x12\'\n#FIRMWARE_TYPE_CLIMATE_CONTROL_VILLA\x10\x01\x12*\n&FIRMWARE_TYPE_OUTDOOR_UNIT_APPLICATION\x10\x02\x12%\n!FIRMWARE_TYPE_OUTDOOR_UNIT_EEPROM\x10\x03\x12\x1c\n\x18\x46IRMWARE_TYPE_THERMOSTAT\x10\x04\x12\x17\n\x13\x46IRMWARE_TYPE_CAREL\x10\x05\x12 \n\x1c\x46IRMWARE_TYPE_POWER_HUB_CORE\x10\x06\x12-\n)FIRMWARE_TYPE_POWER_HUB_SIGNATURE_ELEMENT\x10\x07\x42\xbe\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x14InstallFirmwareProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,7 +33,7 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B\024InstallFirmwareProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
   _globals['_FIRMWARETYPE']._serialized_start=243
-  _globals['_FIRMWARETYPE']._serialized_end=442
+  _globals['_FIRMWARETYPE']._serialized_end=548
   _globals['_INSTALLFIRMWARE']._serialized_start=84
   _globals['_INSTALLFIRMWARE']._serialized_end=240
 # @@protoc_insertion_point(module_scope)

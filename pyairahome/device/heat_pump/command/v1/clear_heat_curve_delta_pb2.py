@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n8device/heat_pump/command/v1/clear_heat_curve_delta.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"@\n\x14\x43learHeatCurveDeltas\x12\x13\n\x0b\x63lear_zone1\x18\x01 \x01(\x08\x12\x13\n\x0b\x63lear_zone2\x18\x02 \x01(\x08\x42\xc2\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x18\x43learHeatCurveDeltaProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n8device/heat_pump/command/v1/clear_heat_curve_delta.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"B\n\x14\x43learHeatCurveDeltas\x12\x14\n\x0c\x63lear_zone_1\x18\x01 \x01(\x08\x12\x14\n\x0c\x63lear_zone_2\x18\x02 \x01(\x08\x42\xc2\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x18\x43learHeatCurveDeltaProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,5 +33,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B\030ClearHeatCurveDeltaProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
   _globals['_CLEARHEATCURVEDELTAS']._serialized_start=89
-  _globals['_CLEARHEATCURVEDELTAS']._serialized_end=153
+  _globals['_CLEARHEATCURVEDELTAS']._serialized_end=155
 # @@protoc_insertion_point(module_scope)

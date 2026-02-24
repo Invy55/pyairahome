@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n+device/power/grid/v1/grid_code_preset.proto\x12\x14\x64\x65vice.power.grid.v1*O\n\x0eGridCodePreset\x12 \n\x1cGRID_CODE_PRESET_UNSPECIFIED\x10\x00\x12\x1b\n\x17GRID_CODE_PRESET_SWEDEN\x10\x01\x42\x9e\x01\n\x14\x64\x65vice.power.grid.v1B\x13GridCodePresetProtoP\x01\xa2\x02\x03\x44PG\xaa\x02\x14\x44\x65vice.Power.Grid.V1\xca\x02\x14\x44\x65vice\\Power\\Grid\\V1\xe2\x02 Device\\Power\\Grid\\V1\\GPBMetadata\xea\x02\x17\x44\x65vice::Power::Grid::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n+device/power/grid/v1/grid_code_preset.proto\x12\x14\x64\x65vice.power.grid.v1*\x8f\x01\n\x0eGridCodePreset\x12 \n\x1cGRID_CODE_PRESET_UNSPECIFIED\x10\x00\x12\x1b\n\x17GRID_CODE_PRESET_SWEDEN\x10\x01\x12\"\n\x1eGRID_CODE_PRESET_GREAT_BRITAIN\x10\x02\x12\x1a\n\x16GRID_CODE_PRESET_ITALY\x10\x03\x42\x9e\x01\n\x14\x64\x65vice.power.grid.v1B\x13GridCodePresetProtoP\x01\xa2\x02\x03\x44PG\xaa\x02\x14\x44\x65vice.Power.Grid.V1\xca\x02\x14\x44\x65vice\\Power\\Grid\\V1\xe2\x02 Device\\Power\\Grid\\V1\\GPBMetadata\xea\x02\x17\x44\x65vice::Power::Grid::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +32,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'device.power.grid.v1.grid_c
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\024device.power.grid.v1B\023GridCodePresetProtoP\001\242\002\003DPG\252\002\024Device.Power.Grid.V1\312\002\024Device\\Power\\Grid\\V1\342\002 Device\\Power\\Grid\\V1\\GPBMetadata\352\002\027Device::Power::Grid::V1'
-  _globals['_GRIDCODEPRESET']._serialized_start=69
-  _globals['_GRIDCODEPRESET']._serialized_end=148
+  _globals['_GRIDCODEPRESET']._serialized_start=70
+  _globals['_GRIDCODEPRESET']._serialized_end=213
 # @@protoc_insertion_point(module_scope)

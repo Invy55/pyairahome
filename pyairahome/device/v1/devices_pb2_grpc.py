@@ -39,6 +39,11 @@ class DevicesServiceStub(object):
                 request_serializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsRequest.SerializeToString,
                 response_deserializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsResponse.FromString,
                 _registered_method=True)
+        self.GetPhotovoltaicDetails = channel.unary_unary(
+                '/device.v1.DevicesService/GetPhotovoltaicDetails',
+                request_serializer=device_dot_v1_dot_devices__pb2.GetPhotovoltaicDetailsRequest.SerializeToString,
+                response_deserializer=device_dot_v1_dot_devices__pb2.GetPhotovoltaicDetailsResponse.FromString,
+                _registered_method=True)
         self.GetHeatPumpDetails = channel.unary_unary(
                 '/device.v1.DevicesService/GetHeatPumpDetails',
                 request_serializer=device_dot_v1_dot_devices__pb2.GetHeatPumpDetailsRequest.SerializeToString,
@@ -60,6 +65,12 @@ class DevicesServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetBatteryDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPhotovoltaicDetails(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -90,6 +101,11 @@ def add_DevicesServiceServicer_to_server(servicer, server):
                     servicer.GetBatteryDetails,
                     request_deserializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsRequest.FromString,
                     response_serializer=device_dot_v1_dot_devices__pb2.GetBatteryDetailsResponse.SerializeToString,
+            ),
+            'GetPhotovoltaicDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPhotovoltaicDetails,
+                    request_deserializer=device_dot_v1_dot_devices__pb2.GetPhotovoltaicDetailsRequest.FromString,
+                    response_serializer=device_dot_v1_dot_devices__pb2.GetPhotovoltaicDetailsResponse.SerializeToString,
             ),
             'GetHeatPumpDetails': grpc.unary_unary_rpc_method_handler(
                     servicer.GetHeatPumpDetails,
@@ -134,6 +150,33 @@ class DevicesService(object):
             '/device.v1.DevicesService/GetBatteryDetails',
             device_dot_v1_dot_devices__pb2.GetBatteryDetailsRequest.SerializeToString,
             device_dot_v1_dot_devices__pb2.GetBatteryDetailsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetPhotovoltaicDetails(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/device.v1.DevicesService/GetPhotovoltaicDetails',
+            device_dot_v1_dot_devices__pb2.GetPhotovoltaicDetailsRequest.SerializeToString,
+            device_dot_v1_dot_devices__pb2.GetPhotovoltaicDetailsResponse.FromString,
             options,
             channel_credentials,
             insecure,

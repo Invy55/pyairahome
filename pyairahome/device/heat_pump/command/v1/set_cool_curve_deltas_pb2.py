@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7device/heat_pump/command/v1/set_cool_curve_deltas.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"4\n\x0e\x43oolCurveDelta\x12\n\n\x02p1\x18\x02 \x01(\x02\x12\n\n\x02p2\x18\x03 \x01(\x02\x12\n\n\x02p3\x18\x04 \x01(\x02\"\x8b\x01\n\x0f\x43oolCurveDeltas\x12;\n\x06zone_1\x18\x01 \x01(\x0b\x32+.device.heat_pump.command.v1.CoolCurveDelta\x12;\n\x06zone_2\x18\x02 \x01(\x0b\x32+.device.heat_pump.command.v1.CoolCurveDelta\"]\n\x12SetCoolCurveDeltas\x12G\n\x11\x63ool_curve_deltas\x18\x01 \x01(\x0b\x32,.device.heat_pump.command.v1.CoolCurveDeltasB\xc1\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x17SetCoolCurveDeltasProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7device/heat_pump/command/v1/set_cool_curve_deltas.proto\x12\x1b\x64\x65vice.heat_pump.command.v1\"7\n\x0e\x43oolCurveDelta\x12\x0b\n\x03p_1\x18\x02 \x01(\x02\x12\x0b\n\x03p_2\x18\x03 \x01(\x02\x12\x0b\n\x03p_3\x18\x04 \x01(\x02\"\x8b\x01\n\x0f\x43oolCurveDeltas\x12;\n\x06zone_1\x18\x01 \x01(\x0b\x32+.device.heat_pump.command.v1.CoolCurveDelta\x12;\n\x06zone_2\x18\x02 \x01(\x0b\x32+.device.heat_pump.command.v1.CoolCurveDelta\"]\n\x12SetCoolCurveDeltas\x12G\n\x11\x63ool_curve_deltas\x18\x01 \x01(\x0b\x32,.device.heat_pump.command.v1.CoolCurveDeltasB\xc1\x01\n\x1b\x64\x65vice.heat_pump.command.v1B\x17SetCoolCurveDeltasProtoP\x01\xa2\x02\x03\x44HC\xaa\x02\x1a\x44\x65vice.HeatPump.Command.V1\xca\x02\x1a\x44\x65vice\\HeatPump\\Command\\V1\xe2\x02&Device\\HeatPump\\Command\\V1\\GPBMetadata\xea\x02\x1d\x44\x65vice::HeatPump::Command::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,9 +33,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\033device.heat_pump.command.v1B\027SetCoolCurveDeltasProtoP\001\242\002\003DHC\252\002\032Device.HeatPump.Command.V1\312\002\032Device\\HeatPump\\Command\\V1\342\002&Device\\HeatPump\\Command\\V1\\GPBMetadata\352\002\035Device::HeatPump::Command::V1'
   _globals['_COOLCURVEDELTA']._serialized_start=88
-  _globals['_COOLCURVEDELTA']._serialized_end=140
-  _globals['_COOLCURVEDELTAS']._serialized_start=143
-  _globals['_COOLCURVEDELTAS']._serialized_end=282
-  _globals['_SETCOOLCURVEDELTAS']._serialized_start=284
-  _globals['_SETCOOLCURVEDELTAS']._serialized_end=377
+  _globals['_COOLCURVEDELTA']._serialized_end=143
+  _globals['_COOLCURVEDELTAS']._serialized_start=146
+  _globals['_COOLCURVEDELTAS']._serialized_end=285
+  _globals['_SETCOOLCURVEDELTAS']._serialized_start=287
+  _globals['_SETCOOLCURVEDELTAS']._serialized_end=380
 # @@protoc_insertion_point(module_scope)

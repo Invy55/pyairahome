@@ -30,7 +30,7 @@ from ...controller.v1 import system_mode_pb2 as device_dot_power_dot_controller_
 from ...controller.v1 import current_transformer_pb2 as device_dot_power_dot_controller_dot_v1_dot_current__transformer__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2device/power/ble/v1/power_installation_state.proto\x12\x13\x64\x65vice.power.ble.v1\x1a\x35\x64\x65vice/power/peripheral/photovoltaics/v1/config.proto\x1a/device/power/peripheral/battery/v1/config.proto\x1a+device/power/grid/v1/grid_code_preset.proto\x1a!device/power/grid/v1/config.proto\x1a,device/power/controller/v1/system_mode.proto\x1a\x34\x64\x65vice/power/controller/v1/current_transformer.proto\"\xab\x02\n\x14RuntimeConfiguration\x12\x34\n\x04mode\x18\x01 \x01(\x0e\x32&.device.power.controller.v1.SystemMode\x12\x35\n\x0bgrid_config\x18\x03 \x01(\x0b\x32 .device.power.grid.v1.GridConfig\x12I\n\x0e\x62\x61ttery_config\x18\x04 \x01(\x0b\x32\x31.device.power.peripheral.battery.v1.BatteryConfig\x12[\n\x14photovoltaics_config\x18\x05 \x01(\x0b\x32=.device.power.peripheral.photovoltaics.v1.PhotovoltaicsConfig\"i\n\x08Inverter\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x0f\n\x07\x65nabled\x18\x02 \x01(\x08\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x02\x12\x16\n\x0e\x63urrent_rating\x18\x04 \x01(\x02\x12\n\n\x02id\x18\x05 \x01(\t\"\x96\x01\n\x07\x42\x61ttery\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x0f\n\x07\x65nabled\x18\x02 \x01(\x08\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x02\x12\x17\n\x0f\x63\x61pacity_rating\x18\x04 \x01(\x02\x12\x15\n\rc_rate_rating\x18\x05 \x01(\x02\x12\x14\n\x0cmanufacturer\x18\x06 \x01(\x05\x12\n\n\x02id\x18\x08 \x01(\t\"V\n\rPhotovoltaics\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x0f\n\x07\x65nabled\x18\x02 \x01(\x08\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x02\x12\n\n\x02id\x18\x04 \x01(\t\"\xab\x01\n\x0cPowerDevices\x12/\n\x08inverter\x18\x01 \x03(\x0b\x32\x1d.device.power.ble.v1.Inverter\x12\x39\n\rphotovoltaics\x18\x02 \x03(\x0b\x32\".device.power.ble.v1.Photovoltaics\x12/\n\tbatteries\x18\x03 \x03(\x0b\x32\x1c.device.power.ble.v1.Battery\"\xad\x01\n\x15\x46\x61\x63ilityConfiguration\x12\x11\n\tmain_fuse\x18\x01 \x01(\x02\x12?\n\x06phases\x18\x02 \x01(\x0e\x32/.device.power.ble.v1.FacilityPhaseConfiguration\x12\x1f\n\x17\x61\x63tive_power_rating_neg\x18\x03 \x01(\x02\x12\x1f\n\x17\x61\x63tive_power_rating_pos\x18\x04 \x01(\x02\"\xd2\x03\n\x16PowerInstallationState\x12\x1a\n\x12paired_core_serial\x18\x01 \x01(\t\x12\x1f\n\x17paired_core_app_version\x18\x02 \x01(\t\x12>\n\x10grid_code_preset\x18\x03 \x01(\x0e\x32$.device.power.grid.v1.GridCodePreset\x12J\n\x16\x66\x61\x63ility_configuration\x18\x04 \x01(\x0b\x32*.device.power.ble.v1.FacilityConfiguration\x12\x32\n\x07\x64\x65vices\x18\x05 \x01(\x0b\x32!.device.power.ble.v1.PowerDevices\x12\x19\n\x11microgrid_powered\x18\x06 \x01(\x08\x12V\n\x19\x63urrent_transformer_state\x18\x07 \x01(\x0b\x32\x33.device.power.controller.v1.CurrentTransformerState\x12H\n\x15runtime_configuration\x18\x08 \x01(\x0b\x32).device.power.ble.v1.RuntimeConfiguration*\x9b\x01\n\x1a\x46\x61\x63ilityPhaseConfiguration\x12,\n(FACILITY_PHASE_CONFIGURATION_UNSPECIFIED\x10\x00\x12\'\n#FACILITY_PHASE_CONFIGURATION_SINGLE\x10\x01\x12&\n\"FACILITY_PHASE_CONFIGURATION_THREE\x10\x02\x42\xa1\x01\n\x13\x64\x65vice.power.ble.v1B\x1bPowerInstallationStateProtoP\x01\xa2\x02\x03\x44PB\xaa\x02\x13\x44\x65vice.Power.Ble.V1\xca\x02\x13\x44\x65vice\\Power\\Ble\\V1\xe2\x02\x1f\x44\x65vice\\Power\\Ble\\V1\\GPBMetadata\xea\x02\x16\x44\x65vice::Power::Ble::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2device/power/ble/v1/power_installation_state.proto\x12\x13\x64\x65vice.power.ble.v1\x1a\x35\x64\x65vice/power/peripheral/photovoltaics/v1/config.proto\x1a/device/power/peripheral/battery/v1/config.proto\x1a+device/power/grid/v1/grid_code_preset.proto\x1a!device/power/grid/v1/config.proto\x1a,device/power/controller/v1/system_mode.proto\x1a\x34\x64\x65vice/power/controller/v1/current_transformer.proto\"\xab\x02\n\x14RuntimeConfiguration\x12\x34\n\x04mode\x18\x01 \x01(\x0e\x32&.device.power.controller.v1.SystemMode\x12\x35\n\x0bgrid_config\x18\x03 \x01(\x0b\x32 .device.power.grid.v1.GridConfig\x12I\n\x0e\x62\x61ttery_config\x18\x04 \x01(\x0b\x32\x31.device.power.peripheral.battery.v1.BatteryConfig\x12[\n\x14photovoltaics_config\x18\x05 \x01(\x0b\x32=.device.power.peripheral.photovoltaics.v1.PhotovoltaicsConfig\"\x1c\n\x0bImportLimit\x12\r\n\x05limit\x18\x01 \x01(\r\"\x1c\n\x0b\x45xportLimit\x12\r\n\x05limit\x18\x01 \x01(\r\".\n\x03\x45so\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x13\n\x0b\x61pp_version\x18\x02 \x01(\t\"\xaf\x02\n\x17\x42\x61tterySetConfiguration\x12\x13\n\x0bterminal_id\x18\x01 \x01(\t\x12\x12\n\nproduct_id\x18\x02 \x01(\t\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x05\x12\x17\n\x0f\x63\x61pacity_rating\x18\x04 \x01(\x05\x12\x15\n\rc_rate_rating\x18\x05 \x01(\x02\x12>\n\x0cmanufacturer\x18\x06 \x01(\x0e\x32(.device.power.ble.v1.BatteryManufacturer\x12&\n\x04\x65sos\x18\x07 \x03(\x0b\x32\x18.device.power.ble.v1.Eso\x12\x15\n\rsoc_limit_low\x18\x08 \x01(\x02\x12\x16\n\x0esoc_limit_high\x18\t \x01(\x02\x12\x0e\n\x06\x65nable\x18\n \x01(\x08\"\x83\x02\n\x14\x42\x61tteryDiscoveryData\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x13\n\x0b\x61pp_version\x18\x02 \x01(\t\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x05\x12\x17\n\x0f\x63\x61pacity_rating\x18\x04 \x01(\x05\x12\x15\n\rc_rate_rating\x18\x05 \x01(\x02\x12>\n\x0cmanufacturer\x18\x06 \x01(\x0e\x32(.device.power.ble.v1.BatteryManufacturer\x12&\n\x04\x65sos\x18\x07 \x03(\x0b\x32\x18.device.power.ble.v1.Eso\x12\x14\n\x0c\x63ommissioned\x18\x08 \x01(\x08\"\x90\x01\n\x0b\x42\x61tteryData\x12<\n\tdiscovery\x18\x01 \x01(\x0b\x32).device.power.ble.v1.BatteryDiscoveryData\x12\x43\n\rconfiguration\x18\x02 \x01(\x0b\x32,.device.power.ble.v1.BatterySetConfiguration\"n\n\x1dPhotovoltaicsSetConfiguration\x12\x13\n\x0bterminal_id\x18\x01 \x01(\t\x12\x12\n\nproduct_id\x18\x02 \x01(\t\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x05\x12\x0e\n\x06\x65nable\x18\x04 \x01(\x08\"q\n\x1aPhotovoltaicsDiscoveryData\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x13\n\x0b\x61pp_version\x18\x02 \x01(\t\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x05\x12\x14\n\x0c\x63ommissioned\x18\x04 \x01(\x08\"\xa2\x01\n\x11PhotovoltaicsData\x12\x42\n\tdiscovery\x18\x01 \x01(\x0b\x32/.device.power.ble.v1.PhotovoltaicsDiscoveryData\x12I\n\rconfiguration\x18\x02 \x01(\x0b\x32\x32.device.power.ble.v1.PhotovoltaicsSetConfiguration\"\x81\x01\n\x18InverterSetConfiguration\x12\x13\n\x0bterminal_id\x18\x01 \x01(\t\x12\x12\n\nproduct_id\x18\x02 \x01(\t\x12\x16\n\x0e\x63urrent_rating\x18\x03 \x01(\x02\x12\x14\n\x0cpower_rating\x18\x04 \x01(\x05\x12\x0e\n\x06\x65nable\x18\x05 \x01(\x08\"\x84\x01\n\x15InverterDiscoveryData\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x13\n\x0b\x61pp_version\x18\x02 \x01(\t\x12\x14\n\x0cpower_rating\x18\x03 \x01(\x05\x12\x16\n\x0e\x63urrent_rating\x18\x04 \x01(\x02\x12\x14\n\x0c\x63ommissioned\x18\x05 \x01(\x08\"\x93\x01\n\x0cInverterData\x12=\n\tdiscovery\x18\x01 \x01(\x0b\x32*.device.power.ble.v1.InverterDiscoveryData\x12\x44\n\rconfiguration\x18\x02 \x01(\x0b\x32-.device.power.ble.v1.InverterSetConfiguration\"\xb7\x01\n\x0cPowerDevices\x12\x33\n\x08inverter\x18\x01 \x03(\x0b\x32!.device.power.ble.v1.InverterData\x12=\n\rphotovoltaics\x18\x02 \x03(\x0b\x32&.device.power.ble.v1.PhotovoltaicsData\x12\x33\n\tbatteries\x18\x03 \x03(\x0b\x32 .device.power.ble.v1.BatteryData\"\xad\x01\n\x15\x46\x61\x63ilityConfiguration\x12\x11\n\tmain_fuse\x18\x01 \x01(\x05\x12?\n\x06phases\x18\x02 \x01(\x0e\x32/.device.power.ble.v1.FacilityPhaseConfiguration\x12\x1f\n\x17\x61\x63tive_power_rating_neg\x18\x03 \x01(\x05\x12\x1f\n\x17\x61\x63tive_power_rating_pos\x18\x04 \x01(\x05\"g\n\x13InterpretedInverter\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12<\n\x10interpreted_kind\x18\x02 \x01(\x0e\x32\".device.power.ble.v1.InverterModel\"]\n\x0e\x43oreConnection\x12%\n\x1dinstallation_api_connected_ip\x18\x02 \x01(\t\x12$\n\x1cintegration_api_connected_ip\x18\x03 \x01(\t\"\xc8\x05\n\x16PowerInstallationState\x12\x1a\n\x12paired_core_serial\x18\x01 \x01(\t\x12\x1f\n\x17paired_core_app_version\x18\x02 \x01(\t\x12>\n\x10grid_code_preset\x18\x03 \x01(\x0e\x32$.device.power.grid.v1.GridCodePreset\x12J\n\x16\x66\x61\x63ility_configuration\x18\x04 \x01(\x0b\x32*.device.power.ble.v1.FacilityConfiguration\x12\x32\n\x07\x64\x65vices\x18\x05 \x01(\x0b\x32!.device.power.ble.v1.PowerDevices\x12\x19\n\x11microgrid_powered\x18\x06 \x01(\x08\x12V\n\x19\x63urrent_transformer_state\x18\x07 \x01(\x0b\x32\x33.device.power.controller.v1.CurrentTransformerState\x12H\n\x15runtime_configuration\x18\x08 \x01(\x0b\x32).device.power.ble.v1.RuntimeConfiguration\x12<\n\x0f\x63ore_connection\x18\t \x01(\x0b\x32#.device.power.ble.v1.CoreConnection\x12\x46\n\x14interpreted_inverter\x18\n \x01(\x0b\x32(.device.power.ble.v1.InterpretedInverter\x12\x36\n\x0c\x65xport_limit\x18\x0b \x01(\x0b\x32 .device.power.ble.v1.ExportLimit\x12\x36\n\x0cimport_limit\x18\x0c \x01(\x0b\x32 .device.power.ble.v1.ImportLimit*\\\n\x13\x42\x61tteryManufacturer\x12$\n BATTERY_MANUFACTURER_UNSPECIFIED\x10\x00\x12\x1f\n\x1b\x42\x41TTERY_MANUFACTURER_AMPACE\x10\x01*\x9b\x01\n\x1a\x46\x61\x63ilityPhaseConfiguration\x12,\n(FACILITY_PHASE_CONFIGURATION_UNSPECIFIED\x10\x00\x12\'\n#FACILITY_PHASE_CONFIGURATION_SINGLE\x10\x01\x12&\n\"FACILITY_PHASE_CONFIGURATION_THREE\x10\x02*\xa1\x01\n\rInverterModel\x12\x1e\n\x1aINVERTER_MODEL_UNSPECIFIED\x10\x00\x12\x1a\n\x16INVERTER_MODEL_1P3680W\x10\x01\x12\x1a\n\x16INVERTER_MODEL_1P7360W\x10\x02\x12\x1b\n\x17INVERTER_MODEL_3P10000W\x10\x03\x12\x1b\n\x17INVERTER_MODEL_3P15000W\x10\x04\x42\xa1\x01\n\x13\x64\x65vice.power.ble.v1B\x1bPowerInstallationStateProtoP\x01\xa2\x02\x03\x44PB\xaa\x02\x13\x44\x65vice.Power.Ble.V1\xca\x02\x13\x44\x65vice\\Power\\Ble\\V1\xe2\x02\x1f\x44\x65vice\\Power\\Ble\\V1\\GPBMetadata\xea\x02\x16\x44\x65vice::Power::Ble::V1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,20 +38,46 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'device.power.ble.v1.power_i
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\023device.power.ble.v1B\033PowerInstallationStateProtoP\001\242\002\003DPB\252\002\023Device.Power.Ble.V1\312\002\023Device\\Power\\Ble\\V1\342\002\037Device\\Power\\Ble\\V1\\GPBMetadata\352\002\026Device::Power::Ble::V1'
-  _globals['_FACILITYPHASECONFIGURATION']._serialized_start=1829
-  _globals['_FACILITYPHASECONFIGURATION']._serialized_end=1984
+  _globals['_BATTERYMANUFACTURER']._serialized_start=3570
+  _globals['_BATTERYMANUFACTURER']._serialized_end=3662
+  _globals['_FACILITYPHASECONFIGURATION']._serialized_start=3665
+  _globals['_FACILITYPHASECONFIGURATION']._serialized_end=3820
+  _globals['_INVERTERMODEL']._serialized_start=3823
+  _globals['_INVERTERMODEL']._serialized_end=3984
   _globals['_RUNTIMECONFIGURATION']._serialized_start=360
   _globals['_RUNTIMECONFIGURATION']._serialized_end=659
-  _globals['_INVERTER']._serialized_start=661
-  _globals['_INVERTER']._serialized_end=766
-  _globals['_BATTERY']._serialized_start=769
-  _globals['_BATTERY']._serialized_end=919
-  _globals['_PHOTOVOLTAICS']._serialized_start=921
-  _globals['_PHOTOVOLTAICS']._serialized_end=1007
-  _globals['_POWERDEVICES']._serialized_start=1010
-  _globals['_POWERDEVICES']._serialized_end=1181
-  _globals['_FACILITYCONFIGURATION']._serialized_start=1184
-  _globals['_FACILITYCONFIGURATION']._serialized_end=1357
-  _globals['_POWERINSTALLATIONSTATE']._serialized_start=1360
-  _globals['_POWERINSTALLATIONSTATE']._serialized_end=1826
+  _globals['_IMPORTLIMIT']._serialized_start=661
+  _globals['_IMPORTLIMIT']._serialized_end=689
+  _globals['_EXPORTLIMIT']._serialized_start=691
+  _globals['_EXPORTLIMIT']._serialized_end=719
+  _globals['_ESO']._serialized_start=721
+  _globals['_ESO']._serialized_end=767
+  _globals['_BATTERYSETCONFIGURATION']._serialized_start=770
+  _globals['_BATTERYSETCONFIGURATION']._serialized_end=1073
+  _globals['_BATTERYDISCOVERYDATA']._serialized_start=1076
+  _globals['_BATTERYDISCOVERYDATA']._serialized_end=1335
+  _globals['_BATTERYDATA']._serialized_start=1338
+  _globals['_BATTERYDATA']._serialized_end=1482
+  _globals['_PHOTOVOLTAICSSETCONFIGURATION']._serialized_start=1484
+  _globals['_PHOTOVOLTAICSSETCONFIGURATION']._serialized_end=1594
+  _globals['_PHOTOVOLTAICSDISCOVERYDATA']._serialized_start=1596
+  _globals['_PHOTOVOLTAICSDISCOVERYDATA']._serialized_end=1709
+  _globals['_PHOTOVOLTAICSDATA']._serialized_start=1712
+  _globals['_PHOTOVOLTAICSDATA']._serialized_end=1874
+  _globals['_INVERTERSETCONFIGURATION']._serialized_start=1877
+  _globals['_INVERTERSETCONFIGURATION']._serialized_end=2006
+  _globals['_INVERTERDISCOVERYDATA']._serialized_start=2009
+  _globals['_INVERTERDISCOVERYDATA']._serialized_end=2141
+  _globals['_INVERTERDATA']._serialized_start=2144
+  _globals['_INVERTERDATA']._serialized_end=2291
+  _globals['_POWERDEVICES']._serialized_start=2294
+  _globals['_POWERDEVICES']._serialized_end=2477
+  _globals['_FACILITYCONFIGURATION']._serialized_start=2480
+  _globals['_FACILITYCONFIGURATION']._serialized_end=2653
+  _globals['_INTERPRETEDINVERTER']._serialized_start=2655
+  _globals['_INTERPRETEDINVERTER']._serialized_end=2758
+  _globals['_CORECONNECTION']._serialized_start=2760
+  _globals['_CORECONNECTION']._serialized_end=2853
+  _globals['_POWERINSTALLATIONSTATE']._serialized_start=2856
+  _globals['_POWERINSTALLATIONSTATE']._serialized_end=3568
 # @@protoc_insertion_point(module_scope)
