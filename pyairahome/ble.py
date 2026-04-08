@@ -173,7 +173,7 @@ class Ble:
         await self._client.start_notify(self._ah_i.insecure_characteristic, self._on_notify)
         await self._client.start_notify(self._ah_i.secure_characteristic, self._on_notify)
 
-    async def _send_ble(self, characteristic: str, message: Message, encrypt: bool = False):
+    async def _send_ble(self, characteristic: str, message: Message, encrypt: bool = False, timeout: int = 10):
         """Send a protobuf message to the connected BLE device. Splits the message into chunks if it exceeds the MTU size. If `encrypt` is True, the message will be encrypted with the certificate key."""
         if not self.is_connected():
             raise BLEConnectionError("Not connected to any BLE device.")
@@ -198,10 +198,22 @@ class Ble:
                     content=content
                 )
                 chunk_data = chunked_message.SerializeToString()
-                await self._client.write_gatt_char(char_specifier=characteristic, data=chunk_data)
+                try:
+                    await asyncio.wait_for(
+                        self._client.write_gatt_char(char_specifier=characteristic, data=chunk_data),
+                        timeout=timeout
+                    )
+                except asyncio.TimeoutError:
+                    raise BLEConnectionError(f"Timeout writing BLE chunk to characteristic {characteristic} after {timeout}s.")
         else:
             # send as single message
-            await self._client.write_gatt_char(char_specifier=characteristic, data=data)
+            try:
+                await asyncio.wait_for(
+                    self._client.write_gatt_char(char_specifier=characteristic, data=data),
+                    timeout=timeout
+                )
+            except asyncio.TimeoutError:
+                raise BLEConnectionError(f"Timeout writing BLE message to characteristic {characteristic} after {timeout}s.")
 
         self.logger.debug(f"Sent BLE message on characteristic {characteristic} (length: {len(data)} bytes, chunks: {len(chunks)})")
 
@@ -462,7 +474,8 @@ class Ble:
             device.name or device.address,
             self._on_disconnect,
             self._ah_i.max_ble_connection_retries,
-            use_services_cache=False
+            use_services_cache=False,
+            timeout=timeout
         )
 
         if not self._client:
@@ -545,15 +558,34 @@ class Ble:
         """
         return self._run_async(self._get_rssi)
 
-    async def _disconnect(self) -> bool:
+    async def _clear_cache(self):
+        """Attempts to clear the OS-level GATT cache on the connected client."""
+        if not self._client or not self._client.is_connected:
+            return
+        if not hasattr(self._client, 'clear_cache'):
+            self.logger.warning("GATT cache clearing is not supported on this platform/bleak version.")
+            return
+        try:
+            await self._client.clear_cache()
+            self.logger.debug("GATT cache cleared successfully.")
+        except Exception:
+            self.logger.warning("Failed to clear GATT cache.", exc_info=True)
+
+    async def _disconnect(self, clean_cache: bool = False) -> bool:
         """Async method. Refer to disconnect() for documentation."""
         self.logger.debug("Attempting to disconnect from BLE device...")
         if self.is_connected():
+            if clean_cache:
+                await self._clear_cache()
             try:
-                await self._client.disconnect()
+                await asyncio.wait_for(self._client.disconnect(), timeout=8)
                 self._client = None
                 self.logger.info("Successfully disconnected from BLE device.")
                 return True
+            except asyncio.TimeoutError:
+                self.logger.warning("Timeout during BLE disconnection. Forcing client to None.")
+                self._client = None
+                return False
             except Exception as e: # if disconnect fails consider the device disconnected
                 self._client = None
                 self.logger.error(f"Error during disconnection", exc_info=True)
@@ -563,7 +595,7 @@ class Ble:
         self._client = None
         return True
 
-    def disconnect(self) -> bool:
+    def disconnect(self, clean_cache: bool = False) -> bool:
         """
         Disconnect from the currently connected device. If no device is connected, this method will simply return True.
 
@@ -572,7 +604,7 @@ class Ble:
         bool
             True if disconnected from the device, False otherwise.
         """
-        return self._run_async(self._disconnect)
+        return self._run_async(self._disconnect, clean_cache=clean_cache)
 
     async def _cleanup(self):
         """Async method. Refer to cleanup() for documentation."""
@@ -603,7 +635,10 @@ class Ble:
     async def _get_data(self, data_type: Enum | int, raw: bool = False) -> dict | Message:
         """Async method. Refer to get_data() for documentation."""
         self.logger.debug(f"Requesting BLE data of type: {data_type}. Attempting to acquire lock.")
-        await self.lock.acquire()
+        try:
+            await asyncio.wait_for(self.lock.acquire(), timeout=30)
+        except asyncio.TimeoutError:
+            raise BLEConnectionError(f"Could not acquire BLE lock for data type {data_type} within 30 seconds. A previous operation may be hanging.")
         self.logger.debug(f"Lock acquired for BLE data request of type: {data_type}.")
 
         try:
