@@ -897,7 +897,10 @@ class Ble:
         getattr(command, field_name).MergeFrom(field_message)
 
         self.logger.debug(f"Running command on BLE. Attempting to acquire lock.")
-        await self.lock.acquire()
+        try:
+            await asyncio.wait_for(self.lock.acquire(), timeout=30)
+        except asyncio.TimeoutError:
+            raise BLEConnectionError("Could not acquire BLE lock for command within 30 seconds. A previous operation may be hanging.")
         self.logger.debug(f"Lock acquired for BLE command.")
 
         try:
@@ -975,7 +978,10 @@ class Ble:
         getattr(command, field_name).MergeFrom(field_message)
 
         self.logger.debug(f"Running command on BLE. Attempting to acquire lock.")
-        self._run_async(self.lock.acquire)
+        try:
+            self._run_async(asyncio.wait_for, self.lock.acquire(), timeout=30)
+        except (asyncio.TimeoutError, TimeoutError):
+            raise BLEConnectionError("Could not acquire BLE lock for command within 30 seconds. A previous operation may be hanging.")
         self.logger.debug(f"Lock acquired for BLE command.")
 
         try:
