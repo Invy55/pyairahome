@@ -626,7 +626,7 @@ class Ble:
         """
         Cleanup BLE resources, disconnecting from any connected device and stopping any ongoing scans.
         """
-        self._run_async(self.cleanup)
+        self._run_async(self._cleanup)
 
     ###
     # Heatpump methods
