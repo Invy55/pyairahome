@@ -32,10 +32,7 @@ class TokenManager:
 
     def get_id_token(self):
         """Get the ID token after validating it."""
-        try:
-            self.refresh_tokens()
-        except TokenError:
-            return None
+        self.refresh_tokens()
         return self.u.id_token
 
     def dict(self):

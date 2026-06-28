@@ -186,15 +186,18 @@ class Ble:
         chunks = [None]
         random_id = os.urandom(16)
         if len(data) > payload_size or encrypt:
-            chunks = [data[i:i + payload_size] for i in range(0, len(data), payload_size)]
+            plaintext_chunks = [data[i:i + payload_size] for i in range(0, len(data), payload_size)]
+            # encrypt is applied per plaintext chunk; total_bytes/byte_offset must be computed on the resulting (possibly encrypted) content, not the plaintext
+            chunks = [chunk if not encrypt else self._rsa_encrypt(chunk) for chunk in plaintext_chunks]
+            total_bytes = sum(len(content) for content in chunks)
             # if the message has a message_id use it, otherwise generate a random one
             message_id = getattr(message, 'message_id', getattr(message, 'command_id', Uuid1(value=random_id)))
-            for i, chunk in enumerate(chunks):
-                content = chunk if not encrypt else self._rsa_encrypt(chunk)
+            byte_offset = 0
+            for content in chunks:
                 chunked_message = ChunkedMessage(
                     message_id=message_id,
-                    byte_offset=i * payload_size,
-                    total_bytes=len(content),
+                    byte_offset=byte_offset,
+                    total_bytes=total_bytes,
                     content=content
                 )
                 chunk_data = chunked_message.SerializeToString()
@@ -205,6 +208,7 @@ class Ble:
                     )
                 except asyncio.TimeoutError:
                     raise BLEConnectionError(f"Timeout writing BLE chunk to characteristic {characteristic} after {timeout}s.")
+                byte_offset += len(content)
         else:
             # send as single message
             try:
@@ -217,7 +221,7 @@ class Ble:
 
         self.logger.debug(f"Sent BLE message on characteristic {characteristic} (length: {len(data)} bytes, chunks: {len(chunks)})")
 
-    async def _wait_for_response(self, message_id: Uuid1 = None, command_id: Uuid1 = None, timeout: int = -1) -> bytes | AsyncGenerator:
+    async def _wait_for_response(self, message_id: Uuid1 | None = None, command_id: Uuid1 | None = None, timeout: int = -1) -> bytes | AsyncGenerator:
         if timeout < 0:
             timeout = self._ah_i.ble_notify_timeout
         if (not message_id and not command_id) or (message_id and command_id):
@@ -588,7 +592,7 @@ class Ble:
                 return False
             except Exception as e: # if disconnect fails consider the device disconnected
                 self._client = None
-                self.logger.error(f"Error during disconnection", exc_info=True)
+                self.logger.error("Error during disconnection", exc_info=True)
                 return False
         else:
             self.logger.debug("No device connected, nothing to disconnect.")
@@ -896,12 +900,12 @@ class Ble:
         # Merge the field message into the appropriate oneof field
         getattr(command, field_name).MergeFrom(field_message)
 
-        self.logger.debug(f"Running command on BLE. Attempting to acquire lock.")
+        self.logger.debug("Running command on BLE. Attempting to acquire lock.")
         try:
             await asyncio.wait_for(self.lock.acquire(), timeout=30)
         except asyncio.TimeoutError:
             raise BLEConnectionError("Could not acquire BLE lock for command within 30 seconds. A previous operation may be hanging.")
-        self.logger.debug(f"Lock acquired for BLE command.")
+        self.logger.debug("Lock acquired for BLE command.")
 
         try:
             cmd_id = Uuid1(value=command_id)
@@ -924,7 +928,7 @@ class Ble:
             raise
         finally:
             self.lock.release() # probably should be released only when the generator is exhausted, but this would require more complex handling
-            self.logger.debug(f"Lock released for BLE command.")
+            self.logger.debug("Lock released for BLE command.")
 
     def run_command(self, command_in: CommandBase, timestamp: float | int | None = None, raw: bool = False) -> dict | Generator[dict | Message, None, None]:
         """
@@ -977,32 +981,32 @@ class Ble:
         # Merge the field message into the appropriate oneof field
         getattr(command, field_name).MergeFrom(field_message)
 
-        self.logger.debug(f"Running command on BLE. Attempting to acquire lock.")
+        self.logger.debug("Running command on BLE. Attempting to acquire lock.")
         try:
             self._run_async(asyncio.wait_for, self.lock.acquire(), timeout=30)
         except (asyncio.TimeoutError, TimeoutError):
             raise BLEConnectionError("Could not acquire BLE lock for command within 30 seconds. A previous operation may be hanging.")
-        self.logger.debug(f"Lock acquired for BLE command.")
+        self.logger.debug("Lock acquired for BLE command.")
 
         try:
             cmd_id = Uuid1(value=command_id)
 
             self._run_async(self._send_ble, self._ah_i.secure_characteristic, command, True)
-            # When called with command_id, _wait_for_response always returns a Generator
-            response_generator = cast(Generator[Message, None, None], self._wait_for_response(command_id=cmd_id))
+            # When called with command_id, _wait_for_response always returns an AsyncGenerator
+            response_generator = cast(AsyncGenerator[Message, None], self._run_async(self._wait_for_response, command_id=cmd_id))
 
-            if raw:
-                return response_generator
+            def sync_generator():
+                try:
+                    while True:
+                        msg = self._run_async(response_generator.__anext__)
+                        yield msg if raw else Utils.convert_to_dict(msg)
+                except StopAsyncIteration:
+                    pass
 
-            # Convert each progress message to dict while keeping it as a generator
-            def progress_dict_generator():
-                for progress_msg in response_generator:
-                    yield Utils.convert_to_dict(progress_msg)
-
-            return progress_dict_generator()
+            return sync_generator()
         except Exception as e:
             self.logger.error(f"Request failed for BLE command: {e}", exc_info=True)
             raise
         finally:
             self.lock.release() # probably should be released only when the generator is exhausted, but this would require more complex handling
-            self.logger.debug(f"Lock released for BLE command.")
+            self.logger.debug("Lock released for BLE command.")

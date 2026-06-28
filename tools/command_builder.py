@@ -1,24 +1,36 @@
 """Pre-build script for pyairahome."""
 from pathlib import Path
-import pkgutil
 import importlib
-import importlib.util
-import sys
 
 def snake_case_to_camel_case(name):
         """Convert snake_case to CamelCase."""
         return "".join(word.title() for word in name.split("_"))
 
-def generate_init_params(command_type, fields) -> str:
+def get_oneof_groups(command_type) -> dict:
+    # map oneof with at least 2 members
+    groups = {}
+    for field_name, descriptor in command_type.DESCRIPTOR.fields_by_name.items():
+        oneof = getattr(descriptor, "containing_oneof", None)
+        if oneof is not None:
+            groups.setdefault(oneof.name, []).append(field_name)
+    return {name: members for name, members in groups.items() if len(members) > 1}
+
+def generate_init_params(command_type, fields, oneof_groups) -> str:
     if not fields:
         return ""
-    params = []
+    oneof_fields = {f for members in oneof_groups.values() for f in members}
+    required_params = []
+    optional_params = []
     for field_name, field_type in fields.items():
         field_type = type(getattr(command_type(), field_name, ""))
         field_type_str = field_type.__name__
         if "." in field_type.__qualname__:
             field_type_str = "_" + field_type.__qualname__
-        params.append(f"{field_name}: {field_type_str}" if field_type else field_name)
+        if field_name in oneof_fields:
+            optional_params.append(f"{field_name}: {field_type_str} | None = None" if field_type else f"{field_name}=None")
+        else:
+            required_params.append(f"{field_name}: {field_type_str}" if field_type else field_name)
+    params = required_params + optional_params
     return (", " if len(params) > 0 else "")+ ", ".join(params)
 
 def generate_init_body(command_field, fields) -> str:
@@ -27,13 +39,21 @@ def generate_init_body(command_field, fields) -> str:
         body_lines.append(f"self.{field_name} = {field_name}")
     return "\n        ".join(body_lines)
 
-def generate_arguments(command_type, fields) -> str:
-    if not fields:
-        return ""
-    args = []
-    for field_name, field_type in fields.items():
-        args.append(f"{field_name}=self.{field_name}")
-    return ", ".join(args)
+def generate_message_body(command_type, fields, oneof_groups) -> str:
+    # check that at least one argument is passed since now oneof fields are not required, but at least one of them must be provided
+    oneof_fields = {f for members in oneof_groups.values() for f in members}
+    kwargs_parts = [f"{f}=self.{f}" for f in fields if f not in oneof_fields]
+    lines = []
+    for oneof_name, members in oneof_groups.items():
+        var_name = f"_{oneof_name}_args"
+        members_dict = ", ".join(f"\"{m}\": self.{m}" for m in members)
+        lines.append(f"        {var_name} = {{k: v for k, v in {{{members_dict}}}.items() if v is not None}}")
+        lines.append(f"        if len({var_name}) != 1:")
+        names = ", ".join(repr(m) for m in members)
+        lines.append(f"            raise ValueError(\"Exactly one of {names} must be provided for {command_type.__name__}.\")")
+        kwargs_parts.append(f"**{var_name}")
+    lines.append(f"        return _{command_type.__name__}({', '.join(kwargs_parts)})")
+    return "\n".join(lines)
 
 def generate_comment(command_type, fields) -> str:
     comment_lines = ["    \"\"\"", f"    `{command_type.__name__}` command.", ""]
@@ -57,10 +77,10 @@ class {class_name}(CommandBase):
 {comment}
     def __init__(self{init_params}) -> None:
 {init_body}
-    
+
     @property
     def _message(self):
-        return _{command}({arguments})
+{message_body}
 
 """
 
@@ -120,9 +140,10 @@ for command, command_type in commands.items():
             print(f"Adding unqualified name {field_type.__name__} from module {field_module}")
             used_packages[field_module].add(field_type.__name__)
 
-    init_params = generate_init_params(command_type, command_type.DESCRIPTOR.fields_by_name)
+    oneof_groups = get_oneof_groups(command_type)
+    init_params = generate_init_params(command_type, command_type.DESCRIPTOR.fields_by_name, oneof_groups)
     init_body = generate_init_body(command, command_type.DESCRIPTOR.fields_by_name)
-    arguments = generate_arguments(command_type, command_type.DESCRIPTOR.fields_by_name)
+    message_body = generate_message_body(command_type, command_type.DESCRIPTOR.fields_by_name, oneof_groups)
     comment = generate_comment(command_type, command_type.DESCRIPTOR.fields_by_name)
 
     if import_fail:
@@ -138,8 +159,7 @@ for command, command_type in commands.items():
         comment=comment,
         init_params=init_params,
         init_body=init_body,
-        command=command_type.__name__,
-        arguments=arguments
+        message_body=message_body
     ))
 
 print(used_packages)

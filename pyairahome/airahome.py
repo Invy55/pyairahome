@@ -1,6 +1,5 @@
 """Main class for the Aira Home library, providing high-level access to auth and heatpump data/controls."""
 # airahome.py
-from .device.heat_pump.command.v1 import command_pb2
 from .utils import BLEInitializationError
 from .config import Settings
 from .cloud import Cloud

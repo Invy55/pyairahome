@@ -885,14 +885,17 @@ class RebootDevice(CommandBase):
 
     `ccv` : device.heat_pump.command.v1.reboot_device_pb2.Ccv
     """
-    def __init__(self, cm: _RebootDevice.Cm, ccv: _RebootDevice.Ccv) -> None:
+    def __init__(self, cm: _RebootDevice.Cm | None = None, ccv: _RebootDevice.Ccv | None = None) -> None:
         self._field = "reboot_device"
         self.cm = cm
         self.ccv = ccv
-    
+
     @property
     def _message(self):
-        return _RebootDevice(cm=self.cm, ccv=self.ccv)
+        _group0_args = {k: v for k, v in {"cm": self.cm, "ccv": self.ccv}.items() if v is not None}
+        if len(_group0_args) != 1:
+            raise ValueError("Exactly one of 'cm', 'ccv' must be provided for RebootDevice.")
+        return _RebootDevice(**_group0_args)
 
 class SetRoomTempSetpointDelta(CommandBase):
     """
@@ -1163,14 +1166,17 @@ class SetDhcp(CommandBase):
 
     `dhcp_on` : device.heat_pump.command.v1.set_dhcp_pb2.DhcpOn
     """
-    def __init__(self, dhcp_off: DhcpOff, dhcp_on: DhcpOn) -> None:
+    def __init__(self, dhcp_off: DhcpOff | None = None, dhcp_on: DhcpOn | None = None) -> None:
         self._field = "set_dhcp"
         self.dhcp_off = dhcp_off
         self.dhcp_on = dhcp_on
-    
+
     @property
     def _message(self):
-        return _SetDhcp(dhcp_off=self.dhcp_off, dhcp_on=self.dhcp_on)
+        _group0_args = {k: v for k, v in {"dhcp_off": self.dhcp_off, "dhcp_on": self.dhcp_on}.items() if v is not None}
+        if len(_group0_args) != 1:
+            raise ValueError("Exactly one of 'dhcp_off', 'dhcp_on' must be provided for SetDhcp.")
+        return _SetDhcp(**_group0_args)
 
 class PowerExportLimit(CommandBase):
     """
@@ -1214,14 +1220,17 @@ class PowerCtClampSetting(CommandBase):
 
     `three_phase` : device.heat_pump.command.v1.power_ct_clamp_setting_pb2.ThreePhaseCtClampSetting
     """
-    def __init__(self, single_phase: SinglePhaseCtClampSetting, three_phase: ThreePhaseCtClampSetting) -> None:
+    def __init__(self, single_phase: SinglePhaseCtClampSetting | None = None, three_phase: ThreePhaseCtClampSetting | None = None) -> None:
         self._field = "power_ct_clamp_setting"
         self.single_phase = single_phase
         self.three_phase = three_phase
-    
+
     @property
     def _message(self):
-        return _PowerCtClampSetting(single_phase=self.single_phase, three_phase=self.three_phase)
+        _group0_args = {k: v for k, v in {"single_phase": self.single_phase, "three_phase": self.three_phase}.items() if v is not None}
+        if len(_group0_args) != 1:
+            raise ValueError("Exactly one of 'single_phase', 'three_phase' must be provided for PowerCtClampSetting.")
+        return _PowerCtClampSetting(**_group0_args)
 
 class PowerImportLimit(CommandBase):
     """

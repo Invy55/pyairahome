@@ -6,7 +6,7 @@ from google.protobuf.timestamp_pb2 import Timestamp
 from google.protobuf.message import Message
 from ..util.v1 import uuid_pb2 as uuid1_pb2
 from ..util.v2 import uuid_pb2 as uuid2_pb2
-from base64 import b64decode, b64encode
+from base64 import b64decode
 from .exceptions import UnknownTypeException
 from datetime import datetime
 from uuid import UUID
@@ -53,6 +53,8 @@ class Utils:
     @staticmethod
     def convert_to_uuid_list(device_ids):
         if isinstance(device_ids, list):
+            if not device_ids:
+                raise ValueError("device_ids should contain at least an id")
             if all(isinstance(device_id, uuid1_pb2.Uuid) for device_id in device_ids):
                 heat_pump_ids = device_ids
             elif all(isinstance(device_id, str) for device_id in device_ids):
@@ -81,7 +83,7 @@ class Utils:
         return uuid1_pb2.Uuid(value=UUID(device_id).bytes)
 
     @staticmethod
-    def convert_str_to_v2(device_id: str) -> str:
+    def convert_str_to_v2(device_id: str) -> uuid2_pb2.Uuid:
         """Convert a base64 UUID string to v2 format"""
         return uuid2_pb2.Uuid(value=device_id)
 
@@ -98,12 +100,13 @@ class Utils:
             _time = timestamp
         elif isinstance(timestamp, int):
             _time = Timestamp(seconds=timestamp, nanos=0)
-        elif isinstance(timestamp, float): # could have nanos wrong
-            seconds, nanos = tuple(map(int, str(timestamp).split(".")))
+        elif isinstance(timestamp, float):
+            seconds = int(timestamp)
+            nanos = int((timestamp - seconds) * 1e9)
             _time = Timestamp(seconds=seconds, nanos=nanos)
-        elif isinstance(timestamp, datetime):
-            seconds, nanos = tuple(map(int, str(timestamp.timestamp()).split(".")))
-            _time = Timestamp(seconds=seconds, nanos=nanos)
+        elif isinstance(timestamp, datetime): # TODO verificare timezone
+            _time = Timestamp()
+            _time.FromDatetime(timestamp)
         else:
             _time = Timestamp(seconds=0, nanos=0)
         return _time

@@ -9,7 +9,6 @@ from .device.heat_pump.command.v1 import command_pb2
 from .device.v1 import devices_pb2, devices_pb2_grpc
 from .device.v1 import device_identifier_pb2
 from google.protobuf.message import Message
-from .util.v1.uuid_pb2 import Uuid as Uuid1
 from .commands import CommandBase
 from datetime import datetime
 from .auth import CognitoAuth
@@ -502,14 +501,14 @@ class Cloud:
         command_id = send_response['command_id']['value']
 
         def progress_dict_generator():
-            last_received = None
+            last_received = {}
             for progress_msg in self.stream_command_progress(command_id=command_id, raw=raw):
                 process_dict = Utils.convert_to_dict(progress_msg) if raw else progress_msg
 
                 if last_received is not None:
                     # Compare with last received message
                     if process_dict != last_received:
-                        yield process_dict
+                        yield progress_msg
 
                 last_received = process_dict
 
