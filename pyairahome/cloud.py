@@ -2,10 +2,8 @@
 # cloud.py
 from .device.heat_pump.statistics.v1 import service_pb2 as stats_service_pb2, service_pb2_grpc as stats_service_pb2_grpc
 from .device.heat_pump.cloud.v1 import service_pb2 as cloud_service_pb2, service_pb2_grpc as cloud_service_pb2_grpc
-from .device.heat_pump.command.v1.command_source_pb2 import CommandSource
 from .device.v1.device_identifier_pb2 import DeviceType
 from grpc import secure_channel, ssl_channel_credentials
-from .device.heat_pump.command.v1 import command_pb2
 from .device.v1 import devices_pb2, devices_pb2_grpc
 from .device.v1 import device_identifier_pb2
 from google.protobuf.message import Message
@@ -15,7 +13,6 @@ from .auth import CognitoAuth
 from typing import Generator
 from .utils import Utils
 from enum import Enum
-import os
 
 
 class Cloud:
@@ -42,16 +39,23 @@ class Cloud:
         self._cloud_service_stub = cloud_service_pb2_grpc.HeatPumpCloudServiceStub(self._channel)
         self._stats_service_stub = stats_service_pb2_grpc.HeatPumpStatisticsServiceStub(self._channel)
 
+    def close(self):
+        """Closes the underlying gRPC channel."""
+        self._channel.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
     ###
     # Helper methods
     ###
 
     def _get_id_token(self):
         """Get the ID token from the TokenManager."""
-        tokens = self._auth.get_tokens()
-        if tokens:
-            return tokens.get_id_token()
-        return None
+        return self._auth.get_tokens().get_id_token()
 
     def _get_metadatas(self) -> tuple[tuple[str, str], ...]:
         """Create Metadatas instance with the current settings."""
@@ -221,10 +225,6 @@ class Cloud:
             raw=raw
         )
 
-    def get_device_details(self, device_id: str, raw: bool = False) -> dict | Message: # uuid_format: v1
-        """Deprecated, use get_heatpump_details instead."""
-        raise DeprecationWarning("get_device_details is deprecated, use get_heatpump_details instead.")
-
     def get_states(self, device_ids: str | list[str], raw: bool = False) -> dict | Message: # uuid_format: v1
         """
         Returns the states of a specific device by its ID or a list of devices by their IDs.
@@ -365,7 +365,7 @@ class Cloud:
             The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
-            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
+            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object. A naive datetime is treated as UTC; an aware datetime is converted to UTC.
 
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
@@ -390,18 +390,7 @@ class Cloud:
 
         heat_pump_id = Utils.convert_uuid_from_v2(device_id)
 
-        _time = Utils.convert_to_timestamp(timestamp)
-
-        # Create the command instance dynamically
-        command = command_pb2.Command()
-        command.command_id.value = os.urandom(16)
-        command.time.CopyFrom(_time)
-        command.command_source = CommandSource.COMMAND_SOURCE_APP_CONTROL
-        # Set the specific command field directly
-        field_message = command_in.to_message()
-        field_name = command_in.get_field()
-        # Merge the field message into the appropriate oneof field
-        getattr(command, field_name).MergeFrom(field_message)
+        command = CommandBase.build_command(command_in, timestamp)
 
         request = cloud_service_pb2.SendCommandRequest(heat_pump_id=heat_pump_id,
                                                        command=command)
@@ -445,6 +434,7 @@ class Cloud:
         ### Examples
 
         >>> for update in AiraHome().cloud.stream_command_progress("46ef4514-fe04-deb0-ffd8-7d07156975f2", raw=False):
+        ...     print(update)
         """
 
         request = cloud_service_pb2.StreamCommandProgressRequest(command_id=Utils.convert_uuid_from_v2(command_id))
@@ -467,11 +457,14 @@ class Cloud:
         Use `raw=True` to get the raw gRPC response.
         ### Parameters
 
+        `device_id` : str
+            Heat pump id in UUID format. E.g., '123e4567-e89b-12d3-a456-426614174000'.
+
         `command_in` : pyairahome.commands.*
             The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
-            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
+            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object. A naive datetime is treated as UTC; an aware datetime is converted to UTC.
 
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
@@ -494,7 +487,7 @@ class Cloud:
         >>> from google.protobuf.duration_pb2 import Duration
         >>> from pyairahome.commands import ActivateHotWaterBoosting
         >>> command_in = ActivateHotWaterBoosting(hot_water_boost_duration=Duration(seconds=3600)) # 1 hour boost
-        >>> AiraHome().cloud.run_command(command_in, raw=False)
+        >>> AiraHome().cloud.run_command("123e4567-e89b-12d3-a456-426614174000", command_in, raw=False)
         """
 
         send_response = self.send_command(device_id, command_in, timestamp, raw=False)

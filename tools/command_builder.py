@@ -1,10 +1,16 @@
 """Pre-build script for pyairahome."""
+from google.protobuf.descriptor import FieldDescriptor
 from pathlib import Path
 import importlib
 
 def snake_case_to_camel_case(name):
         """Convert snake_case to CamelCase."""
         return "".join(word.title() for word in name.split("_"))
+
+def is_repeated_message_field(command_type, field_name) -> bool:
+    """True for repeated composite (message) fields (e.g. google._upb._message.RepeatedCompositeContainer)"""
+    descriptor = command_type.DESCRIPTOR.fields_by_name[field_name]
+    return descriptor.label == FieldDescriptor.LABEL_REPEATED and descriptor.type == FieldDescriptor.TYPE_MESSAGE
 
 def get_oneof_groups(command_type) -> dict:
     # map oneof with at least 2 members
@@ -22,10 +28,13 @@ def generate_init_params(command_type, fields, oneof_groups) -> str:
     required_params = []
     optional_params = []
     for field_name, field_type in fields.items():
-        field_type = type(getattr(command_type(), field_name, ""))
-        field_type_str = field_type.__name__
-        if "." in field_type.__qualname__:
-            field_type_str = "_" + field_type.__qualname__
+        if is_repeated_message_field(command_type, field_name):
+            field_type_str = "Iterable[Message]"
+        else:
+            field_type = type(getattr(command_type(), field_name, ""))
+            field_type_str = field_type.__name__
+            if "." in field_type.__qualname__:
+                field_type_str = "_" + field_type.__qualname__
         if field_name in oneof_fields:
             optional_params.append(f"{field_name}: {field_type_str} | None = None" if field_type else f"{field_name}=None")
         else:
@@ -60,6 +69,9 @@ def generate_comment(command_type, fields) -> str:
     if len(fields) > 0:
         comment_lines.append("    ### Parameters:\n")
     for field_name, field_type in fields.items():
+        if is_repeated_message_field(command_type, field_name):
+            comment_lines.append(f"    `{field_name}` : Iterable[Message]\n")
+            continue
         field_type = type(getattr(command_type(), field_name, ""))
         comment_lines.append(f"    `{field_name}` : {field_type.__module__}.{field_type.__name__}\n")
     comment_lines[-1] = comment_lines[-1].rstrip()
@@ -97,6 +109,7 @@ for field, descriptor in command_module.Command.DESCRIPTOR.fields_by_name.items(
 print(commands)
 used_packages = {}
 generated_classes = []
+uses_iterable = False
 for command, command_type in commands.items():
     if "deprecated" in command.lower() or command in excluded:
         print(f"Skipping deprecated or excluded command: {command}")
@@ -106,6 +119,9 @@ for command, command_type in commands.items():
 
     import_fail = False
     for field_name, descriptor in command_type.DESCRIPTOR.fields_by_name.items():
+        if is_repeated_message_field(command_type, field_name):
+            uses_iterable = True
+            continue
         field_type = type(getattr(command_type(), field_name, None))
         if "ccv" in field_name.lower():
             print(f"CCV detected in field {field_name}, {field_type}. {field_type.__module__} and {field_type.__name__} and {field_type.__qualname__}")
@@ -166,6 +182,8 @@ print(used_packages)
 
 # TODO CHECK COLLISIONS IN FUTURE
 imports = ["from google.protobuf.message import Message\n"]
+if uses_iterable:
+    imports.append("from typing import Iterable\n")
 for module_name, class_names in used_packages.items():
     imports.append(f"from {module_name} import {', '.join(class_names)}\n")
 

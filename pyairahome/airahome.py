@@ -72,6 +72,19 @@ class AiraHome:
             self._ble = Ble(self, ext_loop=self.ext_loop)
         return self._ble
 
+    def close(self):
+        """Closes the Cloud gRPC channel and runs BLE resources cleanup, if they were used."""
+        if self._cloud is not None:
+            self._cloud.close()
+        if self._ble is not None:
+            self._ble.cleanup()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
     ###
     # Internal/Helpers methods
     ###
@@ -82,6 +95,7 @@ class AiraHome:
 
         if not self.certificate or not self.uuid:
             self.logger.debug("Certificate or UUID not available, fetching from cloud")
+            error_context = "Failed to initialize BLE"
             try:
                 devices = self.cloud.get_devices(raw=False)
                 if len(devices["devices"])-1 < self.default_uuid_selection:
@@ -102,26 +116,20 @@ class AiraHome:
                     self.logger.error(error_msg)
                     raise BLEInitializationError(error_msg)
                 self.logger.debug("Certificate successfully retrieved from cloud")
-
-                # try connecting
-                connection_result = self.ble.connect()
-                if connection_result:
-                    self.logger.info("BLE connection established successfully")
-                else:
-                    self.logger.warning("BLE connection failed")
-                return connection_result
             except Exception as e:
-                self.logger.error(f"Failed to initialize BLE: {e}", exc_info=True)
+                self.logger.error(f"{error_context}: {e}", exc_info=True)
                 raise
         else:
             self.logger.debug("Certificate and UUID already available, attempting direct connection")
-            try:
-                connection_result = self.ble.connect()
-                if connection_result:
-                    self.logger.info("BLE connection established successfully")
-                else:
-                    self.logger.warning("BLE connection failed")
-                return connection_result
-            except Exception as e:
-                self.logger.error(f"Failed to connect BLE: {e}", exc_info=True)
-                raise
+            error_context = "Failed to connect BLE"
+
+        try:
+            connection_result = self.ble.connect()
+            if connection_result:
+                self.logger.info("BLE connection established successfully")
+            else:
+                self.logger.warning("BLE connection failed")
+            return connection_result
+        except Exception as e:
+            self.logger.error(f"{error_context}: {e}", exc_info=True)
+            raise

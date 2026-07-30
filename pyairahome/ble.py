@@ -1,7 +1,6 @@
 """BLE interaction class for Aira Home."""
 # ble.py
 from .device.heat_pump.command.v1.command_progress_pb2 import CommandProgress
-from .device.heat_pump.command.v1.command_source_pb2 import CommandSource
 from .device.heat_pump.ble.v1.chunked_message_pb2 import ChunkedMessage
 from .device.heat_pump.ble.v1.get_data_pb2 import GetData, DataResponse
 from bleak.backends.characteristic import BleakGATTCharacteristic
@@ -9,12 +8,11 @@ from .utils import Utils, BLEDiscoveryError, BLEConnectionError
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.x509 import load_pem_x509_certificate
 from bleak_retry_connector import establish_connection
-from .device.heat_pump.command.v1 import command_pb2
 from typing import AsyncGenerator, Generator, cast
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from bleak import BleakScanner, BleakClient
 from bleak.backends.device import BLEDevice
-from google.protobuf.message import Message
+from google.protobuf.message import Message, DecodeError
 from .commands import CommandBase
 from .enums import GetDataType
 from uuid import UUID
@@ -35,6 +33,8 @@ class Ble:
 
         # setup asyncio loop, if explicitly provided use that one, otherwise try to get the running loop or create a new one
         self.loop = None
+        # tracks loop ownership to destroy it in cleanup only if we own it
+        self.loop_owner = False
         if ext_loop is not None:
             # explicitly provided external loop — always prefer this
             self.loop = ext_loop
@@ -43,8 +43,9 @@ class Ble:
                 # try to get currently running loop (should work in any async context)
                 self.loop = asyncio.get_running_loop()
             except RuntimeError:
-                # no loop is running (called from sync context) — create a new event loop
+                # no loop is running (called from sync context) — create a new event loop, which we own
                 self.loop = asyncio.new_event_loop()
+                self.loop_owner = True
 
         self.lock = asyncio.Lock()
 
@@ -73,7 +74,7 @@ class Ble:
             running_loop = None
 
         if running_loop is not None:
-            if running_loop == self.loop:
+            if running_loop is self.loop:
                 self.logger.debug("Attempted to run BLE operation in existing event loop directly, but blocking not allowed")
                 raise RuntimeError("Cannot perform blocking BLE operation from within the same event loop. Use async methods directly, naming convention: `_methodname` for async methods.")
             else:
@@ -99,16 +100,14 @@ class Ble:
         if adv_data.manufacturer_data:
             for company_id, data_bytes in adv_data.manufacturer_data.items():
                 if company_id == 0xFFFF:
-                    try:
-                        uuid = str(UUID(data_bytes.hex()))
-                        if not uuid in self._discovery_cache:
-                            self.logger.debug(f"Discovered potential Aira device: {uuid} - {device.name} ({device.address})")
-                    except Exception as e:
-                        self.logger.debug(f"Failed to parse UUID from manufacturer data: {e}")
-                        uuid = None
-                    if uuid:
-                        self._discovery_cache[uuid] = device
-                        return
+                    if len(data_bytes) != 16:
+                        self.logger.debug(f"Skipping manufacturer data with unexpected length {len(data_bytes)} (expected 16 bytes for UUID).")
+                        continue
+                    uuid = str(UUID(bytes=bytes(data_bytes)))
+                    if uuid not in self._discovery_cache:
+                        self.logger.debug(f"Discovered potential Aira device: {uuid} - {device.name} ({device.address})")
+                    self._discovery_cache[uuid] = device
+                    return
 
     def _on_disconnect(self, client: BleakClient):
         """Callback for handling disconnection events."""
@@ -122,33 +121,36 @@ class Ble:
 
         if sender == self._ah_i.insecure_characteristic:
             # insecure characteristic - normal messages
+            chunk = ChunkedMessage()
             try:
-                chunk = ChunkedMessage()
                 chunk.ParseFromString(data)
-
-                message_id = chunk.message_id.value.hex() # messages ids are stored as normal hex data
-                if message_id not in self._parts:
-                    self._parts[message_id] = {}
-                    self._lengths[message_id] = chunk.total_bytes
-                self._parts[message_id][chunk.byte_offset] = chunk.content
-                self.logger.debug(f"Received BLE chunk: message_id={message_id}, byte_offset={chunk.byte_offset}, total_bytes={chunk.total_bytes}, content_length={len(chunk.content)}")
-            except:
+            except DecodeError:
                 self.logger.debug("Failed to parse BLE chunk. Possibly not a chunked message.")
                 self.logger.debug(f"Raw data: {data.hex()}")
+                return
+
+            message_id = chunk.message_id.value.hex() # messages ids are stored as normal hex data
+            if message_id not in self._parts:
+                self._parts[message_id] = {}
+                self._lengths[message_id] = chunk.total_bytes
+            self._parts[message_id][chunk.byte_offset] = chunk.content
+            self.logger.debug(f"Received BLE chunk: message_id={message_id}, byte_offset={chunk.byte_offset}, total_bytes={chunk.total_bytes}, content_length={len(chunk.content)}")
 
         elif sender == self._ah_i.secure_characteristic:
             # secure characteristic - commands progress
+            progress = CommandProgress()
             try:
-                progress = CommandProgress()
                 progress.ParseFromString(data)
-                self.logger.debug(f"Received BLE command progress: {progress}")
-                command_id = progress.command_id.value.hex()
-                if not command_id in self._progress:
-                    self._progress[command_id] = []
-                self._progress[command_id].append(progress)
-            except:
+            except DecodeError:
                 self.logger.debug("Failed to parse BLE command progress")
                 self.logger.debug(f"Raw data: {data.hex()}")
+                return
+
+            self.logger.debug(f"Received BLE command progress: {progress}")
+            command_id = progress.command_id.value.hex()
+            if not command_id in self._progress:
+                self._progress[command_id] = []
+            self._progress[command_id].append(progress)
 
     def _rsa_encrypt(self, input_bytes: bytes) -> bytes:
         if not self._ah_i.certificate:
@@ -184,13 +186,13 @@ class Ble:
 
         # chunk the message if it exceeds the payload size or if it must be encrypted, since encrypting will increase the size to 256 bytes
         chunks = [None]
-        random_id = os.urandom(16)
         if len(data) > payload_size or encrypt:
             plaintext_chunks = [data[i:i + payload_size] for i in range(0, len(data), payload_size)]
             # encrypt is applied per plaintext chunk; total_bytes/byte_offset must be computed on the resulting (possibly encrypted) content, not the plaintext
             chunks = [chunk if not encrypt else self._rsa_encrypt(chunk) for chunk in plaintext_chunks]
             total_bytes = sum(len(content) for content in chunks)
             # if the message has a message_id use it, otherwise generate a random one
+            random_id = os.urandom(16)
             message_id = getattr(message, 'message_id', getattr(message, 'command_id', Uuid1(value=random_id)))
             byte_offset = 0
             for content in chunks:
@@ -234,7 +236,7 @@ class Ble:
                 await asyncio.sleep(0.1)
 
                 # check if the sum of part lenghts equals the actual total
-                if not self._lengths.get(msg_id_hex, False):
+                if msg_id_hex not in self._lengths:
                     continue
 
                 parts_dict = self._parts.get(msg_id_hex, {})
@@ -249,7 +251,7 @@ class Ble:
                     del self._lengths[msg_id_hex]
                     break
 
-            if not reconstructed:
+            if reconstructed is None:
                 # log infos about missing parts for debugging
                 parts_dict = self._parts.get(msg_id_hex, {})
                 if parts_dict:
@@ -440,6 +442,8 @@ class Ble:
             else:
                 self.logger.warning(f"Failed to connect to device {uuid}")
             return result
+        except BLEDiscoveryError:
+            raise
         except Exception as e:
             error_msg = f"Could not connect to device with UUID {uuid}. Exception: {e}"
             self.logger.error(error_msg, exc_info=True)
@@ -542,7 +546,7 @@ class Ble:
         if isinstance(rssi, str):
             try:
                 return int(rssi)
-            except:
+            except ValueError:
                 return None
         return None
 
@@ -625,12 +629,17 @@ class Ble:
         self._parts = {}
         self._lengths = {}
         self._client = None
+        self._progress = {}
 
     def cleanup(self):
         """
         Cleanup BLE resources, disconnecting from any connected device and stopping any ongoing scans.
         """
         self._run_async(self._cleanup)
+
+        # only close the loop if we created it. a loop like Home Assistant's should not be closed
+        if self.loop_owner and self.loop is not None and not self.loop.is_closed():
+            self.loop.close()
 
     ###
     # Heatpump methods
@@ -692,7 +701,7 @@ class Ble:
         ### Examples
 
         >>> from pyairahome.enums import GetDataType
-        >>> AiraHome().ble.get_data(data_type=Granularity.DATA_TYPE_STATE, raw=False)
+        >>> AiraHome().ble.get_data(data_type=GetDataType.DATA_TYPE_STATE, raw=False)
         """
         return self._run_async(self._get_data, data_type, raw=raw)
 
@@ -886,19 +895,7 @@ class Ble:
 
     async def _run_command(self, command_in: CommandBase, timestamp: float | int | None = None, raw: bool = False) -> dict | AsyncGenerator[dict | Message, None]:
         """Async method. Refer to run_command() for documentation."""
-        _time = Utils.convert_to_timestamp(timestamp)
-
-        # Create the command instance dynamically
-        command = command_pb2.Command()
-        command_id = os.urandom(16)
-        command.command_id.value = command_id
-        command.time.CopyFrom(_time)
-        command.command_source = CommandSource.COMMAND_SOURCE_APP_CONTROL
-        # Set the specific command field directly
-        field_message = command_in.to_message()
-        field_name = command_in.get_field()
-        # Merge the field message into the appropriate oneof field
-        getattr(command, field_name).MergeFrom(field_message)
+        command = CommandBase.build_command(command_in, timestamp)
 
         self.logger.debug("Running command on BLE. Attempting to acquire lock.")
         try:
@@ -907,28 +904,34 @@ class Ble:
             raise BLEConnectionError("Could not acquire BLE lock for command within 30 seconds. A previous operation may be hanging.")
         self.logger.debug("Lock acquired for BLE command.")
 
+        lock_released = False
         try:
-            cmd_id = Uuid1(value=command_id)
+            cmd_id = Uuid1(value=command.command_id.value)
 
             await self._send_ble(self._ah_i.secure_characteristic, command, True)
             # When called with command_id, _wait_for_response always returns a Generator
             response_generator = cast(AsyncGenerator[Message, None], await self._wait_for_response(command_id=cmd_id))
 
-            if raw:
-                return response_generator
+            # Hold the lock for the lifetime of the progress stream, not only during write: aira
+            # probably can't handle overlapping commands. lock must only release once the generator is
+            # exhausted or some error occurs
+            async def locked_progress_generator():
+                try:
+                    async for progress_msg in response_generator:
+                        yield progress_msg if raw else Utils.convert_to_dict(progress_msg)
+                finally:
+                    self.lock.release()
+                    self.logger.debug("Lock released for BLE command (progress generator exhausted).")
 
-            # Convert each progress message to dict while keeping it as a generator
-            async def progress_dict_generator():
-                async for progress_msg in response_generator:
-                    yield Utils.convert_to_dict(progress_msg)
-
-            return progress_dict_generator()
+            lock_released = True # prevent double unlocking, generator gets ownership of the release
+            return locked_progress_generator()
         except Exception as e:
             self.logger.error(f"Request failed for BLE command: {e}", exc_info=True)
             raise
         finally:
-            self.lock.release() # probably should be released only when the generator is exhausted, but this would require more complex handling
-            self.logger.debug("Lock released for BLE command.")
+            if not lock_released:
+                self.lock.release()
+                self.logger.debug("Lock released for BLE command.")
 
     def run_command(self, command_in: CommandBase, timestamp: float | int | None = None, raw: bool = False) -> dict | Generator[dict | Message, None, None]:
         """
@@ -941,7 +944,7 @@ class Ble:
             The command to send. Must be one of the supported commands found under pyairahome.commands.
 
         `timestamp` : float | int | None, optional
-            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object.
+            The timestamp for the command. If None, uses the current time. Can be a float (seconds since epoch), int (seconds since epoch), or datetime object. A naive datetime is treated as UTC; an aware datetime is converted to UTC.
 
         `raw` : bool, optional
             If True, returns the raw gRPC response. Defaults to False.
@@ -964,22 +967,10 @@ class Ble:
         >>> from google.protobuf.duration_pb2 import Duration
         >>> from pyairahome.commands import ActivateHotWaterBoosting
         >>> command_in = ActivateHotWaterBoosting(hot_water_boost_duration=Duration(seconds=3600)) # 1 hour boost
-        >>> AiraHome().cloud.run_command(command_in, raw=False)
+        >>> AiraHome().ble.run_command(command_in, raw=False)
         """
 
-        _time = Utils.convert_to_timestamp(timestamp)
-
-        # Create the command instance dynamically
-        command = command_pb2.Command()
-        command_id = os.urandom(16)
-        command.command_id.value = command_id
-        command.time.CopyFrom(_time)
-        command.command_source = CommandSource.COMMAND_SOURCE_APP_CONTROL
-        # Set the specific command field directly
-        field_message = command_in.to_message()
-        field_name = command_in.get_field()
-        # Merge the field message into the appropriate oneof field
-        getattr(command, field_name).MergeFrom(field_message)
+        command = CommandBase.build_command(command_in, timestamp)
 
         self.logger.debug("Running command on BLE. Attempting to acquire lock.")
         try:
@@ -988,25 +979,34 @@ class Ble:
             raise BLEConnectionError("Could not acquire BLE lock for command within 30 seconds. A previous operation may be hanging.")
         self.logger.debug("Lock acquired for BLE command.")
 
+        lock_released = False
         try:
-            cmd_id = Uuid1(value=command_id)
+            cmd_id = Uuid1(value=command.command_id.value)
 
             self._run_async(self._send_ble, self._ah_i.secure_characteristic, command, True)
             # When called with command_id, _wait_for_response always returns an AsyncGenerator
             response_generator = cast(AsyncGenerator[Message, None], self._run_async(self._wait_for_response, command_id=cmd_id))
 
-            def sync_generator():
+            # Hold the lock for the lifetime of the progress stream, not just the write: the device
+            # likely can't handle an overlapping command while still replying to this one, so the lock
+            # must only release once this generator is exhausted (or abandoned/GC'd via GeneratorExit).
+            def locked_sync_generator():
                 try:
                     while True:
                         msg = self._run_async(response_generator.__anext__)
                         yield msg if raw else Utils.convert_to_dict(msg)
                 except StopAsyncIteration:
                     pass
+                finally:
+                    self.lock.release()
+                    self.logger.debug("Lock released for BLE command (progress generator exhausted).")
 
-            return sync_generator()
+            lock_released = True # ownership of the release transferred to the generator above
+            return locked_sync_generator()
         except Exception as e:
             self.logger.error(f"Request failed for BLE command: {e}", exc_info=True)
             raise
         finally:
-            self.lock.release() # probably should be released only when the generator is exhausted, but this would require more complex handling
-            self.logger.debug("Lock released for BLE command.")
+            if not lock_released:
+                self.lock.release()
+                self.logger.debug("Lock released for BLE command.")

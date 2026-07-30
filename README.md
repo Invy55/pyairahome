@@ -30,7 +30,7 @@
 PyAiraHome features an intuitive **object-oriented API** that supports both raw protobuf responses and convenient Python dictionaries, comprehensive error handling, and detailed type annotations.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
-These instructions will get you a copy of the project up and running on your local machine for development. If you prefer an already working system check [AiraHome-Dashboard](https://github.com/invy55/airahome-dashboard) out.
+These instructions will get you a copy of the project up and running on your local machine for development. If you're looking for a fully-fledged, prebuilt working solution instead, check out [ha-airahome](https://github.com/invy55/ha-airahome), a Home Assistant integration built on top of this library. A standalone dashboard is also available at [AiraHome-Dashboard](https://github.com/invy55/airahome-dashboard), although it's currently not being further developed and only supports cloud access.
 
 ### Prerequisites
 
@@ -86,6 +86,7 @@ devices = aira.cloud.get_devices()
 print(f"Found {len(devices['devices'])} devices")
 
 # Get detailed heatpump information
+household_id = devices["devices"][0]["device_id"]["household_id"]["value"]
 device_details = aira.cloud.get_heatpump_details(household_id)
 print(f"DHW Tank Size: {device_details['heat_pump']['tank_size']}")
 ```
@@ -94,12 +95,13 @@ print(f"DHW Tank Size: {device_details['heat_pump']['tank_size']}")
 
 ```python
 # Get current device states
+device_id = devices["devices"][0]["id"]["value"]
 states = aira.cloud.get_states(device_id)
 print(states)
 
 # Send commands to device
 from pyairahome.commands import Ping
-for update in aira.cloud.run_command(device_id, Ping())
+for update in aira.cloud.run_command(device_id, Ping()):
     print(f"Command status: {update}")
 ```
 

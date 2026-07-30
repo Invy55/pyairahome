@@ -33,7 +33,7 @@ class Utils:
                                 # Convert Timestamp to datetime
                                 ts = getattr(original, key)
                                 converted[key] = ts.ToDatetime()
-                            elif isinstance(getattr(original, key), str): # if it's a string it could be date
+                            elif isinstance(getattr(original, key), str) and key.endswith('_dt'): # fields that end with _dt (e.g. event_start_dt, until_dt) are the only string fields in the schema that actually hold dates
                                 try:
                                     dt = datetime.fromisoformat(value)
                                     converted[key] = dt
@@ -104,9 +104,10 @@ class Utils:
             seconds = int(timestamp)
             nanos = int((timestamp - seconds) * 1e9)
             _time = Timestamp(seconds=seconds, nanos=nanos)
-        elif isinstance(timestamp, datetime): # TODO verificare timezone
+        elif isinstance(timestamp, datetime):
+            # Timestamp is always UTC
             _time = Timestamp()
             _time.FromDatetime(timestamp)
         else:
-            _time = Timestamp(seconds=0, nanos=0)
+            raise UnknownTypeException(f"Unknown type [{type(timestamp)}] for timestamp {timestamp}")
         return _time
