@@ -1,18 +1,18 @@
 """BLE interaction class for Aira Home."""
 # ble.py
+from bleak_retry_connector import clear_cache as btc_clear_cache, establish_connection
 from .device.heat_pump.command.v1.command_progress_pb2 import CommandProgress
 from .device.heat_pump.ble.v1.chunked_message_pb2 import ChunkedMessage
 from .device.heat_pump.ble.v1.get_data_pb2 import GetData, DataResponse
 from bleak.backends.characteristic import BleakGATTCharacteristic
 from .utils import Utils, BLEDiscoveryError, BLEConnectionError
 from cryptography.hazmat.primitives.asymmetric import padding
+from google.protobuf.message import Message, DecodeError
 from cryptography.x509 import load_pem_x509_certificate
-from bleak_retry_connector import establish_connection
 from typing import AsyncGenerator, Generator, cast
 from .util.v1.uuid_pb2 import Uuid as Uuid1
 from bleak import BleakScanner, BleakClient
 from bleak.backends.device import BLEDevice
-from google.protobuf.message import Message, DecodeError
 from .commands import CommandBase
 from .enums import GetDataType
 from uuid import UUID
@@ -60,10 +60,16 @@ class Ble:
         self._progress = {}
 
         self._client = None
+        self._last_client = None
 
     ###
     # Helper methods
     ###
+
+    def _reset_client(self, client: BleakClient | None = None) -> None:
+        """Reset the active client while retaining reference in _last_client for cache clearing."""
+        self._last_client = client or self._client
+        self._client = None
 
     def _run_async(self, coro, *args, **kwargs):
         """Helper method to run async methods."""
@@ -112,7 +118,7 @@ class Ble:
     def _on_disconnect(self, client: BleakClient):
         """Callback for handling disconnection events."""
         self.logger.info("BLE device disconnected")
-        #self._client = None # TODO UNDERSTAND IF THIS SHOULD BE LEFT HERE OR NOT. BASED ON THE MAX RETRIES AND HOW IT WORKS
+        self._reset_client(client)
 
     def _on_notify(self, _sender: BleakGATTCharacteristic, data: bytearray):
         """Callback for handling notifications from the BLE device."""
@@ -500,10 +506,12 @@ class Ble:
                 await self._setup_notifys()
                 return True
             else:
-                #self._client = None
+                self._reset_client()
                 raise BLEConnectionError(f"Could not connect to device at address {device.address}.")
         except Exception as e:
-            #self._client = None
+            # If setup fails (e.g. stale CCCD handle 0x29), clear cache immediately while client is still valid
+            await self._clear_cache(device.address)
+            self._reset_client()
             raise BLEConnectionError(f"Could not connect to device at address {device.address}. Exception: {e}")
 
     def connect_device(self, device: BLEDevice, timeout: int = 10) -> bool:
@@ -566,41 +574,65 @@ class Ble:
         """
         return self._run_async(self._get_rssi)
 
-    async def _clear_cache(self):
-        """Attempts to clear the OS-level GATT cache on the connected client."""
-        if not self._client or not self._client.is_connected:
-            return
-        if not hasattr(self._client, 'clear_cache'):
-            self.logger.warning("GATT cache clearing is not supported on this platform/bleak version.")
-            return
-        try:
-            await self._client.clear_cache()
-            self.logger.debug("GATT cache cleared successfully.")
-        except Exception:
-            self.logger.warning("Failed to clear GATT cache.", exc_info=True)
+    async def _clear_cache(self, address: str | None = None) -> bool:
+        """Attempts to clear the OS-level (BlueZ) and client-level (ESPHome) GATT cache.
 
-    async def _disconnect(self, clean_cache: bool = False) -> bool:
+        When the hp reboots and its GATT handle database shifts, stale caches
+        cause CCCD subscription writes to fail with WRITE_NOT_PERMITTED (status=3).
+
+        For further details, see:
+        - https://github.com/Invy55/ha-airahome/issues/24
+        - https://github.com/Invy55/ha-airahome/issues/10
+        """
+        cleared = False
+        # use last client if we have already disconnected and reset the current client
+        # _reset_client() stores the last client in _last_client just for this purpose
+        client = self._client or getattr(self, "_last_client", None) 
+
+        # client-level (e.g. esp-proxy): Cache lives in-memory in Home Assistant's proxy manager
+        # (ESPHomeBluetoothDevice.cache) and on the ESP32 chip. client.clear_cache()
+        # purges Python's _gatt_services_cache and tells ESPHome to clear its local cache
+        if client and hasattr(client, 'clear_cache'):
+            try:
+                cleared = await client.clear_cache()
+                self.logger.debug("GATT cache cleared successfully via Bleak client (ESPHome/proxy cache).")
+            except Exception:
+                self.logger.warning("Failed to clear GATT cache via client.", exc_info=True)
+
+        # os-level (e.g. BlueZ kernel driver): Cache lives persistently on disk in /var/lib/bluetooth/<adapter>/cache/<mac>.
+        # bleak_retry_connector.clear_cache() sends D-Bus Adapter1.RemoveDevice to purge this file
+        target_mac = address or (client.address if client else None)
+        if target_mac:
+            try:
+                btc_cleared = await btc_clear_cache(target_mac)
+                self.logger.debug(f"GATT cache cleared via bleak_retry_connector (BlueZ disk cache) for {target_mac}: {btc_cleared}")
+                cleared = cleared or btc_cleared
+            except Exception:
+                self.logger.warning(f"Failed to clear GATT cache via bleak_retry_connector for {target_mac}.", exc_info=True)
+
+        return cleared
+
+    async def _disconnect(self, clean_cache: bool = False, address: str | None = None) -> bool:
         """Async method. Refer to disconnect() for documentation."""
         self.logger.debug("Attempting to disconnect from BLE device...")
+        if clean_cache:
+            await self._clear_cache(address)
         if self.is_connected():
-            if clean_cache:
-                await self._clear_cache()
             try:
                 await asyncio.wait_for(self._client.disconnect(), timeout=8)
-                self._client = None
                 self.logger.info("Successfully disconnected from BLE device.")
                 return True
             except asyncio.TimeoutError:
-                self.logger.warning("Timeout during BLE disconnection. Forcing client to None.")
-                self._client = None
+                self.logger.warning("Timeout during BLE disconnection.")
                 return False
             except Exception as e: # if disconnect fails consider the device disconnected
-                self._client = None
                 self.logger.error("Error during disconnection", exc_info=True)
                 return False
+            finally:
+                self._reset_client()
         else:
             self.logger.debug("No device connected, nothing to disconnect.")
-        self._client = None
+            self._reset_client()
         return True
 
     def disconnect(self, clean_cache: bool = False) -> bool:
